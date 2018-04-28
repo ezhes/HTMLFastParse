@@ -14,6 +14,7 @@
 #include "t_tag.h"
 #include "t_format.h"
 #include "Stack.h"
+#include "entities.h"
 
 #define printf //printf
 
@@ -38,6 +39,12 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 	char tagNameCharArray[inputLength * sizeof(char)];
 	char *tagNameBuffer = &tagNameCharArray[0];//Hack to get our buffer on the stack because it's a very fast allocation
 	int tagNameCopyPosition = 0;
+	
+	//Used to track if we are currently reading an HTML entity
+	bool isInHTMLEntity = false;
+	char htmlEntityCharArray[inputLength * sizeof(char)];
+	char *htmlEntityBuffer = &htmlEntityCharArray[0];//Hack to get our buffer on the stack because it's a very fast allocation
+	int htmlEntityCopyPosition = 0;
 	
 	int stringCopyPosition = 0;
 	
@@ -104,10 +111,28 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 				format.tag = newTagBuffer;
 				push(htmlTags,format);
 			}
+		}else if (current == '&') {
+			//We are starting an HTML entitiy;
+			isInHTMLEntity = true;
+			htmlEntityCopyPosition = 0;
+			htmlEntityBuffer[htmlEntityCopyPosition] = '&';
+			htmlEntityCopyPosition++;
+		}else if (isInHTMLEntity == true && current == ';') {
+			//We are finishing an HTML entity
+			isInHTMLEntity = false;
+			htmlEntityBuffer[htmlEntityCopyPosition] = ';';
+			htmlEntityCopyPosition++;
+			htmlEntityBuffer[htmlEntityCopyPosition] = 0x00;
+			htmlEntityCopyPosition++;
+			
+			stringCopyPosition += decode_html_entities_utf8(&displayText[stringCopyPosition], htmlEntityBuffer);
 		}else {
 			if (isInTag) {
 				tagNameBuffer[tagNameCopyPosition] = current;
 				tagNameCopyPosition++;
+			}else if (isInHTMLEntity) {
+				htmlEntityBuffer[htmlEntityCopyPosition] = current;
+				htmlEntityCopyPosition++;
 			}else {
 				displayText[stringCopyPosition] = current;
 				stringCopyPosition++;

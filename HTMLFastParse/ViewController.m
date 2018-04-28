@@ -47,9 +47,9 @@
 	
 	printf("%s\n",displayText);*/
 	
-	NSString * other = @"\n\n\n<div class=\"md\"><p>Inline <code>Test code</code> outside</p>\n\n<pre><code>Code Block\nwhew still code\n</code></pre>\n\n<p>Plain</p>\n\n<blockquote>\n<p>Quote level 1</p>\n\n<blockquote>\n<p>Quote level 2</p>\n\n<blockquote>\n<p>Quote level3</p>\n</blockquote>\n</blockquote>\n</blockquote>\n<a href=\"https://test.com\">Wikitest</a>\nblah</div>";
+	NSString * other = @"\n\n\n<div class=\"md\"><p>Inline <code>Test code</code> outside</p>\n\n<pre><code>Code Block\nwhew still code\n</code></pre>\n\n<p>Plain</p>\n\n<blockquote>\n<p>Quote level 1</p>\n\n<blockquote>\n<p>Quote level 2</p>\n\n<blockquote>\n<p>Quote level3</p>\n</blockquote>\n</blockquote>\n</blockquote>\n<a href=\"https://test.com\">Wikitest&gt;</a>\nblah</div>asdasdasdkkk;";
 	//NSString * other = @"\n\n\n<div class=\"md\"><p>Inline <code>Test code</code> outside</p>\n\n<pre><code>Code Block\nwhew still code\n</code></pre>\n\n<p>Plain</p>\n\n<a href=\"https://reddit.com/r/homelab\">Wikitest</a>\nblah</div>";
-	//[self showNormal:testHTML];
+	[self showNormal:other];
 	//[self doStuff:nil];
 	
 }
