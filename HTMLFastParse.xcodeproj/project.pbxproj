@@ -18,6 +18,7 @@
 		22C763EC2093D8DE005B6E23 /* DKStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C763EB2093D8DE005B6E23 /* DKStack.m */; };
 		22C763EF2093D944005B6E23 /* Format.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C763EE2093D944005B6E23 /* Format.m */; };
 		22C763F22093E5FF005B6E23 /* C_HTML_Parser.c in Sources */ = {isa = PBXBuildFile; fileRef = 22C763F12093E5FF005B6E23 /* C_HTML_Parser.c */; };
+		22FC446C2094E2E20044980B /* FormatToAttributedString.m in Sources */ = {isa = PBXBuildFile; fileRef = 22FC446B2094E2E20044980B /* FormatToAttributedString.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,8 @@
 		22C763F02093E5FF005B6E23 /* C_HTML_Parser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = C_HTML_Parser.h; sourceTree = "<group>"; };
 		22C763F12093E5FF005B6E23 /* C_HTML_Parser.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = C_HTML_Parser.c; sourceTree = "<group>"; };
 		22DD387520942E70009ECE24 /* t_format.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = t_format.h; sourceTree = "<group>"; };
+		22FC446A2094E2E20044980B /* FormatToAttributedString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormatToAttributedString.h; sourceTree = "<group>"; };
+		22FC446B2094E2E20044980B /* FormatToAttributedString.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormatToAttributedString.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +115,8 @@
 				22DD387520942E70009ECE24 /* t_format.h */,
 				22C763E32093D488005B6E23 /* Stack.c */,
 				22C763E42093D488005B6E23 /* Stack.h */,
+				22FC446A2094E2E20044980B /* FormatToAttributedString.h */,
+				22FC446B2094E2E20044980B /* FormatToAttributedString.m */,
 			);
 			path = "C Mode";
 			sourceTree = "<group>";
@@ -187,6 +192,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				22C763CF2093CD1B005B6E23 /* ViewController.m in Sources */,
+				22FC446C2094E2E20044980B /* FormatToAttributedString.m in Sources */,
 				22C763E22093CD3B005B6E23 /* HTML_Parser.m in Sources */,
 				22C763DA2093CD1B005B6E23 /* main.m in Sources */,
 				22C763F22093E5FF005B6E23 /* C_HTML_Parser.c in Sources */,

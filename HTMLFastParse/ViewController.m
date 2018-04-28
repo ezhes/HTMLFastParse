@@ -11,6 +11,7 @@
 #include "C_HTML_Parser.h"
 #include "t_tag.h"
 #include "t_format.h"
+#import "FormatToAttributedString.h"
 
 @interface ViewController ()
 
@@ -21,29 +22,7 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-	char* input = [@"Plain <strong>bold <em>bold and italic</em>. </strong><p><a href=\"https://test.com\">Wikitest</a></p>" UTF8String];
-	//char* input = [@"<strong>BOLD</strong>" UTF8String];
-	unsigned long inputLength = strlen(input);
 	
-	char displayTextBuffer[inputLength * sizeof(char)];
-	char* displayText = &displayTextBuffer[0];
-	struct t_tag tokenBuffer[inputLength * sizeof(struct t_tag)];
-	struct t_tag* tokens = &tokenBuffer[0];
-	
-	struct t_format finalTokenBuffer[inputLength * sizeof(struct t_format)];
-	struct t_format* finalTokens = &finalTokenBuffer[0];
-	
-	int numberOfTags = -1;
-	tokenizeHTML(input, inputLength, displayText,tokens,&numberOfTags);
-	int numberOfSimplifiedTags = -1;
-	makeAttributesLinear(tokens, (int)numberOfTags, finalTokens,&numberOfSimplifiedTags,(int)strlen(displayText));
-	
-	for (int i = 0; i < numberOfSimplifiedTags; i++) {
-		char* link = finalTokens[i].linkURL;
-		free(link);
-	}
-	
-	printf("%s\n",displayText);
 	
 	
 	
@@ -55,7 +34,7 @@
 {
 	extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 	
-	int iterations = 4000;
+	int iterations = 10000;
 	uint64_t t = dispatch_benchmark(iterations, ^{
 		@autoreleasepool {
 			block();
@@ -75,51 +54,19 @@
 	 [self totalRuntimeForMethod:@"Obj-C Parser" block:^{
 	 [parser parseHTML:testHTML];
 	 }];*/
-	 
+	
+	FormatToAttributedString * formatter = [[FormatToAttributedString alloc]init];
 	[self totalRuntimeForMethod:@"C Parser" block:^{
-		char* input = [testHTML UTF8String];
-		unsigned long inputLength = strlen(input);
-		
-		//char displayTextBuffer[inputLength * sizeof(char)];
-		char* displayText = malloc(inputLength * sizeof(char));//&displayTextBuffer[0];
-		//struct t_tag tokenBuffer[inputLength * sizeof(struct t_tag)];
-		struct t_tag* tokens = malloc(inputLength * sizeof(struct t_tag));//&tokenBuffer[0];
-		
-		int numberOfTags = -1;
-		tokenizeHTML(input, inputLength, displayText,tokens,&numberOfTags);
-		
-		//struct t_format finalTokenBuffer[numberOfTags * sizeof(struct t_format)];
-		struct t_format* finalTokens =  malloc(inputLength * sizeof(struct t_format));//&finalTokenBuffer[0];
-		int numberOfSimplifiedTags = -1;
-		makeAttributesLinear(tokens, (int)numberOfTags, finalTokens,&numberOfSimplifiedTags,(int)strlen(displayText));
-		
-		for (int i = 0; i < numberOfSimplifiedTags; i++) {
-			char* link = finalTokens[i].linkURL;
-			free(link);
-		}
-		
-		free(displayText);
-		free(tokens);
-		free(finalTokens);
+		[formatter attributedStringForHTML:testHTML];
 		
 	}];
 	
-	/*char* input = [testHTML UTF8String];
-	unsigned long inputLength = strlen(input);
+	/*NSAttributedString * test = [[[FormatToAttributedString alloc]init]attributedStringForHTML:testHTML];
 	
-	char displayTextBuffer[inputLength * sizeof(char)];
-	char* displayText = &displayTextBuffer[0];
-	struct t_tag tokenBuffer[inputLength * sizeof(struct t_tag)];
-	struct t_tag* tokens = &tokenBuffer[0];
-	
-	int numberOfTags = -1;
-	tokenizeHTML(input, inputLength, displayText,tokens,&numberOfTags);
-	
-	struct t_format finalTokenBuffer[numberOfTags * sizeof(struct t_format)];
-	struct t_format* finalTokens = &finalTokenBuffer[0];
-	makeAttributesLinear(tokens, (int)numberOfTags, finalTokens,(int)strlen(displayText));
-	
-	printf("%s\n",displayText);*/
+	UITextView *textView = [[UITextView alloc]initWithFrame:self.view.frame textContainer:nil];
+	[self.view addSubview:textView];
+	textView.attributedText = test;
+	[textView layoutSubviews];*/
 	
 	
 	
