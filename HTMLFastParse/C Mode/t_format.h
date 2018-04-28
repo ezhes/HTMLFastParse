@@ -1,12 +1,27 @@
 //
-// Created by Salman Husain on 4/27/18.
+//  t_format.h
+//  HTMLFastParse
+//
+//  Created by Salman Husain on 4/27/18.
+//  Copyright © 2018 CarbonDev. All rights reserved.
 //
 
-#ifndef HTMLTOATTR_FORMAT_H
-#define HTMLTOATTR_FORMAT_H
+#ifndef t_format_h
+#define t_format_h
+
 struct t_format {
-    int startPosition;
-    int endPosition;
-    char* tag;
+	//ZERO MEANS DISABLED
+	unsigned char isBold;
+	unsigned char isItalics;
+	unsigned char isStruck;
+	unsigned char isCode;
+	unsigned char exponentLevel;
+	unsigned char quoteLevel;
+	unsigned char hLevel;
+	char* linkURL;
+	
+	unsigned int startPosition;
+	unsigned int endPosition;
 };
-#endif //HTMLTOATTR_FORMAT_H
+
+#endif /* t_format_h */

@@ -35,13 +35,14 @@
 		22C763E12093CD3B005B6E23 /* HTML_Parser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTML_Parser.m; sourceTree = "<group>"; };
 		22C763E32093D488005B6E23 /* Stack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Stack.c; sourceTree = "<group>"; };
 		22C763E42093D488005B6E23 /* Stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stack.h; sourceTree = "<group>"; };
-		22C763E62093D4A5005B6E23 /* t_format.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = t_format.h; sourceTree = "<group>"; };
+		22C763E62093D4A5005B6E23 /* t_tag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = t_tag.h; sourceTree = "<group>"; };
 		22C763EA2093D8DE005B6E23 /* DKStack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKStack.h; sourceTree = "<group>"; };
 		22C763EB2093D8DE005B6E23 /* DKStack.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DKStack.m; sourceTree = "<group>"; };
 		22C763ED2093D944005B6E23 /* Format.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Format.h; sourceTree = "<group>"; };
 		22C763EE2093D944005B6E23 /* Format.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Format.m; sourceTree = "<group>"; };
 		22C763F02093E5FF005B6E23 /* C_HTML_Parser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = C_HTML_Parser.h; sourceTree = "<group>"; };
 		22C763F12093E5FF005B6E23 /* C_HTML_Parser.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = C_HTML_Parser.c; sourceTree = "<group>"; };
+		22DD387520942E70009ECE24 /* t_format.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = t_format.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,7 +108,8 @@
 			children = (
 				22C763F02093E5FF005B6E23 /* C_HTML_Parser.h */,
 				22C763F12093E5FF005B6E23 /* C_HTML_Parser.c */,
-				22C763E62093D4A5005B6E23 /* t_format.h */,
+				22C763E62093D4A5005B6E23 /* t_tag.h */,
+				22DD387520942E70009ECE24 /* t_format.h */,
 				22C763E32093D488005B6E23 /* Stack.c */,
 				22C763E42093D488005B6E23 /* Stack.h */,
 			);
@@ -333,7 +335,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XBKLZPN8YT;
-				GCC_OPTIMIZATION_LEVEL = fast;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = HTMLFastParse/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (

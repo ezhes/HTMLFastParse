@@ -10,6 +10,10 @@
 #define C_HTML_Parser_h
 
 #include <stdio.h>
+#include "t_tag.h"
 #include "t_format.h"
-void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_format completedTags[]);
+
+void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_tag completedTags[], int* numberOfTags);
+void makeAttributesLinear(struct t_tag inputTags[], int numberOfInputTags, struct t_format simplifiedTags[], int displayTextLength);
+
 #endif /* C_HTML_Parser_h */

@@ -9,7 +9,9 @@
 #import "ViewController.h"
 #import "HTML_Parser.h"
 #include "C_HTML_Parser.h"
+#include "t_tag.h"
 #include "t_format.h"
+
 @interface ViewController ()
 
 @end
@@ -19,16 +21,22 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-	char* input = [@"<p>Plain <b>bold <i>bold and italic</i>. </b><div class=\"md\"><p><a href=\"https://test.com\">Wikitest</a></p>\n</div></p>" UTF8String];
+	char* input = [@"Plain <strong>bold <em>bold and italic</em>. </strong><p><a href=\"https://test.com\">Wikitest</a></p>" UTF8String];
+	//char* input = [@"<strong>BOLD</strong>" UTF8String];
 	unsigned long inputLength = strlen(input);
 	
-	unsigned long bufferSize = inputLength * sizeof(char);
-	char displayTextBuffer[bufferSize];
+	char displayTextBuffer[inputLength * sizeof(char)];
 	char* displayText = &displayTextBuffer[0];
-	struct t_format tokenBuffer[bufferSize];
-	char* tokens = &tokenBuffer[0];
+	struct t_tag tokenBuffer[inputLength * sizeof(struct t_tag)];
+	struct t_tag* tokens = &tokenBuffer[0];
 	
-	tokenizeHTML(input, inputLength, displayText,tokens);
+	struct t_format finalTokenBuffer[inputLength * sizeof(struct t_format)];
+	struct t_format* finalTokens = &finalTokenBuffer[0];
+	
+	int numberOfTags = -1;
+	tokenizeHTML(input, inputLength, displayText,tokens,&numberOfTags);
+	makeAttributesLinear(tokens, (int)numberOfTags, finalTokens,(int)strlen(displayText));
+	
 	printf("%s\n",displayText);
 	
 	//[self doStuff:nil];
@@ -67,10 +75,11 @@
 		unsigned long bufferSize = inputLength * sizeof(char);
 		char displayTextBuffer[bufferSize];
 		char* displayText = &displayTextBuffer[0];
-		struct t_format tokenBuffer[bufferSize];
+		struct t_tag tokenBuffer[bufferSize];
 		char* tokens = &tokenBuffer[0];
 		
-		tokenizeHTML(input, inputLength, displayText,tokens);
+		int numberOfTags = -1;
+		tokenizeHTML(input, inputLength, displayText,tokens,&numberOfTags);
 	}];
 	
 	

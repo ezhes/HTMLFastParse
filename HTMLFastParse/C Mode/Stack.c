@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
-#include "t_format.h"
+#include "t_tag.h"
 #include "Stack.h"
 
 // A structure to represent a stack
@@ -14,7 +14,7 @@ struct Stack
 {
 	int top;
 	unsigned capacity;
-	struct t_format* array;
+	struct t_tag* array;
 };
 
 // function to create a stack of given capacity. It initializes size of
@@ -24,7 +24,7 @@ struct Stack* createStack(unsigned capacity)
 	struct Stack* stack = (struct Stack*) malloc(sizeof(struct Stack));
 	stack->capacity = capacity;
 	stack->top = -1;
-	stack->array = malloc(stack->capacity * sizeof(struct t_format));
+	stack->array = malloc(stack->capacity * sizeof(struct t_tag));
 	return stack;
 }
 
@@ -37,7 +37,7 @@ int isEmpty(struct Stack* stack)
 {   return stack->top == -1;  }
 
 // Function to add an item to stack.  It increases top by 1
-void push(struct Stack* stack, struct t_format item)
+void push(struct Stack* stack, struct t_tag item)
 {
 	if (isFull(stack))
 		return;
@@ -45,7 +45,7 @@ void push(struct Stack* stack, struct t_format item)
 }
 
 // Function to remove an item from stack.  It decreases top by 1
-struct t_format* pop(struct Stack* stack)
+struct t_tag* pop(struct Stack* stack)
 {
 	if (isEmpty(stack))
 		return NULL;
