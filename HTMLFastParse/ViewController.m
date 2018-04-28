@@ -18,6 +18,14 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+	char* input = [@"<p>Plain <b>bold <i>italic</i>.</b></p>" UTF8String];
+	unsigned long inputLength = strlen(input);
+	
+	unsigned long bufferSize = inputLength * sizeof(char);
+	char* output = malloc(bufferSize);
+	attributeHTML(input, inputLength, output);
+	printf(output);
+	free(output);
 	
 }
 
