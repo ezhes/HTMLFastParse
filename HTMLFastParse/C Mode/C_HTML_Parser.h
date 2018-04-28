@@ -10,5 +10,6 @@
 #define C_HTML_Parser_h
 
 #include <stdio.h>
-void attributeHTML(char input[],size_t inputLength,char output[]);
+#include "t_format.h"
+void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_format completedTags[]);
 #endif /* C_HTML_Parser_h */

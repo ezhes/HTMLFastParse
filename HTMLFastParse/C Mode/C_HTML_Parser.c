@@ -13,11 +13,21 @@
 #include "C_HTML_Parser.h"
 #include "t_format.h"
 #include "Stack.h"
-void attributeHTML(char input[],size_t inputLength,char output[]) {
+
+
+/**
+ Tockenize and extract tag info from the input and then output the cleaned string alongisde a tag array with relevant position info
+
+ @param input Input text as a char array
+ @param inputLength The number of charachters to read, excluding the null byte!
+ @param displayText The char array to write the clean, display text to
+ @param completedTags The array to write the t_format structs to (provides position and tag info)
+ */
+void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_format completedTags[]) {
 	//A stack used for processing tags
 	struct Stack* htmlTags = createStack((int)inputLength);
 	//Completed / filled tags
-	struct t_format completedTags[(int)inputLength];
+	//struct t_format completedTags[(int)inputLength];
 	int completedTagsPosition = 0;
 	
 	//Used to track if we are currently reading the label of an HTML tag
@@ -49,11 +59,37 @@ void attributeHTML(char input[],size_t inputLength,char output[]) {
 			
 			//Are we a closing HTML tag (i.e. the first character in our tag is a '/')
 			if (tagNameBuffer[0] == '/') {
-				//We are a closing tag, so we're just going to ignore that for now and move on
+				//We are a closing tag, commit
 				struct t_format format = *pop(htmlTags);
 				format.endPosition = stringCopyPosition;
 				completedTags[completedTagsPosition] = format;
 				completedTagsPosition++;
+			}
+			//Are we a self closing tag like <br/> or <hr/>?
+			else if ((tagNameCopyPosition > 0 && tagNameBuffer[tagNameCopyPosition-1] == '/')) {
+				//These tags are special because they're an action in it of themselves so they both start themselves and commit all in one.
+				struct t_format format = *pop(htmlTags);
+				
+				/* special cases, take a shortcut and remove the tags */
+				if (strncmp(tagNameBuffer, "br/", 3) == 0) {
+					//We're a <br/> tag, drop a new line into the actual text and remove the tag
+					displayText[stringCopyPosition] = '\n';
+					stringCopyPosition++;
+				}else {
+					//We're not a known case, add the tag into the extracted tag array
+					long tagNameLength = (tagNameCopyPosition + 1) * sizeof(char);
+					char *newTagBuffer = malloc(tagNameLength);
+					strncpy(newTagBuffer,tagNameBuffer,tagNameLength);
+					
+					format.tag = newTagBuffer;
+					format.startPosition = stringCopyPosition;
+					format.endPosition = stringCopyPosition;
+					
+					completedTags[completedTagsPosition] = format;
+					completedTagsPosition++;
+				}
+				
+				
 			}else {
 				//No -- so let's push the operation onto our stack
 				//We've ended the tag definition, so pull the tag from the buffer and push that on to the stack
@@ -69,17 +105,18 @@ void attributeHTML(char input[],size_t inputLength,char output[]) {
 				tagNameBuffer[tagNameCopyPosition] = current;
 				tagNameCopyPosition++;
 			}else {
-				output[stringCopyPosition] = current;
+				displayText[stringCopyPosition] = current;
 				stringCopyPosition++;
 			}
 		}
 	}
 	//and now terminate our output.
-	output[stringCopyPosition] = 0x00;
+	displayText[stringCopyPosition] = 0x00;
 	
+	//Run through the unclosed tags so we can either process them and or free them
 	while (!isEmpty(htmlTags)) {
 		struct t_format in = *pop(htmlTags);
-		//printf("!!! UNCLOSED TAG: %s starts at %i ends at %i\n",in.tag,in.startPosition,in.endPosition);
+		printf("!!! UNCLOSED TAG: %s starts at %i ends at %i\n",in.tag,in.startPosition,in.endPosition);
 		free(in.tag);
 	}
 	
