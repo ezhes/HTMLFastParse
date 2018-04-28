@@ -18,6 +18,9 @@
 //Format specifiers
 #define HTML_PARSER_BOLD_TEXT 1;
 
+
+#define printf //printf
+
 /**
  Tockenize and extract tag info from the input and then output the cleaned string alongisde a tag array with relevant position info
 
@@ -141,16 +144,48 @@ void print_t_format(struct t_format format) {
 	printf("Format [%i,%i): Bold %i, Italic %i, Struck %i, Code %i, Exponent %i, Quote %i, H%i, LinkURL %s\n",format.startPosition,format.endPosition,format.isBold,format.isItalics,format.isStruck,format.isCode,format.exponentLevel,format.quoteLevel,format.hLevel,format.linkURL);
 }
 
+
+/**
+ Compare two t_formats. Returns 0 for the same, 1 if different in anyway
+
+ @param format1 The first t_format struct
+ @param format2 The second t_format struct
+ @return 0 or 1
+ */
+int t_format_cmp(struct t_format format1,struct t_format format2) {
+	if (format1.isBold != format2.isBold) {
+		return 1;
+	}else if (format1.isItalics != format2.isItalics) {
+		return 1;
+	}else if (format1.isStruck != format2.isStruck) {
+		return 1;
+	}else if (format1.isCode != format2.isCode) {
+		return 1;
+	}else if (format1.exponentLevel != format2.exponentLevel) {
+		return 1;
+	}else if (format1.quoteLevel != format2.quoteLevel) {
+		return 1;
+	}else if (format1.hLevel != format2.hLevel) {
+		return 1;
+	//Are both linkURLs non-null? are they the different?
+	}else if (format1.linkURL && format2.linkURL && strcmp(format1.linkURL, format2.linkURL) != 0) {
+		return 1;
+	}else {
+		return 0;
+	}
+}
+
 /**
  Takes in overlapping t_format tags and simplifies them into 1D range suitable for use in NSAttributedString. Destroys inputTags in the process!
 
  @param inputTags Overlapping tags buffer (given by tokenizeHTML)
  @param numberOfInputTags The number of inputTags
- @param simplifiedTags Simplified tags buffer (return value)
+ @param simplifiedTags (return) Simplified tags buffer (return value)
+ @param numberOfSimplifiedTags (return) the number of found simplified tags
  @param displayTextLength The size of the text that we will be applying these tags to
  */
-void makeAttributesLinear(struct t_tag inputTags[], int numberOfInputTags, struct t_format simplifiedTags[], int displayTextLength) {
-	//Create our bitmask array
+void makeAttributesLinear(struct t_tag inputTags[], int numberOfInputTags, struct t_format simplifiedTags[], int* numberOfSimplifiedTags, int displayTextLength) {
+	//Create our state array
 	struct t_format displayTextFormat[displayTextLength];
 	//Init everything to zero in a single pass memory zero
 	memset(&displayTextFormat, 0, sizeof(displayTextFormat));
@@ -198,7 +233,7 @@ void makeAttributesLinear(struct t_tag inputTags[], int numberOfInputTags, struc
 		}else if (strncmp(tagText, "a href=", 7) == 0) {
 			//We first need to extract the link
 			long tagTextLength = strlen(tagText);
-			char *url = malloc(tagTextLength-8);
+			char *url = malloc(tagTextLength-7);
 			//Extract the URL
 			int z = 8;
 			for (; z < tagTextLength; z++) {
@@ -216,7 +251,7 @@ void makeAttributesLinear(struct t_tag inputTags[], int numberOfInputTags, struc
 			}
 			
 		}else {
-			printf("Unknown tag: %s",tagText);
+			printf("Unknown tag: %s\n",tagText);
 		}
 		
 		
@@ -224,8 +259,52 @@ void makeAttributesLinear(struct t_tag inputTags[], int numberOfInputTags, struc
 		free(tag.tag);
 	}
 	
-	//Simplify
-	for (int i = 0; i < displayTextLength; i++) {
+	for (int i = 1; i < displayTextLength; i++) {
 		print_t_format(displayTextFormat[i]);
+	}
+	printf("--------\n");
+	
+	//Now that each charachter has it's style, let's simplify to a 1D
+	*numberOfSimplifiedTags = 0;
+	unsigned int activeStyleStart = 0;
+	for (int i = 1; i < displayTextLength; i++) {
+		if (t_format_cmp(displayTextFormat[activeStyleStart], displayTextFormat[i]) != 0) {
+			//We're different, so commit our previous style (with start and ends) and adopt the current one
+			displayTextFormat[i-1].startPosition = activeStyleStart;
+			displayTextFormat[i-1].endPosition = i;
+			simplifiedTags[*numberOfSimplifiedTags] = displayTextFormat[i-1];
+			
+			if (displayTextFormat[i-1].linkURL) {
+				simplifiedTags[*numberOfSimplifiedTags].linkURL = malloc(strlen(displayTextFormat[i-1].linkURL) + 1);
+				memcpy(simplifiedTags[*numberOfSimplifiedTags].linkURL, displayTextFormat[displayTextLength-1].linkURL, strlen(displayTextFormat[displayTextLength-1].linkURL) + 1);
+			}
+			
+			print_t_format(displayTextFormat[i-1]);
+			*numberOfSimplifiedTags+=1;
+			activeStyleStart = i;
+		}else {
+
+		}
+	}
+	
+	//and commit the final style
+	displayTextFormat[displayTextLength-1].startPosition = activeStyleStart;
+	displayTextFormat[displayTextLength-1].endPosition = displayTextLength;
+	simplifiedTags[*numberOfSimplifiedTags] = displayTextFormat[displayTextLength-1];
+	if (displayTextFormat[displayTextLength-1].linkURL) {
+		simplifiedTags[*numberOfSimplifiedTags].linkURL = malloc(strlen(displayTextFormat[displayTextLength-1].linkURL) + 1);
+		memcpy(simplifiedTags[*numberOfSimplifiedTags].linkURL, displayTextFormat[displayTextLength-1].linkURL, strlen(displayTextFormat[displayTextLength-1].linkURL) + 1);
+	}
+	print_t_format(displayTextFormat[displayTextLength-1]);
+	*numberOfSimplifiedTags+=1;
+	
+	//now free
+	for (int i = 0; i < displayTextLength; i++) {
+		//do we have a linkURL and is it either different from the next one or are we the last one
+		//this is neccesary so we don't double free the URL
+		if (displayTextFormat[i].linkURL && ((i + 1 < displayTextLength && displayTextFormat[i+1].linkURL != displayTextFormat[i].linkURL) || (i+1 >= displayTextLength))) {
+			free(displayTextFormat[i].linkURL);
+			displayTextFormat[i].linkURL = NULL;
+		}
 	}
 }

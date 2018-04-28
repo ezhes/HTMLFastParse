@@ -35,9 +35,17 @@
 	
 	int numberOfTags = -1;
 	tokenizeHTML(input, inputLength, displayText,tokens,&numberOfTags);
-	makeAttributesLinear(tokens, (int)numberOfTags, finalTokens,(int)strlen(displayText));
+	int numberOfSimplifiedTags = -1;
+	makeAttributesLinear(tokens, (int)numberOfTags, finalTokens,&numberOfSimplifiedTags,(int)strlen(displayText));
+	
+	for (int i = 0; i < numberOfSimplifiedTags; i++) {
+		char* link = finalTokens[i].linkURL;
+		free(link);
+	}
 	
 	printf("%s\n",displayText);
+	
+	
 	
 	//[self doStuff:nil];
 	
@@ -47,7 +55,7 @@
 {
 	extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 	
-	int iterations = 10000;
+	int iterations = 4000;
 	uint64_t t = dispatch_benchmark(iterations, ^{
 		@autoreleasepool {
 			block();
@@ -66,21 +74,52 @@
 	/*HTML_Parser *parser = [[HTML_Parser alloc]init];
 	 [self totalRuntimeForMethod:@"Obj-C Parser" block:^{
 	 [parser parseHTML:testHTML];
-	 }];
-	 */
+	 }];*/
+	 
 	[self totalRuntimeForMethod:@"C Parser" block:^{
 		char* input = [testHTML UTF8String];
 		unsigned long inputLength = strlen(input);
 		
-		unsigned long bufferSize = inputLength * sizeof(char);
-		char displayTextBuffer[bufferSize];
-		char* displayText = &displayTextBuffer[0];
-		struct t_tag tokenBuffer[bufferSize];
-		char* tokens = &tokenBuffer[0];
+		//char displayTextBuffer[inputLength * sizeof(char)];
+		char* displayText = malloc(inputLength * sizeof(char));//&displayTextBuffer[0];
+		//struct t_tag tokenBuffer[inputLength * sizeof(struct t_tag)];
+		struct t_tag* tokens = malloc(inputLength * sizeof(struct t_tag));//&tokenBuffer[0];
 		
 		int numberOfTags = -1;
 		tokenizeHTML(input, inputLength, displayText,tokens,&numberOfTags);
+		
+		//struct t_format finalTokenBuffer[numberOfTags * sizeof(struct t_format)];
+		struct t_format* finalTokens =  malloc(inputLength * sizeof(struct t_format));//&finalTokenBuffer[0];
+		int numberOfSimplifiedTags = -1;
+		makeAttributesLinear(tokens, (int)numberOfTags, finalTokens,&numberOfSimplifiedTags,(int)strlen(displayText));
+		
+		for (int i = 0; i < numberOfSimplifiedTags; i++) {
+			char* link = finalTokens[i].linkURL;
+			free(link);
+		}
+		
+		free(displayText);
+		free(tokens);
+		free(finalTokens);
+		
 	}];
+	
+	/*char* input = [testHTML UTF8String];
+	unsigned long inputLength = strlen(input);
+	
+	char displayTextBuffer[inputLength * sizeof(char)];
+	char* displayText = &displayTextBuffer[0];
+	struct t_tag tokenBuffer[inputLength * sizeof(struct t_tag)];
+	struct t_tag* tokens = &tokenBuffer[0];
+	
+	int numberOfTags = -1;
+	tokenizeHTML(input, inputLength, displayText,tokens,&numberOfTags);
+	
+	struct t_format finalTokenBuffer[numberOfTags * sizeof(struct t_format)];
+	struct t_format* finalTokens = &finalTokenBuffer[0];
+	makeAttributesLinear(tokens, (int)numberOfTags, finalTokens,(int)strlen(displayText));
+	
+	printf("%s\n",displayText);*/
 	
 	
 	
