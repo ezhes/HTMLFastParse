@@ -9,6 +9,11 @@
 #ifndef t_format_h
 #define t_format_h
 
+
+
+/**
+ A structure representing a charachter/range's text formatting
+ */
 struct t_format {
 	//ZERO MEANS DISABLED
 	unsigned char isBold;

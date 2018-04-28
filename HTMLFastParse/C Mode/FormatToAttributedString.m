@@ -11,8 +11,11 @@
 #import <UIKit/UIKit.h>
 
 @implementation FormatToAttributedString
-NSString *fontName;
-UIFontDescriptor *fontDescriptor;
+NSString *standardFontName;
+NSString *boldFontName;
+NSString *italicFontName;
+NSString *italicsBoldFontName;
+
 UIFont *plainFont;
 UIFont *boldFont;
 UIFont *italicsFont;
@@ -21,20 +24,22 @@ UIFont *italicsBoldFont;
 -(id)init {
 	self = [super init];
 	//Prepare our common fonts once
-	fontName = @"Avenir-Light";
+	standardFontName = @"Avenir-Light";
+	boldFontName = @"Avenir-Heavy";
+	italicFontName = @"Avenir-BookOblique";
+	italicsBoldFontName = @"Avenir-HeavyOblique";
 	[self prepareFonts];
 	return self;
 }
 
 -(void)prepareFonts {
-	fontDescriptor = [UIFontDescriptor fontDescriptorWithName:fontName size:UIFont.systemFontSize];
-	plainFont = [UIFont fontWithName:fontName size:UIFont.systemFontSize];
-	boldFont = [UIFont fontWithDescriptor:[fontDescriptor fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitBold] size:UIFont.systemFontSize];
-	italicsFont = [UIFont fontWithDescriptor:[fontDescriptor fontDescriptorWithSymbolicTraits: UIFontDescriptorTraitItalic] size:UIFont.systemFontSize];
-	italicsBoldFont = [UIFont fontWithDescriptor:[fontDescriptor fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitBold | UIFontDescriptorTraitItalic] size:UIFont.systemFontSize];
+	plainFont = [UIFont fontWithName:standardFontName size:UIFont.systemFontSize];
+	boldFont = [UIFont fontWithName:boldFontName size:UIFont.systemFontSize];
+	italicsFont = [UIFont fontWithName:italicFontName size:UIFont.systemFontSize];
+	italicsBoldFont = [UIFont fontWithName:italicsBoldFontName size:UIFont.systemFontSize];
 }
 -(NSAttributedString *)attributedStringForHTML:(NSString *)htmlInput {
-	char* input = [htmlInput UTF8String];
+	char* input = (char*)[htmlInput UTF8String];
 	unsigned long inputLength = strlen(input);
 	
 	char* displayText = malloc(inputLength * sizeof(char));//&displayTextBuffer[0];
@@ -121,11 +126,23 @@ UIFont *italicsBoldFont;
 			[string addAttribute:NSBaselineOffsetAttributeName value:[NSNumber numberWithFloat:format.exponentLevel*10] range:NSMakeRange(format.startPosition, format.endPosition-format.startPosition)];
 		}
 		
-		UIFontDescriptorSymbolicTraits traits = 0x00000;
-		//Perform a bitwise or on the trait times the bool. If isItalics is one, it applies, otherwise it's an or against 0x0
-		traits |= (UIFontDescriptorTraitItalic * format.isItalics);
-		traits |= (UIFontDescriptorTraitBold * format.isBold);
-		UIFont *customFont = [UIFont fontWithDescriptor:[fontDescriptor fontDescriptorWithSymbolicTraits:traits] size:fontSize];
+		
+		UIFont *customFont;
+		if (format.isBold == 0 && format.isItalics == 0) {
+			//Plain text
+			customFont = [plainFont fontWithSize:fontSize];
+		}else if (format.isBold == 1 && format.isItalics == 1) {
+			//Bold italics
+			customFont = [italicsBoldFont fontWithSize:fontSize];
+		}else if (format.isBold == 1) {
+			//Bold
+			customFont = [boldFont fontWithSize:fontSize];
+		}else if (format.isItalics == 1) {
+			//Italics
+			customFont = [italicsFont fontWithSize:fontSize];
+		}
+		
+		
 		[string addAttribute:NSFontAttributeName value:customFont range:NSMakeRange(format.startPosition, format.endPosition-format.startPosition)];
 	}
 }

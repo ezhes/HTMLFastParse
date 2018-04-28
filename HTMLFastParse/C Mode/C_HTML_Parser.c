@@ -276,7 +276,7 @@ void makeAttributesLinear(struct t_tag inputTags[], int numberOfInputTags, struc
 			
 			if (displayTextFormat[i-1].linkURL) {
 				simplifiedTags[*numberOfSimplifiedTags].linkURL = malloc(strlen(displayTextFormat[i-1].linkURL) + 1);
-				memcpy(simplifiedTags[*numberOfSimplifiedTags].linkURL, displayTextFormat[displayTextLength-1].linkURL, strlen(displayTextFormat[displayTextLength-1].linkURL) + 1);
+				memcpy(simplifiedTags[*numberOfSimplifiedTags].linkURL, displayTextFormat[i-1].linkURL, strlen(displayTextFormat[i-1].linkURL) + 1);
 			}
 			
 			print_t_format(displayTextFormat[i-1]);
