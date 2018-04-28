@@ -87,8 +87,8 @@ void attributeHTML(char input[],size_t inputLength,char output[]) {
 	
 	for (int i = 0; i < completedTagsPosition; i++) {
 		struct t_format inTag = completedTags[i];
+		printf("TAG: %s starts at %i ends at %i\n",inTag.tag,inTag.startPosition,inTag.endPosition);
 		free(inTag.tag);
-		//printf("TAG: %s starts at %i ends at %i\n",inTag.tag,inTag.startPosition,inTag.endPosition);
 	}
 	
 	//Release everything that's not necessary
