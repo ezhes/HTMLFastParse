@@ -23,7 +23,7 @@
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 	
-	char* input = [@"Plain <strong>bold <em>bold and italic</em>. </strong><p><a href=\"https://test.com\">Wikitest</a></p>" UTF8String];
+	/*char* input = [@"Plain <strong>bold <em>bold and italic</em>. </strong><p><a href=\"https://test.com\">Wikitest</a></p>" UTF8String];
 	//char* input = [@"<strong>BOLD</strong>" UTF8String];
 	unsigned long inputLength = strlen(input);
 	
@@ -45,9 +45,11 @@
 		free(link);
 	}
 	
-	printf("%s\n",displayText);
+	printf("%s\n",displayText);*/
 	
-	//[self showNormal];
+	NSString * other = @"\n\n\n<div class=\"md\"><p>Inline <code>Test code</code> outside</p>\n\n<pre><code>Code Block\nwhew still code\n</code></pre>\n\n<p>Plain</p>\n\n<blockquote>\n<p>Quote level 1</p>\n\n<blockquote>\n<p>Quote level 2</p>\n\n<blockquote>\n<p>Quote level3</p>\n</blockquote>\n</blockquote>\n</blockquote>\n<a href=\"https://test.com\">Wikitest</a>\nblah</div>";
+	//NSString * other = @"\n\n\n<div class=\"md\"><p>Inline <code>Test code</code> outside</p>\n\n<pre><code>Code Block\nwhew still code\n</code></pre>\n\n<p>Plain</p>\n\n<a href=\"https://reddit.com/r/homelab\">Wikitest</a>\nblah</div>";
+	//[self showNormal:testHTML];
 	//[self doStuff:nil];
 	
 }
@@ -88,12 +90,13 @@
 	
 }
 
--(void)showNormal {
-	NSAttributedString * test = [[[FormatToAttributedString alloc]init]attributedStringForHTML:testHTML];
+-(void)showNormal:(NSString *)toShow {
+	NSAttributedString * test = [[[FormatToAttributedString alloc]init]attributedStringForHTML:toShow];
 	
 	UITextView *textView = [[UITextView alloc]initWithFrame:self.view.frame textContainer:nil];
 	[self.view addSubview:textView];
 	textView.attributedText = test;
+	textView.editable = false;
 	[textView layoutSubviews];
 }
 

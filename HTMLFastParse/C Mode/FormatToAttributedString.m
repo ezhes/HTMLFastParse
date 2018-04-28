@@ -15,11 +15,13 @@ NSString *standardFontName;
 NSString *boldFontName;
 NSString *italicFontName;
 NSString *italicsBoldFontName;
+NSString *codeFontName;
 
 UIFont *plainFont;
 UIFont *boldFont;
 UIFont *italicsFont;
 UIFont *italicsBoldFont;
+UIFont *codeFont;
 
 -(id)init {
 	self = [super init];
@@ -28,6 +30,7 @@ UIFont *italicsBoldFont;
 	boldFontName = @"Avenir-Heavy";
 	italicFontName = @"Avenir-BookOblique";
 	italicsBoldFontName = @"Avenir-HeavyOblique";
+	codeFontName = @"CourierNewPSMT";
 	[self prepareFonts];
 	return self;
 }
@@ -37,6 +40,7 @@ UIFont *italicsBoldFont;
 	boldFont = [UIFont fontWithName:boldFontName size:UIFont.systemFontSize];
 	italicsFont = [UIFont fontWithName:italicFontName size:UIFont.systemFontSize];
 	italicsBoldFont = [UIFont fontWithName:italicsBoldFontName size:UIFont.systemFontSize];
+	codeFont = [UIFont fontWithName:codeFontName size:UIFont.systemFontSize];
 }
 -(NSAttributedString *)attributedStringForHTML:(NSString *)htmlInput {
 	char* input = (char*)[htmlInput UTF8String];
@@ -73,21 +77,43 @@ UIFont *italicsBoldFont;
 }
 
 -(void)addAttributeToString:(NSMutableAttributedString *)string forFormat:(struct t_format)format {
-	/* basic fonts! */
+	//This is the range of the style
+	NSRange currentRange = NSMakeRange(format.startPosition, format.endPosition-format.startPosition);
+	
+	if (format.linkURL) {
+		[string addAttribute:NSLinkAttributeName value:[NSString stringWithUTF8String:format.linkURL] range:currentRange];
+	}
+	
+	if (format.isStruck) {
+		[string addAttribute:NSStrikethroughStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:currentRange];
+	}
+	
+	if (format.quoteLevel > 0) {
+		[string addAttribute:NSBackgroundColorAttributeName value:[UIColor grayColor] range:currentRange];
+	}
+	
+	
+	
+	/* Styling that uses fonts. This includes exponents, h#, bold, italics, and any combination thereof. Code formatting skips all of these */
+	
+	if (format.isCode == 1) {
+		[string addAttribute:NSFontAttributeName value:codeFont range:currentRange];
+		[string addAttribute:NSBackgroundColorAttributeName value:[UIColor yellowColor] range:currentRange];
+	}
 	//Check if we can take a shortcut. We don't need dynamic font in this case
-	if (format.hLevel == 0 && format.exponentLevel == 0) {
+	else if (format.hLevel == 0 && format.exponentLevel == 0) {
 		if (format.isBold == 0 && format.isItalics == 0) {
 			//Plain text
 			//Do nothing since it's the default as set above
 		}else if (format.isBold == 1 && format.isItalics == 1) {
 			//Bold italics
-			[string addAttribute:NSFontAttributeName value:italicsBoldFont range:NSMakeRange(format.startPosition, format.endPosition-format.startPosition)];
+			[string addAttribute:NSFontAttributeName value:italicsBoldFont range:currentRange];
 		}else if (format.isBold == 1) {
 			//Bold
-			[string addAttribute:NSFontAttributeName value:boldFont range:NSMakeRange(format.startPosition, format.endPosition-format.startPosition)];
+			[string addAttribute:NSFontAttributeName value:boldFont range:currentRange];
 		}else if (format.isItalics == 1) {
 			//Italics
-			[string addAttribute:NSFontAttributeName value:italicsFont range:NSMakeRange(format.startPosition, format.endPosition-format.startPosition)];
+			[string addAttribute:NSFontAttributeName value:italicsFont range:currentRange];
 		}
 	}else {
 		//Apply the dynamic font
@@ -123,7 +149,7 @@ UIFont *italicsBoldFont;
 		//Handle exponent
 		if (format.exponentLevel > 0) {
 			fontSize *= (0.75 * format.exponentLevel);
-			[string addAttribute:NSBaselineOffsetAttributeName value:[NSNumber numberWithFloat:format.exponentLevel*10] range:NSMakeRange(format.startPosition, format.endPosition-format.startPosition)];
+			[string addAttribute:NSBaselineOffsetAttributeName value:[NSNumber numberWithFloat:format.exponentLevel*10] range:currentRange];
 		}
 		
 		
@@ -143,7 +169,7 @@ UIFont *italicsBoldFont;
 		}
 		
 		
-		[string addAttribute:NSFontAttributeName value:customFont range:NSMakeRange(format.startPosition, format.endPosition-format.startPosition)];
+		[string addAttribute:NSFontAttributeName value:customFont range:currentRange];
 	}
 }
 @end

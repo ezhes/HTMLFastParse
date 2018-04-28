@@ -15,10 +15,6 @@
 #include "t_format.h"
 #include "Stack.h"
 
-//Format specifiers
-#define HTML_PARSER_BOLD_TEXT 1;
-
-
 #define printf //printf
 
 /**
@@ -80,8 +76,9 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 				/* special cases, take a shortcut and remove the tags */
 				if (strncmp(tagNameBuffer, "br/", 3) == 0) {
 					//We're a <br/> tag, drop a new line into the actual text and remove the tag
-					displayText[stringCopyPosition] = '\n';
-					stringCopyPosition++;
+					//IGNORE THESE WHEN USING THE REDDIT MODE because Reddit already sends a new line after <br/> tags so it's duplicated in effect
+					/*displayText[stringCopyPosition] = '\n';
+					/stringCopyPosition++;*/
 				}else {
 					//We're not a known case, add the tag into the extracted tag array
 					long tagNameLength = (tagNameCopyPosition + 1) * sizeof(char);
@@ -168,7 +165,7 @@ int t_format_cmp(struct t_format format1,struct t_format format2) {
 	}else if (format1.hLevel != format2.hLevel) {
 		return 1;
 	//Are both linkURLs non-null? are they the different?
-	}else if (format1.linkURL && format2.linkURL && strcmp(format1.linkURL, format2.linkURL) != 0) {
+	}else if (format1.linkURL != format2.linkURL || ((format1.linkURL != NULL && format2.linkURL == NULL) || (format2.linkURL != NULL && format1.linkURL == NULL)) || (format1.linkURL != NULL && format2.linkURL != NULL && strcmp(format1.linkURL, format2.linkURL) != 0)) {
 		return 1;
 	}else {
 		return 0;
@@ -210,7 +207,7 @@ void makeAttributesLinear(struct t_tag inputTags[], int numberOfInputTags, struc
 			for (int j = tag.startPosition; j < tag.endPosition; j++) {
 				displayTextFormat[j].isStruck = 1;
 			}
-		}else if (strncmp(tagText, "pre", 3) == 0) {
+		}else if (strncmp(tagText, "code", 4) == 0) {
 			//Apply CODE! to all
 			for (int j = tag.startPosition; j < tag.endPosition; j++) {
 				displayTextFormat[j].isCode = 1;
@@ -282,8 +279,6 @@ void makeAttributesLinear(struct t_tag inputTags[], int numberOfInputTags, struc
 			print_t_format(displayTextFormat[i-1]);
 			*numberOfSimplifiedTags+=1;
 			activeStyleStart = i;
-		}else {
-
 		}
 	}
 	
