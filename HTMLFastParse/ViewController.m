@@ -47,9 +47,9 @@
 	
 	printf("%s\n",displayText);*/
 	
-	NSString * other = @"\n\n\n<div class=\"md\"><p>Inline <code>Test code</code> outside</p>\n\n<pre><code>Code Block\nwhew still code\n</code></pre>\n\n<p>Plain</p>\n\n<blockquote>\n<p>Quote level 1</p>\n\n<blockquote>\n<p>Quote level 2</p>\n\n<blockquote>\n<p>Quote level3</p>\n</blockquote>\n</blockquote>\n</blockquote>\n<a href=\"https://test.com\">Wikitest&gt;</a>\nblah</div>asdasdasdkkk;";
+	NSString * other = @"\n\n\n<div class=\"md\"><p>Inline <code>Test code</code> outside</p>\n\n<pre><code>Code Block\nwhew still code\n</code></pre>\n\n<p>Plain</p>\n\n<blockquote>\n<p>Quote level 1</p>\n\n<blockquote>\n<p>Quote level 2</p>\n\n<blockquote>\n<p>Quote level3</p>\n</blockquote>\n</blockquote>\n</blockquote>\n<a href=\"https://test.com\">Wikitest&gt;</a>\nblah</div><h1>we're the h1: 0<sup>1<sup>2<sup>3</sup></sup></sup>;</h1>";
 	//NSString * other = @"\n\n\n<div class=\"md\"><p>Inline <code>Test code</code> outside</p>\n\n<pre><code>Code Block\nwhew still code\n</code></pre>\n\n<p>Plain</p>\n\n<a href=\"https://reddit.com/r/homelab\">Wikitest</a>\nblah</div>";
-	[self showNormal:other];
+	//[self showNormal:testHTML];
 	//[self doStuff:nil];
 	
 }
@@ -58,7 +58,7 @@
 {
 	extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 	
-	int iterations = 10000;
+	int iterations = 1000;
 	uint64_t t = dispatch_benchmark(iterations, ^{
 		@autoreleasepool {
 			block();
@@ -80,7 +80,12 @@
 	
 	FormatToAttributedString * formatter = [[FormatToAttributedString alloc]init];
 	[self totalRuntimeForMethod:@"C Parser" block:^{
-		[formatter attributedStringForHTML:testHTML];
+		UITextView *textView = [[UITextView alloc]initWithFrame:self.view.frame textContainer:nil];
+		[self.view addSubview:textView];
+		textView.attributedText = [formatter attributedStringForHTML:testHTML];
+		[textView layoutSubviews];
+		
+		[textView removeFromSuperview];
 		
 	}];
 	
