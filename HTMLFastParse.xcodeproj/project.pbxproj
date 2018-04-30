@@ -13,10 +13,7 @@
 		22C763D42093CD1B005B6E23 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 22C763D32093CD1B005B6E23 /* Assets.xcassets */; };
 		22C763D72093CD1B005B6E23 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22C763D52093CD1B005B6E23 /* LaunchScreen.storyboard */; };
 		22C763DA2093CD1B005B6E23 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C763D92093CD1B005B6E23 /* main.m */; };
-		22C763E22093CD3B005B6E23 /* HTML_Parser.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C763E12093CD3B005B6E23 /* HTML_Parser.m */; };
 		22C763E52093D488005B6E23 /* Stack.c in Sources */ = {isa = PBXBuildFile; fileRef = 22C763E32093D488005B6E23 /* Stack.c */; };
-		22C763EC2093D8DE005B6E23 /* DKStack.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C763EB2093D8DE005B6E23 /* DKStack.m */; };
-		22C763EF2093D944005B6E23 /* Format.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C763EE2093D944005B6E23 /* Format.m */; };
 		22C763F22093E5FF005B6E23 /* C_HTML_Parser.c in Sources */ = {isa = PBXBuildFile; fileRef = 22C763F12093E5FF005B6E23 /* C_HTML_Parser.c */; };
 		22FC446C2094E2E20044980B /* FormatToAttributedString.m in Sources */ = {isa = PBXBuildFile; fileRef = 22FC446B2094E2E20044980B /* FormatToAttributedString.m */; };
 		22FC446F20952D6E0044980B /* entities.c in Sources */ = {isa = PBXBuildFile; fileRef = 22FC446D20952D6E0044980B /* entities.c */; };
@@ -33,15 +30,9 @@
 		22C763D62093CD1B005B6E23 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		22C763D82093CD1B005B6E23 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		22C763D92093CD1B005B6E23 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		22C763E02093CD3B005B6E23 /* HTML_Parser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HTML_Parser.h; sourceTree = "<group>"; };
-		22C763E12093CD3B005B6E23 /* HTML_Parser.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTML_Parser.m; sourceTree = "<group>"; };
 		22C763E32093D488005B6E23 /* Stack.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Stack.c; sourceTree = "<group>"; };
 		22C763E42093D488005B6E23 /* Stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stack.h; sourceTree = "<group>"; };
 		22C763E62093D4A5005B6E23 /* t_tag.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = t_tag.h; sourceTree = "<group>"; };
-		22C763EA2093D8DE005B6E23 /* DKStack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKStack.h; sourceTree = "<group>"; };
-		22C763EB2093D8DE005B6E23 /* DKStack.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DKStack.m; sourceTree = "<group>"; };
-		22C763ED2093D944005B6E23 /* Format.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Format.h; sourceTree = "<group>"; };
-		22C763EE2093D944005B6E23 /* Format.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Format.m; sourceTree = "<group>"; };
 		22C763F02093E5FF005B6E23 /* C_HTML_Parser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = C_HTML_Parser.h; sourceTree = "<group>"; };
 		22C763F12093E5FF005B6E23 /* C_HTML_Parser.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = C_HTML_Parser.c; sourceTree = "<group>"; };
 		22DD387520942E70009ECE24 /* t_format.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = t_format.h; sourceTree = "<group>"; };
@@ -85,7 +76,6 @@
 				22C763CB2093CD1B005B6E23 /* AppDelegate.m */,
 				22C763CD2093CD1B005B6E23 /* ViewController.h */,
 				22C763CE2093CD1B005B6E23 /* ViewController.m */,
-				22C763F32093E609005B6E23 /* Obj-C Mode */,
 				22C763F42093E614005B6E23 /* C Mode */,
 				22C763D02093CD1B005B6E23 /* Main.storyboard */,
 				22C763D32093CD1B005B6E23 /* Assets.xcassets */,
@@ -94,19 +84,6 @@
 				22C763D92093CD1B005B6E23 /* main.m */,
 			);
 			path = HTMLFastParse;
-			sourceTree = "<group>";
-		};
-		22C763F32093E609005B6E23 /* Obj-C Mode */ = {
-			isa = PBXGroup;
-			children = (
-				22C763E02093CD3B005B6E23 /* HTML_Parser.h */,
-				22C763E12093CD3B005B6E23 /* HTML_Parser.m */,
-				22C763ED2093D944005B6E23 /* Format.h */,
-				22C763EE2093D944005B6E23 /* Format.m */,
-				22C763EA2093D8DE005B6E23 /* DKStack.h */,
-				22C763EB2093D8DE005B6E23 /* DKStack.m */,
-			);
-			path = "Obj-C Mode";
 			sourceTree = "<group>";
 		};
 		22C763F42093E614005B6E23 /* C Mode */ = {
@@ -199,11 +176,8 @@
 				22FC446F20952D6E0044980B /* entities.c in Sources */,
 				22C763CF2093CD1B005B6E23 /* ViewController.m in Sources */,
 				22FC446C2094E2E20044980B /* FormatToAttributedString.m in Sources */,
-				22C763E22093CD3B005B6E23 /* HTML_Parser.m in Sources */,
 				22C763DA2093CD1B005B6E23 /* main.m in Sources */,
 				22C763F22093E5FF005B6E23 /* C_HTML_Parser.c in Sources */,
-				22C763EC2093D8DE005B6E23 /* DKStack.m in Sources */,
-				22C763EF2093D944005B6E23 /* Format.m in Sources */,
 				22C763E52093D488005B6E23 /* Stack.c in Sources */,
 				22C763CC2093CD1B005B6E23 /* AppDelegate.m in Sources */,
 			);

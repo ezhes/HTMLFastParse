@@ -18,11 +18,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7GC-Ju-mXV">
-                                <rect key="frame" x="159" y="302" width="46" height="30"/>
+                                <rect key="frame" x="114" y="302" width="137" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
+                                <state key="normal" title="RUN BENCHMARKS"/>
                                 <connections>
-                                    <action selector="doStuff:" destination="BYZ-38-t0r" eventType="touchUpInside" id="3C6-f8-2Ka"/>
+                                    <action selector="runBenchmark:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7RG-fA-cIs"/>
                                 </connections>
                             </button>
                         </subviews>

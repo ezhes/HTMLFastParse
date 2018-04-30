@@ -7,7 +7,6 @@
 //
 
 #import "ViewController.h"
-#import "HTML_Parser.h"
 #include "C_HTML_Parser.h"
 #include "t_tag.h"
 #include "t_format.h"
@@ -23,33 +22,11 @@
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 	
-	/*char* input = [@"Plain <strong>bold <em>bold and italic</em>. </strong><p><a href=\"https://test.com\">Wikitest</a></p>" UTF8String];
-	//char* input = [@"<strong>BOLD</strong>" UTF8String];
-	unsigned long inputLength = strlen(input);
-	
-	char displayTextBuffer[inputLength * sizeof(char)];
-	char* displayText = &displayTextBuffer[0];
-	struct t_tag tokenBuffer[inputLength * sizeof(struct t_tag)];
-	struct t_tag* tokens = &tokenBuffer[0];
-	
-	struct t_format finalTokenBuffer[inputLength * sizeof(struct t_format)];
-	struct t_format* finalTokens = &finalTokenBuffer[0];
-	
-	int numberOfTags = -1;
-	tokenizeHTML(input, inputLength, displayText,tokens,&numberOfTags);
-	int numberOfSimplifiedTags = -1;
-	makeAttributesLinear(tokens, (int)numberOfTags, finalTokens,&numberOfSimplifiedTags,(int)strlen(displayText));
-	
-	for (int i = 0; i < numberOfSimplifiedTags; i++) {
-		char* link = finalTokens[i].linkURL;
-		free(link);
-	}
-	
-	printf("%s\n",displayText);*/
-	
-	NSString * other = @"\n\n\n<div class=\"md\"><p>Inline <code>Test code</code> outside</p>\n\n<pre><code>Code Block\nwhew still code\n</code></pre>\n\n<p>Plain</p>\n\n<blockquote>\n<p>Quote level 1</p>\n\n<blockquote>\n<p>Quote level 2</p>\n\n<blockquote>\n<p>Quote level3</p>\n</blockquote>\n</blockquote>\n</blockquote>\n<a href=\"https://test.com\">Wikitest&gt;</a>\nblah</div><h1>we're the h1: 0<sup>1<sup>2<sup>3</sup></sup></sup>;</h1>";
+	NSString * other = @"<div class=\"md\"><blockquote>\n<p>People did deride him for being reckless and provoking the animals for entertainment</p>\n</blockquote>\n\n<p>I think the problem was with the multiple imitators who wanted to be &quot;the next Steve Irwin&quot; by harassing wildlife on camera, thinking it would make them famous. After Irwin died, <a href=\"https://www.washingtonpost.com/posteverything/wp/2014/12/09/nature-television-is-running-wild-the-man-eating-anaconda-is-just-the-latest-atrocity/?utm_term=.86edd676e34d\">there was a disturbing trend of animal &quot;reality&quot; shows</a> where untrained hosts did really stupid and inhumane stunts with wild animals, completely lacking the respect that Irwin had:</p>\n\n<blockquote>\n<p>The MTV series “Wildboyz” was a repeat offender, featuring hosts who chased cheetahs, grabbed crocodiles, stuck their tongues in a giraffe’s mouth, and goaded scorpions into stinging them. In the Animal Planet show “Into the Pride,” animal trainer Dave Salmoni informs viewers that an overly aggressive pride of lions must be tamed to accept a growing number of ecotourists in the area, or they’ll be killed. But Salmoni “calms” the animals by increasingly aggravating them –maneuvering cameras in the faces of their cubs and walking toward their fresh antelope kill. The lions are gratuitously provoked to produce exciting television and, in the process, they become upset, alarmed, and needlessly stressed. </p>\n</blockquote>\n</div>";
+	//NSString * other = @"\n\n\n<div class=\"md\"><p>Here&#39;s a sneak peek of <a href=\"/r/wtfstockphotos\">/r/wtfstockphotos</a> using the <a href=\"https://np.reddit.com/r/wtfstockphotos/top/?sort=top&amp;t=year\">top posts</a> of the year!</p>\n\n<p>#1: <a href=\"https://i.imgur.com/7AN0Czp.jpg\">When you tell your friend &quot;Don&#39;t come to school tomorrow&quot; but he shows up anyway</a> | <a href=\"https://np.reddit.com/r/wtfstockphotos/comments/87ezki/when_you_tell_your_friend_dont_come_to_school/\">460 comments</a><br/>\n#2: <a href=\"https://i.redd.it/s8jps9ae6etz.jpg\">Grandma teaches blond children important life lessons</a> | <a href=\"https://np.reddit.com/r/wtfstockphotos/comments/780hvv/grandma_teaches_blond_children_important_life/\">246 comments</a><br/>\n#3: <a href=\"https://i.imgur.com/ZvJw0oQ.png\">Asian woman spits on a cock</a> | <a href=\"https://np.reddit.com/r/wtfstockphotos/comments/7f7i33/asian_woman_spits_on_a_cock/\">230 comments</a></p>\n\n<hr/>\n\n<p><sup><sup>I&#39;m</sup></sup> <sup><sup>a</sup></sup> <sup><sup>bot,</sup></sup> <sup><sup>beep</sup></sup> <sup><sup>boop</sup></sup> <sup><sup>|</sup></sup> <sup><sup>Downvote</sup></sup> <sup><sup>to</sup></sup> <sup><sup>remove</sup></sup> <sup><sup>|</sup></sup> <a href=\"https://www.reddit.com/message/compose/?to=sneakpeekbot\"><sup><sup>Contact</sup></sup> <sup><sup>me</sup></sup></a> <sup><sup>|</sup></sup> <a href=\"https://np.reddit.com/r/sneakpeekbot/\"><sup><sup>Info</sup></sup></a> <sup><sup>|</sup></sup> <a href=\"https://np.reddit.com/r/sneakpeekbot/comments/7o7jnj/blacklist/\"><sup><sup>Opt-out</sup></sup></a></p>\n</div>";
 	//NSString * other = @"\n\n\n<div class=\"md\"><p>Inline <code>Test code</code> outside</p>\n\n<pre><code>Code Block\nwhew still code\n</code></pre>\n\n<p>Plain</p>\n\n<a href=\"https://reddit.com/r/homelab\">Wikitest</a>\nblah</div>";
-	//[self showNormal:testHTML];
+	[self showNormal:other];
+	
 	//[self doStuff:nil];
 	
 }
@@ -58,7 +35,7 @@
 {
 	extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 	
-	int iterations = 1000;
+	int iterations = 10000;
 	uint64_t t = dispatch_benchmark(iterations, ^{
 		@autoreleasepool {
 			block();
@@ -72,7 +49,7 @@
 	[super didReceiveMemoryWarning];
 	// Dispose of any resources that can be recreated.
 }
-- (IBAction)doStuff:(id)sender {
+- (IBAction)runBenchmark:(id)sender {
 	/*HTML_Parser *parser = [[HTML_Parser alloc]init];
 	 [self totalRuntimeForMethod:@"Obj-C Parser" block:^{
 	 [parser parseHTML:testHTML];
@@ -80,12 +57,14 @@
 	
 	FormatToAttributedString * formatter = [[FormatToAttributedString alloc]init];
 	[self totalRuntimeForMethod:@"C Parser" block:^{
-		UITextView *textView = [[UITextView alloc]initWithFrame:self.view.frame textContainer:nil];
+		[formatter attributedStringForHTML:testHTML];
+		
+		/*UITextView *textView = [[UITextView alloc]initWithFrame:self.view.frame textContainer:nil];
 		[self.view addSubview:textView];
 		textView.attributedText = [formatter attributedStringForHTML:testHTML];
 		[textView layoutSubviews];
 		
-		[textView removeFromSuperview];
+		[textView removeFromSuperview];*/
 		
 	}];
 	

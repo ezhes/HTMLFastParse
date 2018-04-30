@@ -34,7 +34,17 @@ NSMutableParagraphStyle *quoteParagraphStyle2;
 NSMutableParagraphStyle *quoteParagraphStyle3;
 NSMutableParagraphStyle *quoteParagraphStyle4;
 
+//The most basic text font size
+CGFloat baseFontSize;
+
 float quotePadding = 20.0;
+
+
+/**
+ Create a new Formatter
+
+ @return self
+ */
 -(id)init {
 	self = [super init];
 	//Configure out colors
@@ -53,19 +63,35 @@ float quotePadding = 20.0;
 	return self;
 }
 
+
+/**
+ Initilize and cache high frquency fonts, colors, and other styles
+ */
 -(void)prepareFonts {
-	plainFont = [UIFont fontWithName:standardFontName size:UIFont.systemFontSize];
-	boldFont = [UIFont fontWithName:boldFontName size:UIFont.systemFontSize];
-	italicsFont = [UIFont fontWithName:italicFontName size:UIFont.systemFontSize];
-	italicsBoldFont = [UIFont fontWithName:italicsBoldFontName size:UIFont.systemFontSize];
-	codeFont = [UIFont fontWithName:codeFontName size:UIFont.systemFontSize];
+	//Get the user's prefered fontsize from the system and use that as the base
+	baseFontSize = [UIFont preferredFontForTextStyle:UIFontTextStyleBody].pointSize;
 	
+	plainFont = [UIFont fontWithName:standardFontName size:baseFontSize];
+	boldFont = [UIFont fontWithName:boldFontName size:baseFontSize];
+	italicsFont = [UIFont fontWithName:italicFontName size:baseFontSize];
+	italicsBoldFont = [UIFont fontWithName:italicsBoldFontName size:baseFontSize];
+	codeFont = [UIFont fontWithName:codeFontName size:baseFontSize];
+	
+	//Cache high frequency quote depths (1-4), after these they'll be dynamically generated
 	quoteParagraphStyle1 = [self generateParagraphStyleAtLevel:1];
 	quoteParagraphStyle2 = [self generateParagraphStyleAtLevel:2];
 	quoteParagraphStyle3 = [self generateParagraphStyleAtLevel:3];
 	quoteParagraphStyle4 = [self generateParagraphStyleAtLevel:4];
 }
 
+
+/**
+ Generate an indented "style"
+ This is used for quote formatting
+
+ @param depth The depth * `quotePadding` is the amount of indent that will be used. Zero means no indent
+ @return A paragraph style object usuable in attribution
+ */
 -(NSMutableParagraphStyle *)generateParagraphStyleAtLevel:(int)depth {
 	NSMutableParagraphStyle *quoteParagraphStyle = [[NSMutableParagraphStyle alloc]init];
 	CGFloat levelQuoteIndentPadding = quotePadding * depth;
@@ -74,6 +100,14 @@ float quotePadding = 20.0;
 	[quoteParagraphStyle setTailIndent:-levelQuoteIndentPadding];
 	return quoteParagraphStyle;
 }
+
+
+/**
+ Attribute a string of HTML using HTMLFastParse
+
+ @param htmlInput The HTML to attribute
+ @return The attributed string
+ */
 -(NSAttributedString *)attributedStringForHTML:(NSString *)htmlInput {
 	char* input = (char*)[htmlInput UTF8String];
 	unsigned long inputLength = strlen(input);
@@ -100,14 +134,20 @@ float quotePadding = 20.0;
 	
 	
 	
-	free(displayText);
-	
 	//Free and get ready to return
+	free(displayText);
 	free(tokens);
 	free(finalTokens);
 	return answer;
 }
 
+
+/**
+ Add the attributes to a given attributed string based on a t_format specifier
+
+ @param string The mutable attributed string to work on
+ @param format The styles to apply (with range data stuffed!)
+ */
 -(void)addAttributeToString:(NSMutableAttributedString *)string forFormat:(struct t_format)format {
 	//This is the range of the style
 	NSRange currentRange = NSMakeRange(format.startPosition, format.endPosition-format.startPosition);
@@ -122,6 +162,7 @@ float quotePadding = 20.0;
 	
 	if (format.quoteLevel > 0) {
 		NSMutableParagraphStyle *quoteParagraphStyle;
+		//We have the first four cached and after that we'll dynamically generate
 		switch (format.quoteLevel) {
 			case 1:
 				quoteParagraphStyle = quoteParagraphStyle1;
@@ -169,10 +210,11 @@ float quotePadding = 20.0;
 			[string addAttribute:NSFontAttributeName value:italicsFont range:currentRange];
 		}
 	}else {
-		//Apply the dynamic font
-		CGFloat fontSize = UIFont.systemFontSize;
+		//We need to generate a dynamic font since at least one of the attributes changes the font size.
+		CGFloat fontSize = baseFontSize;
 		//Handle H#
 		if (format.hLevel > 0) {
+			//Reddit only supports 1-6, so that's all that's been implmented
 			switch (format.hLevel) {
 				case 0:
 					break;
@@ -195,6 +237,7 @@ float quotePadding = 20.0;
 					fontSize *= 0.75;
 					break;
 				default:
+					//Unexpcted position, so we're not going to apply this style
 					NSLog(@"Unknown HLevel");
 					break;
 			}
@@ -207,6 +250,7 @@ float quotePadding = 20.0;
 		
 		
 		UIFont *customFont;
+		/* NOTE: USE fontWithSize: and NOT font descriptors because https://stackoverflow.com/q/34954956/1166266 */
 		if (format.isBold == 0 && format.isItalics == 0) {
 			//Plain text
 			customFont = [plainFont fontWithSize:fontSize];

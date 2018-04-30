@@ -16,15 +16,44 @@
 #include "Stack.h"
 #include "entities.h"
 
-#define printf //printf
+//Disable printf
+#define printf(fmt, ...) (0)
+
+//Enable reddit tune. Comment this out to remove them
+#define reddit_mode 1;
+
+
+/**
+ Get the number of bytes that a given charachter will use when displayed (multi-byte unicode charachters need to be handled like this because NSString counts multi-byte chars as single charachters while C does not obviously)
+ 
+ @param charachter The charachter
+ @return A value between 0-1 if that charachter is valid
+ */
+int getVisibleByteEffectForCharachter(char charachter) {
+	int firstHighBit = (charachter & 0x80);
+	if (firstHighBit == 0x0) {
+		//Regular ASCII
+		return 1;
+	}else {
+		int secondHighBit = ((charachter << 1) & 0x80);
+		if (secondHighBit == 0x0) {
+			//Additional byte charachter (10xxxxxx charachter). Not visible
+			return 0;
+		}else {
+			//This is the start of a multibyte charachter, count it
+			return 1;
+		}
+		
+	}
+}
 
 /**
  Tockenize and extract tag info from the input and then output the cleaned string alongisde a tag array with relevant position info
-
+ 
  @param input Input text as a char array
- @param inputLength The number of charachters to read, excluding the null byte!
+ @param inputLength The number of charachters (as bytes) to read, excluding the null byte!
  @param displayText The char array to write the clean, display text to
- @param completedTags (returned) The array to write the t_format structs to (provides position and tag info)
+ @param completedTags (returned) The array to write the t_format structs to (provides position and tag info). Tags positions are CHARACHTER relative, not byte relative! Usable in NSAttributedString etc
  @param numberOfTags (returned) The number of tags discovered
  */
 void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_tag completedTags[], int* numberOfTags) {
@@ -47,6 +76,10 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 	int htmlEntityCopyPosition = 0;
 	
 	int stringCopyPosition = 0;
+	//Used for applying tokens, DO NOT USE FOR MEMORY WORK. This is used because NSString handles multibyte charachters as single charachters and not as multiple like we have to
+	int stringVisiblePosition = 0;
+	
+	char previous = 0x00;
 	
 	for (int i = 0; i < inputLength; i++) {
 		char current = input[i];
@@ -57,7 +90,7 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 			//If there's a next charachter (data validation) and it's NOT '/' (i.e. we're an open tag) we want to create a new formatter on the stack
 			if (i+1 < inputLength && input[i+1] != '/') {
 				struct t_tag format;
-				format.startPosition = stringCopyPosition;
+				format.startPosition = stringVisiblePosition;
 				push(htmlTags,format);
 			}
 			
@@ -71,7 +104,7 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 			if (tagNameBuffer[0] == '/') {
 				//We are a closing tag, commit
 				struct t_tag format = *pop(htmlTags);
-				format.endPosition = stringCopyPosition;
+				format.endPosition = stringVisiblePosition;
 				completedTags[completedTagsPosition] = format;
 				completedTagsPosition++;
 			}
@@ -84,8 +117,11 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 				if (strncmp(tagNameBuffer, "br/", 3) == 0) {
 					//We're a <br/> tag, drop a new line into the actual text and remove the tag
 					//IGNORE THESE WHEN USING THE REDDIT MODE because Reddit already sends a new line after <br/> tags so it's duplicated in effect
-					/*displayText[stringCopyPosition] = '\n';
-					/stringCopyPosition++;*/
+					#ifndef reddit_mode
+					displayText[stringCopyPosition] = '\n';
+					stringCopyPosition++;
+					stringVisiblePosition++;
+					#endif
 				}else {
 					//We're not a known case, add the tag into the extracted tag array
 					long tagNameLength = (tagNameCopyPosition + 1) * sizeof(char);
@@ -93,8 +129,8 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 					strncpy(newTagBuffer,tagNameBuffer,tagNameLength);
 					
 					format.tag = newTagBuffer;
-					format.startPosition = stringCopyPosition;
-					format.endPosition = stringCopyPosition;
+					format.startPosition = stringVisiblePosition;
+					format.endPosition = stringVisiblePosition;
 					
 					completedTags[completedTagsPosition] = format;
 					completedTagsPosition++;
@@ -125,7 +161,19 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 			htmlEntityBuffer[htmlEntityCopyPosition] = 0x00;
 			htmlEntityCopyPosition++;
 			
-			stringCopyPosition += decode_html_entities_utf8(&displayText[stringCopyPosition], htmlEntityBuffer);
+			//Are we decoding into a tag (i.e. into the url portion of <a href='http://test/forks?t=yes&f=no'/>
+			if (isInTag) {
+				//Yes!
+				size_t numberDecodedBytes = decode_html_entities_utf8(&tagNameBuffer[tagNameCopyPosition], htmlEntityBuffer);
+				tagNameCopyPosition += numberDecodedBytes;
+			}else {
+				//Expand into regular text
+				size_t numberDecodedBytes = decode_html_entities_utf8(&displayText[stringCopyPosition], htmlEntityBuffer);
+				stringVisiblePosition += getVisibleByteEffectForCharachter(displayText[stringCopyPosition]);
+				stringCopyPosition += numberDecodedBytes;
+			}
+			
+			
 		}else {
 			if (isInTag) {
 				tagNameBuffer[tagNameCopyPosition] = current;
@@ -134,8 +182,20 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 				htmlEntityBuffer[htmlEntityCopyPosition] = current;
 				htmlEntityCopyPosition++;
 			}else {
-				displayText[stringCopyPosition] = current;
-				stringCopyPosition++;
+				
+				//Don't allow double new lines (thanks redddit for sending these?)
+				//This messes up quote formatting
+				#ifdef reddit_mode
+				if (current != '\n' || previous != '\n') {
+				#endif
+					previous = current;
+					displayText[stringCopyPosition] = current;
+					stringVisiblePosition+=getVisibleByteEffectForCharachter(current);
+					stringCopyPosition++;
+				#ifdef reddit_mode
+				}
+				#endif
+				
 			}
 		}
 	}
@@ -152,7 +212,6 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 	//Now print out all tags
 	
 	for (int i = 0; i < completedTagsPosition; i++) {
-		struct t_tag inTag = completedTags[i];
 		printf("TAG: %s starts at %i ends at %i\n",inTag.tag,inTag.startPosition,inTag.endPosition);
 	}
 	*numberOfTags = completedTagsPosition;
@@ -169,7 +228,7 @@ void print_t_format(struct t_format format) {
 
 /**
  Compare two t_formats. Returns 0 for the same, 1 if different in anyway
-
+ 
  @param format1 The first t_format struct
  @param format2 The second t_format struct
  @return 0 or 1
@@ -189,7 +248,7 @@ int t_format_cmp(struct t_format format1,struct t_format format2) {
 		return 1;
 	}else if (format1.hLevel != format2.hLevel) {
 		return 1;
-	//Are both linkURLs non-null? are they the different?
+		//Are both linkURLs non-null? are they the different?
 	}else if (format1.linkURL != format2.linkURL || ((format1.linkURL != NULL && format2.linkURL == NULL) || (format2.linkURL != NULL && format1.linkURL == NULL)) || (format1.linkURL != NULL && format2.linkURL != NULL && strcmp(format1.linkURL, format2.linkURL) != 0)) {
 		return 1;
 	}else {
@@ -197,9 +256,10 @@ int t_format_cmp(struct t_format format1,struct t_format format2) {
 	}
 }
 
+
 /**
  Takes in overlapping t_format tags and simplifies them into 1D range suitable for use in NSAttributedString. Destroys inputTags in the process!
-
+ 
  @param inputTags Overlapping tags buffer (given by tokenizeHTML)
  @param numberOfInputTags The number of inputTags
  @param simplifiedTags (return) Simplified tags buffer (return value)
