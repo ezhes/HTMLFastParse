@@ -29,13 +29,13 @@
  @param charachter The charachter
  @return A value between 0-1 if that charachter is valid
  */
-int getVisibleByteEffectForCharachter(char charachter) {
+int getVisibleByteEffectForCharachter(unsigned char charachter) {
 	int firstHighBit = (charachter & 0x80);
 	if (firstHighBit == 0x0) {
 		//Regular ASCII
 		return 1;
 	}else {
-		int secondHighBit = ((charachter << 1) & 0x80);
+		char secondHighBit = ((charachter << 1) & 0x80);
 		if (secondHighBit == 0x0) {
 			//Additional byte charachter (10xxxxxx charachter). Not visible
 			return 0;
@@ -142,6 +142,7 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 				//We've ended the tag definition, so pull the tag from the buffer and push that on to the stack
 				long tagNameLength = (tagNameCopyPosition + 1) * sizeof(char);
 				char *newTagBuffer = malloc(tagNameLength);
+				memset(newTagBuffer, 0x0, tagNameLength);
 				strncpy(newTagBuffer,tagNameBuffer,tagNameLength);
 				struct t_tag format = *pop(htmlTags);
 				format.tag = newTagBuffer;
@@ -212,6 +213,7 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 	//Now print out all tags
 	
 	for (int i = 0; i < completedTagsPosition; i++) {
+		struct t_tag inTag = completedTags[i];
 		printf("TAG: %s starts at %i ends at %i\n",inTag.tag,inTag.startPosition,inTag.endPosition);
 	}
 	*numberOfTags = completedTagsPosition;
@@ -268,16 +270,20 @@ int t_format_cmp(struct t_format format1,struct t_format format2) {
  */
 void makeAttributesLinear(struct t_tag inputTags[], int numberOfInputTags, struct t_format simplifiedTags[], int* numberOfSimplifiedTags, int displayTextLength) {
 	//Create our state array
-	struct t_format displayTextFormat[displayTextLength];
+	size_t bufferSize = displayTextLength * sizeof(struct t_format);
+	struct t_format *displayTextFormat = malloc(bufferSize);
 	//Init everything to zero in a single pass memory zero
-	memset(&displayTextFormat, 0, sizeof(displayTextFormat));
+	memset(displayTextFormat, 0, bufferSize);
+	
 	
 	//Apply format from each tag
 	for (int i = 0; i < numberOfInputTags; i++) {
 		struct t_tag tag = inputTags[i];
 		char* tagText = tag.tag;
 		
-		if (strncmp(tagText, "strong", 6) == 0) {
+		if (tagText == NULL) {
+			printf("NULL TAG TEXT?? SKIPPING!");
+		}else if (strncmp(tagText, "strong", 6) == 0) {
 			//Apply bold to all
 			for (int j = tag.startPosition; j < tag.endPosition; j++) {
 				displayTextFormat[j].isBold = 1;
@@ -332,6 +338,11 @@ void makeAttributesLinear(struct t_tag inputTags[], int numberOfInputTags, struc
 				displayTextFormat[j].linkURL = url;
 			}
 			
+			//If we never got into the loop above (and so url is never stored else where), free it now.
+			if (tag.endPosition - tag.startPosition <= 0) {
+				free(url);
+			}
+			
 		}else {
 			printf("Unknown tag: %s\n",tagText);
 		}
@@ -339,10 +350,11 @@ void makeAttributesLinear(struct t_tag inputTags[], int numberOfInputTags, struc
 		
 		//Destroy inputTags data as warned
 		free(tag.tag);
+		tag.tag = NULL;
 	}
 	
-	for (int i = 1; i < displayTextLength; i++) {
-		print_t_format(displayTextFormat[i]);
+	for (int i = 0; i < displayTextLength; i++) {
+		//print_t_format(displayTextFormat[i]);
 	}
 	printf("--------\n");
 	
@@ -368,15 +380,18 @@ void makeAttributesLinear(struct t_tag inputTags[], int numberOfInputTags, struc
 	}
 	
 	//and commit the final style
-	displayTextFormat[displayTextLength-1].startPosition = activeStyleStart;
-	displayTextFormat[displayTextLength-1].endPosition = displayTextLength;
-	simplifiedTags[*numberOfSimplifiedTags] = displayTextFormat[displayTextLength-1];
-	if (displayTextFormat[displayTextLength-1].linkURL) {
-		simplifiedTags[*numberOfSimplifiedTags].linkURL = malloc(strlen(displayTextFormat[displayTextLength-1].linkURL) + 1);
-		memcpy(simplifiedTags[*numberOfSimplifiedTags].linkURL, displayTextFormat[displayTextLength-1].linkURL, strlen(displayTextFormat[displayTextLength-1].linkURL) + 1);
+	//We need to make sure we have displayed text otherwise we over/underflow here
+	if (displayTextLength > 0) {
+		displayTextFormat[displayTextLength-1].startPosition = activeStyleStart;
+		displayTextFormat[displayTextLength-1].endPosition = displayTextLength;
+		simplifiedTags[*numberOfSimplifiedTags] = displayTextFormat[displayTextLength-1];
+		if (displayTextFormat[displayTextLength-1].linkURL) {
+			simplifiedTags[*numberOfSimplifiedTags].linkURL = malloc(strlen(displayTextFormat[displayTextLength-1].linkURL) + 1);
+			memcpy(simplifiedTags[*numberOfSimplifiedTags].linkURL, displayTextFormat[displayTextLength-1].linkURL, strlen(displayTextFormat[displayTextLength-1].linkURL) + 1);
+		}
+		print_t_format(displayTextFormat[displayTextLength-1]);
+		*numberOfSimplifiedTags+=1;
 	}
-	print_t_format(displayTextFormat[displayTextLength-1]);
-	*numberOfSimplifiedTags+=1;
 	
 	//now free
 	for (int i = 0; i < displayTextLength; i++) {
@@ -387,4 +402,6 @@ void makeAttributesLinear(struct t_tag inputTags[], int numberOfInputTags, struc
 			displayTextFormat[i].linkURL = NULL;
 		}
 	}
+	
+	free(displayTextFormat);
 }
