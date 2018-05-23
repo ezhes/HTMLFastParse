@@ -35,15 +35,21 @@ int getVisibleByteEffectForCharachter(unsigned char charachter) {
 		//Regular ASCII
 		return 1;
 	}else {
-		char secondHighBit = ((charachter << 1) & 0x80);
+		unsigned char secondHighBit = ((charachter << 1) & 0x80);
 		if (secondHighBit == 0x0) {
 			//Additional byte charachter (10xxxxxx charachter). Not visible
 			return 0;
 		}else {
-			//This is the start of a multibyte charachter, count it
-			return 1;
+			//This is the start of a multibyte charachter, count it (1+)
+			unsigned char fourByteTest = charachter & 0b11110000;
+			if (fourByteTest == 0b11110000) {
+				//Patch for apple's weirdness with four byte charachters (they're counted as two visible? WHY?!?!?)
+				return 2;
+			}else {
+				//We're multibyte but not a four byte which requires the patch, count normally
+				return 1;
+			}
 		}
-		
 	}
 }
 
@@ -56,7 +62,7 @@ int getVisibleByteEffectForCharachter(unsigned char charachter) {
  @param completedTags (returned) The array to write the t_format structs to (provides position and tag info). Tags positions are CHARACHTER relative, not byte relative! Usable in NSAttributedString etc
  @param numberOfTags (returned) The number of tags discovered
  */
-void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_tag completedTags[], int* numberOfTags) {
+void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_tag completedTags[], int* numberOfTags, int* numberOfHumanVisibleCharachters) {
 	//A stack used for processing tags
 	struct Stack* htmlTags = createStack((int)inputLength);
 	//Completed / filled tags
@@ -117,11 +123,11 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 				if (strncmp(tagNameBuffer, "br/", 3) == 0) {
 					//We're a <br/> tag, drop a new line into the actual text and remove the tag
 					//IGNORE THESE WHEN USING THE REDDIT MODE because Reddit already sends a new line after <br/> tags so it's duplicated in effect
-					#ifndef reddit_mode
+#ifndef reddit_mode
 					displayText[stringCopyPosition] = '\n';
 					stringCopyPosition++;
 					stringVisiblePosition++;
-					#endif
+#endif
 				}else {
 					//We're not a known case, add the tag into the extracted tag array
 					long tagNameLength = (tagNameCopyPosition + 1) * sizeof(char);
@@ -186,16 +192,16 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 				
 				//Don't allow double new lines (thanks redddit for sending these?)
 				//This messes up quote formatting
-				#ifdef reddit_mode
+#ifdef reddit_mode
 				if (current != '\n' || previous != '\n') {
-				#endif
+#endif
 					previous = current;
 					displayText[stringCopyPosition] = current;
 					stringVisiblePosition+=getVisibleByteEffectForCharachter(current);
 					stringCopyPosition++;
-				#ifdef reddit_mode
+#ifdef reddit_mode
 				}
-				#endif
+#endif
 				
 			}
 		}
@@ -217,6 +223,7 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 		printf("TAG: %s starts at %i ends at %i\n",inTag.tag,inTag.startPosition,inTag.endPosition);
 	}
 	*numberOfTags = completedTagsPosition;
+	*numberOfHumanVisibleCharachters = stringVisiblePosition;
 	
 	//Release everything that's not necessary
 	prepareForFree(htmlTags);

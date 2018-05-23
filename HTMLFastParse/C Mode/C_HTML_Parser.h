@@ -13,7 +13,7 @@
 #include "t_tag.h"
 #include "t_format.h"
 
-void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_tag completedTags[], int* numberOfTags);
+void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_tag completedTags[], int* numberOfTags, int* numberOfHumanVisibleCharachters);
 void makeAttributesLinear(struct t_tag inputTags[], int numberOfInputTags, struct t_format simplifiedTags[], int* numberOfSimplifiedTags, int displayTextLength);
 
 #endif /* C_HTML_Parser_h */

@@ -24,6 +24,7 @@ UIFont *italicsBoldFont;
 UIFont *codeFont;
 
 
+UIColor *defaultFontColor;
 UIColor *codeFontColor;
 UIColor *containerBackgroundColor;
 UIColor *quoteFontColor;
@@ -42,16 +43,16 @@ float quotePadding = 20.0;
 
 /**
  Create a new Formatter
-
+ 
  @return self
  */
 -(id)init {
 	self = [super init];
 	//Configure out colors
-	
 	codeFontColor = [UIColor colorWithRed:255.0/255 green:0 blue:255.0/255 alpha:1];
 	containerBackgroundColor = [UIColor colorWithRed:242.0/255 green:242.0/255 blue:242.0/255 alpha:1];
 	quoteFontColor = [UIColor colorWithRed:119.0/255 green:119.0/255 blue:119.0/255 alpha:1];
+	defaultFontColor = [UIColor blackColor];
 	
 	//Prepare our common fonts once
 	standardFontName = @"Avenir-Light";
@@ -86,9 +87,19 @@ float quotePadding = 20.0;
 
 
 /**
+ Override the default font text color (by default this is black). This only needs to be called once
+ 
+ @param defaultColor The color to change it to
+ */
+-(void)setDefaultFontColor:(UIColor *)defaultColor {
+	defaultFontColor = defaultColor;
+}
+
+
+/**
  Generate an indented "style"
  This is used for quote formatting
-
+ 
  @param depth The depth * `quotePadding` is the amount of indent that will be used. Zero means no indent
  @return A paragraph style object usuable in attribution
  */
@@ -104,7 +115,7 @@ float quotePadding = 20.0;
 
 /**
  Attribute a string of HTML using HTMLFastParse
-
+ 
  @param htmlInput The HTML to attribute
  @return The attributed string
  */
@@ -116,11 +127,12 @@ float quotePadding = 20.0;
 	struct t_tag* tokens = malloc(inputLength * sizeof(struct t_tag));
 	
 	int numberOfTags = -1;
-	tokenizeHTML(input, inputLength, displayText,tokens,&numberOfTags);
+	int numberOfHumanVisibleCharachters = -1;
+	tokenizeHTML(input, inputLength, displayText,tokens,&numberOfTags,&numberOfHumanVisibleCharachters);
 	
 	struct t_format* finalTokens =  malloc(inputLength * sizeof(struct t_format));//&finalTokenBuffer[0];
 	int numberOfSimplifiedTags = -1;
-	makeAttributesLinear(tokens, (int)numberOfTags, finalTokens,&numberOfSimplifiedTags,(int)strlen(displayText));
+	makeAttributesLinear(tokens, (int)numberOfTags, finalTokens,&numberOfSimplifiedTags,numberOfHumanVisibleCharachters);
 	
 	//Now apply our linear attributes to our attributed string
 	NSMutableAttributedString *answer = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithUTF8String:displayText]];
@@ -134,6 +146,7 @@ float quotePadding = 20.0;
 	
 	
 	
+	
 	//Free and get ready to return
 	free(displayText);
 	free(tokens);
@@ -144,7 +157,7 @@ float quotePadding = 20.0;
 
 /**
  Add the attributes to a given attributed string based on a t_format specifier
-
+ 
  @param string The mutable attributed string to work on
  @param format The styles to apply (with range data stuffed!)
  */
@@ -245,7 +258,14 @@ float quotePadding = 20.0;
 		//Handle exponent
 		if (format.exponentLevel > 0) {
 			fontSize *= 0.75;
-			[string addAttribute:NSBaselineOffsetAttributeName value:[NSNumber numberWithFloat:format.exponentLevel*10] range:currentRange];
+			float baselineOffset;
+			if (format.exponentLevel < 3) {
+				baselineOffset = format.exponentLevel*10;
+			}else {
+				baselineOffset = 40;
+			}
+			
+			[string addAttribute:NSBaselineOffsetAttributeName value:[NSNumber numberWithFloat:baselineOffset] range:currentRange];
 		}
 		
 		
@@ -267,6 +287,10 @@ float quotePadding = 20.0;
 		
 		
 		[string addAttribute:NSFontAttributeName value:customFont range:currentRange];
+	}
+	
+	if (format.isCode == 0 && format.quoteLevel == 0) {
+		[string addAttribute:NSForegroundColorAttributeName value:defaultFontColor range:currentRange];
 	}
 }
 @end
