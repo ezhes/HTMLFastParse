@@ -243,22 +243,14 @@ void print_t_format(struct t_format format) {
  @return 0 or 1
  */
 int t_format_cmp(struct t_format format1,struct t_format format2) {
-	if (format1.isBold != format2.isBold) {
+	//Doubles are 8 bytes, which covers all the boolean properties and a tiny bit of the link pointer
+	//Tip from one of the LLVM people at WWDC`18
+	double format1Sum = *(((double*)&format1.isBold));
+	double format2Sum = *(((double*)&format2.isBold));
+	
+	if (format1Sum != format2Sum) {
 		return 1;
-	}else if (format1.isItalics != format2.isItalics) {
-		return 1;
-	}else if (format1.isStruck != format2.isStruck) {
-		return 1;
-	}else if (format1.isCode != format2.isCode) {
-		return 1;
-	}else if (format1.exponentLevel != format2.exponentLevel) {
-		return 1;
-	}else if (format1.quoteLevel != format2.quoteLevel) {
-		return 1;
-	}else if (format1.hLevel != format2.hLevel) {
-		return 1;
-		//Are both linkURLs non-null? are they the different?
-	}else if (format1.linkURL != format2.linkURL || ((format1.linkURL != NULL && format2.linkURL == NULL) || (format2.linkURL != NULL && format1.linkURL == NULL)) || (format1.linkURL != NULL && format2.linkURL != NULL && strcmp(format1.linkURL, format2.linkURL) != 0)) {
+	}if (format1.linkURL != format2.linkURL || ((format1.linkURL != NULL && format2.linkURL == NULL) || (format2.linkURL != NULL && format1.linkURL == NULL)) || (format1.linkURL != NULL && format2.linkURL != NULL && strcmp(format1.linkURL, format2.linkURL) != 0)) {
 		return 1;
 	}else {
 		return 0;
