@@ -71,13 +71,13 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 	
 	//Used to track if we are currently reading the label of an HTML tag
 	bool isInTag = false;
-	char tagNameCharArray[inputLength * sizeof(char)];
+	char *tagNameCharArray = malloc(inputLength * sizeof(char));
 	char *tagNameBuffer = &tagNameCharArray[0];//Hack to get our buffer on the stack because it's a very fast allocation
 	int tagNameCopyPosition = 0;
 	
 	//Used to track if we are currently reading an HTML entity
 	bool isInHTMLEntity = false;
-	char htmlEntityCharArray[inputLength * sizeof(char)];
+	char *htmlEntityCharArray = malloc(inputLength * sizeof(char));
 	char *htmlEntityBuffer = &htmlEntityCharArray[0];//Hack to get our buffer on the stack because it's a very fast allocation
 	int htmlEntityCopyPosition = 0;
 	
@@ -228,6 +228,8 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 	//Release everything that's not necessary
 	prepareForFree(htmlTags);
 	free(htmlTags);
+	free(tagNameCharArray);
+	free(htmlEntityCharArray);
 }
 
 void print_t_format(struct t_format format) {
