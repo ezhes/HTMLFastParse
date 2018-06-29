@@ -123,7 +123,7 @@ float quotePadding = 20.0;
 	char* input = (char*)[htmlInput UTF8String];
 	unsigned long inputLength = strlen(input);
 	
-	char* displayText = malloc(inputLength * sizeof(char));
+	char* displayText = malloc(inputLength * sizeof(char) + 1); //+1 for a null byte
 	struct t_tag* tokens = malloc(inputLength * sizeof(struct t_tag));
 	
 	int numberOfTags = -1;

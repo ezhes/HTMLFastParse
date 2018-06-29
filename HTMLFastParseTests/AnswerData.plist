@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NoTags</key>
+	<string>This text has no formatting applied to it{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7fa87fd0fe20&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}</string>
+	<key>PlainBoldItalicsCombo</key>
+	<string>Plain {
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7fcfbaf0d340&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}bold{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7fcfbaf0e5b0&gt; font-family: \&quot;Avenir-Heavy\&quot;; font-weight: bold; font-style: normal; font-size: 14.00pt&quot;;
+} again plain {
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7fcfbaf0d340&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}italics{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7fcfbaf0ebd0&gt; font-family: \&quot;Avenir-BookOblique\&quot;; font-weight: normal; font-style: italic; font-size: 14.00pt&quot;;
+} plain {
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7fcfbaf0d340&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}bold italic{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7fcfbaf0f0a0&gt; font-family: \&quot;Avenir-HeavyOblique\&quot;; font-weight: bold; font-style: italic; font-size: 14.00pt&quot;;
+}</string>
+	<key>BasicHeaders</key>
+	<string>H1{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7fc429c1b300&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 28.00pt&quot;;
+}
+Plain
+{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7fc429c18b90&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}H3{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7fc429c1b4b0&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 16.38pt&quot;;
+}</string>
+	<key>Link</key>
+	<string>LINK: {
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7fd76950c1a0&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}top posts{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7fd76950c1a0&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+    NSLink = &quot;https://np.reddit.com/r/wtfstockphotos/top/?sort=topamp&amp;;t=year&quot;;
+} NOT LINK{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7fd76950c1a0&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}</string>
+	<key>InlineCode</key>
+	<string>memcpy{
+    NSBackgroundColor = &quot;UIExtendedSRGBColorSpace 0.94902 0.94902 0.94902 1&quot;;
+    NSColor = &quot;UIExtendedSRGBColorSpace 1 0 1 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7fc76250fb30&gt; font-family: \&quot;Courier New\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+} and {
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7fc76250e3c0&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}memmove{
+    NSBackgroundColor = &quot;UIExtendedSRGBColorSpace 0.94902 0.94902 0.94902 1&quot;;
+    NSColor = &quot;UIExtendedSRGBColorSpace 1 0 1 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7fc76250fb30&gt; font-family: \&quot;Courier New\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+} should be portable everywhere. Copying to and from data indexed by a {
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7fc76250e3c0&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}char *{
+    NSBackgroundColor = &quot;UIExtendedSRGBColorSpace 0.94902 0.94902 0.94902 1&quot;;
+    NSColor = &quot;UIExtendedSRGBColorSpace 1 0 1 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7fc76250fb30&gt; font-family: \&quot;Courier New\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+} is too I think. Otherwise, use a union, because gcc explicitly allows it. No idea about clang.{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7fc76250e3c0&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}</string>
+	<key>Blockquote</key>
+	<string>Level0
+{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7f927640fb20&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}Level1
+{
+    NSColor = &quot;UIExtendedSRGBColorSpace 0.466667 0.466667 0.466667 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7f927640fb20&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+    NSParagraphStyle = &quot;Alignment 4, LineSpacing 0, ParagraphSpacing 0, ParagraphSpacingBefore 0, HeadIndent 20, TailIndent -20, FirstLineHeadIndent 20, LineHeight 0/0, LineHeightMultiple 0, LineBreakMode 0, Tabs (\n    28L,\n    56L,\n    84L,\n    112L,\n    140L,\n    168L,\n    196L,\n    224L,\n    252L,\n    280L,\n    308L,\n    336L\n), DefaultTabInterval 0, Blocks (\n), Lists (\n), BaseWritingDirection -1, HyphenationFactor 0, TighteningForTruncation NO, HeaderLevel 0&quot;;
+}Level2
+{
+    NSColor = &quot;UIExtendedSRGBColorSpace 0.466667 0.466667 0.466667 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7f927640fb20&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+    NSParagraphStyle = &quot;Alignment 4, LineSpacing 0, ParagraphSpacing 0, ParagraphSpacingBefore 0, HeadIndent 40, TailIndent -40, FirstLineHeadIndent 40, LineHeight 0/0, LineHeightMultiple 0, LineBreakMode 0, Tabs (\n    28L,\n    56L,\n    84L,\n    112L,\n    140L,\n    168L,\n    196L,\n    224L,\n    252L,\n    280L,\n    308L,\n    336L\n), DefaultTabInterval 0, Blocks (\n), Lists (\n), BaseWritingDirection -1, HyphenationFactor 0, TighteningForTruncation NO, HeaderLevel 0&quot;;
+}Level3
+Level3
+{
+    NSColor = &quot;UIExtendedSRGBColorSpace 0.466667 0.466667 0.466667 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7f927640fb20&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+    NSParagraphStyle = &quot;Alignment 4, LineSpacing 0, ParagraphSpacing 0, ParagraphSpacingBefore 0, HeadIndent 60, TailIndent -60, FirstLineHeadIndent 60, LineHeight 0/0, LineHeightMultiple 0, LineBreakMode 0, Tabs (\n    28L,\n    56L,\n    84L,\n    112L,\n    140L,\n    168L,\n    196L,\n    224L,\n    252L,\n    280L,\n    308L,\n    336L\n), DefaultTabInterval 0, Blocks (\n), Lists (\n), BaseWritingDirection -1, HyphenationFactor 0, TighteningForTruncation NO, HeaderLevel 0&quot;;
+}Level4
+{
+    NSColor = &quot;UIExtendedSRGBColorSpace 0.466667 0.466667 0.466667 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7f927640fb20&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+    NSParagraphStyle = &quot;Alignment 4, LineSpacing 0, ParagraphSpacing 0, ParagraphSpacingBefore 0, HeadIndent 80, TailIndent -80, FirstLineHeadIndent 80, LineHeight 0/0, LineHeightMultiple 0, LineBreakMode 0, Tabs (\n    28L,\n    56L,\n    84L,\n    112L,\n    140L,\n    168L,\n    196L,\n    224L,\n    252L,\n    280L,\n    308L,\n    336L\n), DefaultTabInterval 0, Blocks (\n), Lists (\n), BaseWritingDirection -1, HyphenationFactor 0, TighteningForTruncation NO, HeaderLevel 0&quot;;
+}Level 3
+{
+    NSColor = &quot;UIExtendedSRGBColorSpace 0.466667 0.466667 0.466667 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7f927640fb20&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+    NSParagraphStyle = &quot;Alignment 4, LineSpacing 0, ParagraphSpacing 0, ParagraphSpacingBefore 0, HeadIndent 60, TailIndent -60, FirstLineHeadIndent 60, LineHeight 0/0, LineHeightMultiple 0, LineBreakMode 0, Tabs (\n    28L,\n    56L,\n    84L,\n    112L,\n    140L,\n    168L,\n    196L,\n    224L,\n    252L,\n    280L,\n    308L,\n    336L\n), DefaultTabInterval 0, Blocks (\n), Lists (\n), BaseWritingDirection -1, HyphenationFactor 0, TighteningForTruncation NO, HeaderLevel 0&quot;;
+}Level 2
+{
+    NSColor = &quot;UIExtendedSRGBColorSpace 0.466667 0.466667 0.466667 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7f927640fb20&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+    NSParagraphStyle = &quot;Alignment 4, LineSpacing 0, ParagraphSpacing 0, ParagraphSpacingBefore 0, HeadIndent 40, TailIndent -40, FirstLineHeadIndent 40, LineHeight 0/0, LineHeightMultiple 0, LineBreakMode 0, Tabs (\n    28L,\n    56L,\n    84L,\n    112L,\n    140L,\n    168L,\n    196L,\n    224L,\n    252L,\n    280L,\n    308L,\n    336L\n), DefaultTabInterval 0, Blocks (\n), Lists (\n), BaseWritingDirection -1, HyphenationFactor 0, TighteningForTruncation NO, HeaderLevel 0&quot;;
+}Level 1
+{
+    NSColor = &quot;UIExtendedSRGBColorSpace 0.466667 0.466667 0.466667 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7f927640fb20&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+    NSParagraphStyle = &quot;Alignment 4, LineSpacing 0, ParagraphSpacing 0, ParagraphSpacingBefore 0, HeadIndent 20, TailIndent -20, FirstLineHeadIndent 20, LineHeight 0/0, LineHeightMultiple 0, LineBreakMode 0, Tabs (\n    28L,\n    56L,\n    84L,\n    112L,\n    140L,\n    168L,\n    196L,\n    224L,\n    252L,\n    280L,\n    308L,\n    336L\n), DefaultTabInterval 0, Blocks (\n), Lists (\n), BaseWritingDirection -1, HyphenationFactor 0, TighteningForTruncation NO, HeaderLevel 0&quot;;
+}Level 0
+{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7f927640fb20&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}</string>
+	<key>BlockCode</key>
+	<string>Not code
+{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7fda0490bf10&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}block of
+code 
+right &lt;&lt;
+here
+{
+    NSBackgroundColor = &quot;UIExtendedSRGBColorSpace 0.94902 0.94902 0.94902 1&quot;;
+    NSColor = &quot;UIExtendedSRGBColorSpace 1 0 1 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7fda0490b420&gt; font-family: \&quot;Courier New\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}</string>
+	<key>FormattingOnHeaders</key>
+	<string>Plain H2{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7f8a4d1069e0&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 21.00pt&quot;;
+}
+{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7f8a4ad0f990&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}H2 with italics{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7f8a4d106da0&gt; font-family: \&quot;Avenir-BookOblique\&quot;; font-weight: normal; font-style: italic; font-size: 21.00pt&quot;;
+}
+{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7f8a4ad0f990&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}H2 with bold{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7f8a4d106f50&gt; font-family: \&quot;Avenir-Heavy\&quot;; font-weight: bold; font-style: normal; font-size: 21.00pt&quot;;
+}
+{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7f8a4ad0f990&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}H2 with bold italics{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7f8a4d107470&gt; font-family: \&quot;Avenir-HeavyOblique\&quot;; font-weight: bold; font-style: italic; font-size: 21.00pt&quot;;
+}
+{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7f8a4ad0f990&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}H2 with link{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7f8a4d1069e0&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 21.00pt&quot;;
+    NSLink = &quot;http://reddit.com&quot;;
+}
+{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7f8a4ad0f990&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}H2 with {
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7f8a4d1069e0&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 21.00pt&quot;;
+}code{
+    NSBackgroundColor = &quot;UIExtendedSRGBColorSpace 0.94902 0.94902 0.94902 1&quot;;
+    NSColor = &quot;UIExtendedSRGBColorSpace 1 0 1 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7f8a4d100600&gt; font-family: \&quot;Courier New\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}
+{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7f8a4ad0f990&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}h2 in quote{
+    NSColor = &quot;UIExtendedSRGBColorSpace 0.466667 0.466667 0.466667 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7f8a4d1069e0&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 21.00pt&quot;;
+    NSParagraphStyle = &quot;Alignment 4, LineSpacing 0, ParagraphSpacing 0, ParagraphSpacingBefore 0, HeadIndent 20, TailIndent -20, FirstLineHeadIndent 20, LineHeight 0/0, LineHeightMultiple 0, LineBreakMode 0, Tabs (\n    28L,\n    56L,\n    84L,\n    112L,\n    140L,\n    168L,\n    196L,\n    224L,\n    252L,\n    280L,\n    308L,\n    336L\n), DefaultTabInterval 0, Blocks (\n), Lists (\n), BaseWritingDirection -1, HyphenationFactor 0, TighteningForTruncation NO, HeaderLevel 0&quot;;
+}
+{
+    NSColor = &quot;UIExtendedSRGBColorSpace 0.466667 0.466667 0.466667 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7f8a4ad0f990&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+    NSParagraphStyle = &quot;Alignment 4, LineSpacing 0, ParagraphSpacing 0, ParagraphSpacingBefore 0, HeadIndent 20, TailIndent -20, FirstLineHeadIndent 20, LineHeight 0/0, LineHeightMultiple 0, LineBreakMode 0, Tabs (\n    28L,\n    56L,\n    84L,\n    112L,\n    140L,\n    168L,\n    196L,\n    224L,\n    252L,\n    280L,\n    308L,\n    336L\n), DefaultTabInterval 0, Blocks (\n), Lists (\n), BaseWritingDirection -1, HyphenationFactor 0, TighteningForTruncation NO, HeaderLevel 0&quot;;
+}Struck H2{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7f8a4d1069e0&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 21.00pt&quot;;
+    NSStrikethrough = 1;
+}
+{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7f8a4ad0f990&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}</string>
+	<key>ClosingTagBeforeOpening</key>
+	<string>Closing before opening{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7fb4ff512640&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}</string>
+	<key>OpenedButNotClosedTag</key>
+	<string>Open but not closed em tag {
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7fbd3450c940&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}bold{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x7fbd3450cf60&gt; font-family: \&quot;Avenir-Heavy\&quot;; font-weight: bold; font-style: normal; font-size: 14.00pt&quot;;
+}</string>
+	<key>UnterminatedOpeningAndWithoutLabel</key>
+	<string>Test{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x614000054840&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}</string>
+	<key>TerminatingTagWithNoOpening</key>
+	<string>Test{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x614000064640&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}</string>
+	<key>TerminatingTagWithNoOpeningButLabel</key>
+	<string>TestFFFFFFFFFFFFFFFFFFFFFFF{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x614000064640&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}</string>
+	<key>TwoByteEmojiFormatter</key>
+	<string>Plain {
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x614000064640&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}bold, emoji: ®®®®®®®®®®®®®®®®®®®®®®®®®®®®®®®®®®®®®®®®®®®®®®®®®® still should be bold{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x614000064840&gt; font-family: \&quot;Avenir-Heavy\&quot;; font-weight: bold; font-style: normal; font-size: 14.00pt&quot;;
+}NOTBOLD{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x614000064640&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}</string>
+	<key>ThreeByteEmojiFormatter</key>
+	<string>Plain {
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x614000064640&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}bold, emoji: ✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅✅ still should be bold{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x614000064840&gt; font-family: \&quot;Avenir-Heavy\&quot;; font-weight: bold; font-style: normal; font-size: 14.00pt&quot;;
+}NOTBOLD{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x614000064640&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}</string>
+	<key>FourByteEmojiFormatter</key>
+	<string>Plain {
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x614000064840&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}bold, emoji: 🙎🙎🙎🙎🙎🙎🙎🙎🙎🙎🙎🙎🙎🙎🙎🙎🙎🙎🙎🙎🙎🙎🙎🙎🙎 still should be bold{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x614000064a40&gt; font-family: \&quot;Avenir-Heavy\&quot;; font-weight: bold; font-style: normal; font-size: 14.00pt&quot;;
+}NOTBOLD{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x614000064840&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}</string>
+	<key>BrokenManyByteEmojiFormatter</key>
+	<string>Plain {
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x614000054640&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}bold, emoji: 🇺🇸🇺🇸🇺🇸🇺🇸🇺🇸🇺🇸🇺🇸🇺🇸🇺🇸🇺🇸🇺🇸🇺🇸🇺 still should be bold{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x614000054840&gt; font-family: \&quot;Avenir-Heavy\&quot;; font-weight: bold; font-style: normal; font-size: 14.00pt&quot;;
+}NOTBOLD{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x614000054640&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}</string>
+	<key>UnicodeHeapOverFlowBadNSStringLength1</key>
+	<string>ด้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็็็ ด้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็็็ ด้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็็็็้้้้้้้้็็็็็้้้้้็็็็{
+    NSColor = &quot;UIExtendedGrayColorSpace 0 1&quot;;
+    NSFont = &quot;&lt;UICTFont: 0x614000064840&gt; font-family: \&quot;Avenir-Light\&quot;; font-weight: normal; font-style: normal; font-size: 14.00pt&quot;;
+}</string>
+</dict>
+</plist>

@@ -63,7 +63,7 @@ int getVisibleByteEffectForCharachter(unsigned char charachter) {
  @param numberOfTags (returned) The number of tags discovered
  */
 void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_tag completedTags[], int* numberOfTags, int* numberOfHumanVisibleCharachters) {
-	//A stack used for processing tags
+	//A stack used for processing tags. The stack size allocates space for x number of POINTERS. Ie this is not creating an overflow vulnerability AFAIK
 	struct Stack* htmlTags = createStack((int)inputLength);
 	//Completed / filled tags
 	//struct t_format completedTags[(int)inputLength];
@@ -96,6 +96,7 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 			//If there's a next charachter (data validation) and it's NOT '/' (i.e. we're an open tag) we want to create a new formatter on the stack
 			if (i+1 < inputLength && input[i+1] != '/') {
 				struct t_tag format;
+                format.tag = NULL;
 				format.startPosition = stringVisiblePosition;
 				push(htmlTags,format);
 			}
@@ -109,10 +110,14 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 			//Are we a closing HTML tag (i.e. the first character in our tag is a '/')
 			if (tagNameBuffer[0] == '/') {
 				//We are a closing tag, commit
-				struct t_tag format = *pop(htmlTags);
-				format.endPosition = stringVisiblePosition;
-				completedTags[completedTagsPosition] = format;
-				completedTagsPosition++;
+                struct t_tag* formatP = pop(htmlTags);
+                //Make sure we didn't get a NULL from popping an empty stack
+                if (formatP != 0) {
+                    struct t_tag format = *formatP;
+                    format.endPosition = stringVisiblePosition;
+                    completedTags[completedTagsPosition] = format;
+                    completedTagsPosition++;
+                }
 			}
 			//Are we a self closing tag like <br/> or <hr/>?
 			else if ((tagNameCopyPosition > 0 && tagNameBuffer[tagNameCopyPosition-1] == '/')) {
@@ -150,9 +155,14 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 				char *newTagBuffer = malloc(tagNameLength);
 				memset(newTagBuffer, 0x0, tagNameLength);
 				strncpy(newTagBuffer,tagNameBuffer,tagNameLength);
-				struct t_tag format = *pop(htmlTags);
-				format.tag = newTagBuffer;
-				push(htmlTags,format);
+                struct t_tag* formatP = pop(htmlTags);
+                //Make sure we didn't get a NULL from popping an empty stack
+                //If we end up failing here the text will be horribly mangled however "broken formatting" IMHO is better than a full crash or worse a sec issue
+                if (formatP != 0) {
+                    struct t_tag format = *formatP;
+                    format.tag = newTagBuffer;
+                    push(htmlTags,format);
+                }
 			}
 		}else if (current == '&') {
 			//We are starting an HTML entitiy;
@@ -206,14 +216,25 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 			}
 		}
 	}
+    
+    //Check if the last tag is incomplete (i.e. "blah blah <tag") so we can remove the unfinished tag from the stack
+    if (tagNameCopyPosition > 0) {
+        printf("!!! Found incomplete tag, popping and continuing...");
+        pop(htmlTags);
+    }
+    
 	//and now terminate our output.
 	displayText[stringCopyPosition] = 0x00;
 	
 	//Run through the unclosed tags so we can either process them and or free them
 	while (!isEmpty(htmlTags)) {
-		struct t_tag in = *pop(htmlTags);
-		printf("!!! UNCLOSED TAG: %s starts at %i ends at %i\n",in.tag,in.startPosition,in.endPosition);
-		free(in.tag);
+        struct t_tag* formatP = pop(htmlTags);
+        //Make sure we didn't get a NULL from popping an empty stack
+        if (formatP != NULL) {
+            struct t_tag in = *formatP;
+            printf("!!! UNCLOSED TAG: %s starts at %i ends at %i\n",in.tag,in.startPosition,in.endPosition);
+            free(in.tag);
+        }
 	}
 	
 	//Now print out all tags
