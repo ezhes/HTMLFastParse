@@ -71,13 +71,13 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 	
 	//Used to track if we are currently reading the label of an HTML tag
 	bool isInTag = false;
-	char *tagNameCharArray = malloc(inputLength * sizeof(char));
+	char *tagNameCharArray = malloc(inputLength * sizeof(char) + 1); //+1 for a null byte
 	char *tagNameBuffer = &tagNameCharArray[0];//Hack to get our buffer on the stack because it's a very fast allocation
 	int tagNameCopyPosition = 0;
 	
 	//Used to track if we are currently reading an HTML entity
 	bool isInHTMLEntity = false;
-	char *htmlEntityCharArray = malloc(inputLength * sizeof(char));
+	char *htmlEntityCharArray = malloc(inputLength * sizeof(char) + 1); //+1 for a null byte
 	char *htmlEntityBuffer = &htmlEntityCharArray[0];//Hack to get our buffer on the stack because it's a very fast allocation
 	int htmlEntityCopyPosition = 0;
 	
@@ -186,7 +186,12 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 			}else {
 				//Expand into regular text
 				size_t numberDecodedBytes = decode_html_entities_utf8(&displayText[stringCopyPosition], htmlEntityBuffer);
-				stringVisiblePosition += getVisibleByteEffectForCharachter(displayText[stringCopyPosition]);
+                for (unsigned long decodedI = 0; decodedI < numberDecodedBytes; decodedI++) {
+                    //Add the visual effect for each characher. This lets us also handle when decode sends back a tag it can't decode.
+                    //Also helpful incase we have codes which decode to multiple charachters, which could happen
+                    stringVisiblePosition += getVisibleByteEffectForCharachter(displayText[stringCopyPosition + decodedI]);
+                }
+				
 				stringCopyPosition += numberDecodedBytes;
 			}
 			
@@ -240,8 +245,11 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 	//Now print out all tags
 	
 	for (int i = 0; i < completedTagsPosition; i++) {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-variable"
 		struct t_tag inTag = completedTags[i];
 		printf("TAG: %s starts at %i ends at %i\n",inTag.tag,inTag.startPosition,inTag.endPosition);
+#pragma GCC diagnostic pop
 	}
 	*numberOfTags = completedTagsPosition;
 	*numberOfHumanVisibleCharachters = stringVisiblePosition;

@@ -16,6 +16,7 @@
 		22C2551C20E5A2610021BF7B /* entities.c in Sources */ = {isa = PBXBuildFile; fileRef = 22FC446D20952D6E0044980B /* entities.c */; };
 		22C2551D20E5A2610021BF7B /* C_HTML_Parser.c in Sources */ = {isa = PBXBuildFile; fileRef = 22C763F12093E5FF005B6E23 /* C_HTML_Parser.c */; };
 		22C2551E20E5A2610021BF7B /* Stack.c in Sources */ = {isa = PBXBuildFile; fileRef = 22C763E32093D488005B6E23 /* Stack.c */; };
+		22C2552220E7380F0021BF7B /* non_utf8_fuzzer_crash.txt in Resources */ = {isa = PBXBuildFile; fileRef = 22C2552120E7380F0021BF7B /* non_utf8_fuzzer_crash.txt */; };
 		22C763CC2093CD1B005B6E23 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C763CB2093CD1B005B6E23 /* AppDelegate.m */; };
 		22C763CF2093CD1B005B6E23 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C763CE2093CD1B005B6E23 /* ViewController.m */; };
 		22C763D22093CD1B005B6E23 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 22C763D02093CD1B005B6E23 /* Main.storyboard */; };
@@ -62,6 +63,7 @@
 		22C2551920E5A1620021BF7B /* FormatToAttributedStringMacOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormatToAttributedStringMacOS.h; sourceTree = "<group>"; };
 		22C2551A20E5A1620021BF7B /* FormatToAttributedStringMacOS.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormatToAttributedStringMacOS.m; sourceTree = "<group>"; };
 		22C2552020E5B0150021BF7B /* build_fast_parse_afl.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = build_fast_parse_afl.sh; sourceTree = "<group>"; };
+		22C2552120E7380F0021BF7B /* non_utf8_fuzzer_crash.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = non_utf8_fuzzer_crash.txt; sourceTree = "<group>"; };
 		22C763C72093CD1B005B6E23 /* HTMLFastParse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HTMLFastParse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22C763CA2093CD1B005B6E23 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		22C763CB2093CD1B005B6E23 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 		227D5BF720E5643500635BA2 /* HTMLFastParseTests */ = {
 			isa = PBXGroup;
 			children = (
+				22C2552120E7380F0021BF7B /* non_utf8_fuzzer_crash.txt */,
 				22C2550C20E59EFB0021BF7B /* 2MB_dev_random.txt */,
 				227D5BF820E5643500635BA2 /* HTMLFastParseTests.m */,
 				227D5BFA20E5643500635BA2 /* Info.plist */,
@@ -288,6 +291,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				22C2550720E56BAD0021BF7B /* AnswerData.plist in Resources */,
+				22C2552220E7380F0021BF7B /* non_utf8_fuzzer_crash.txt in Resources */,
 				227D5C0120E5648200635BA2 /* TestData.plist in Resources */,
 				22C2550D20E59EFB0021BF7B /* 2MB_dev_random.txt in Resources */,
 			);
@@ -417,8 +421,8 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XBKLZPN8YT;
-				GCC_OPTIMIZATION_LEVEL = fast;
-				GCC_VERSION = "/usr/local/bin/afl-clang";
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -432,7 +436,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XBKLZPN8YT;
-				GCC_VERSION = "/usr/local/bin/afl-clang";
+				GCC_VERSION = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -555,7 +559,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XBKLZPN8YT;
-				GCC_OPTIMIZATION_LEVEL = fast;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = HTMLFastParse/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (

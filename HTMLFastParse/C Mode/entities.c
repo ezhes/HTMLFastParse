@@ -337,7 +337,8 @@ static bool parse_entity(
 		unsigned long cp = strtoul(
 			current + (hex ? 3 : 2), &tail, hex ? 16 : 10);
 
-		bool fail = errno || tail != end || cp > UNICODE_MAX;
+        //                                                      do not allow nullbytes to be inserted via HTML entities 
+		bool fail = errno || tail != end || cp > UNICODE_MAX || cp == 0x0;
 		errno = errno_save;
 		if(fail) return 0;
 

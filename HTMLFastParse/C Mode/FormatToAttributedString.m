@@ -120,38 +120,47 @@ float quotePadding = 20.0;
  @return The attributed string
  */
 -(NSAttributedString *)attributedStringForHTML:(NSString *)htmlInput {
-	char* input = (char*)[htmlInput UTF8String];
-	unsigned long inputLength = strlen(input);
-	
-	char* displayText = malloc(inputLength * sizeof(char) + 1); //+1 for a null byte
-	struct t_tag* tokens = malloc(inputLength * sizeof(struct t_tag));
-	
-	int numberOfTags = -1;
-	int numberOfHumanVisibleCharachters = -1;
-	tokenizeHTML(input, inputLength, displayText,tokens,&numberOfTags,&numberOfHumanVisibleCharachters);
-	
-	struct t_format* finalTokens =  malloc(inputLength * sizeof(struct t_format));//&finalTokenBuffer[0];
-	int numberOfSimplifiedTags = -1;
-	makeAttributesLinear(tokens, (int)numberOfTags, finalTokens,&numberOfSimplifiedTags,numberOfHumanVisibleCharachters);
-	
-	//Now apply our linear attributes to our attributed string
-	NSMutableAttributedString *answer = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithUTF8String:displayText]];
-	//Set the whole thing to plain by default
-	[answer addAttribute:NSFontAttributeName value:plainFont range:NSMakeRange(0, answer.length)];
-	
-	for (int i = 0; i < numberOfSimplifiedTags; i++) {
-		[self addAttributeToString:answer forFormat:finalTokens[i]];
-		free(finalTokens[i].linkURL);
-	}
-	
-	
-	
-	
-	//Free and get ready to return
-	free(displayText);
-	free(tokens);
-	free(finalTokens);
-	return answer;
+    char* input = (char*)[htmlInput UTF8String];
+    if (input == nil) {
+        //Input can be null if htmlInput is also null or if it is not representable in UTF8. We are not going to bother parsing data which requires > 8bits per field because it can't fit in a char
+        return [[NSAttributedString alloc]initWithString:@"[HTMLFastParse Internal Error]: Either no data was sent to the parser or the data could not be decoded by the system. Please verify the API is being used correctly or report this at https://github.com/shusain93/HTMLFastParse/issues"];
+    }
+    unsigned long inputLength = strlen(input);
+    
+    char* displayText = malloc(inputLength * sizeof(char) + 1); //+1 for a null byte
+    struct t_tag* tokens = malloc(inputLength * sizeof(struct t_tag));
+    
+    int numberOfTags = -1;
+    int numberOfHumanVisibleCharachters = -1;
+    tokenizeHTML(input, inputLength, displayText,tokens,&numberOfTags,&numberOfHumanVisibleCharachters);
+    
+    struct t_format* finalTokens =  malloc(inputLength * sizeof(struct t_format));//&finalTokenBuffer[0];
+    int numberOfSimplifiedTags = -1;
+    makeAttributesLinear(tokens, (int)numberOfTags, finalTokens,&numberOfSimplifiedTags,numberOfHumanVisibleCharachters);
+    
+    //Now apply our linear attributes to our attributed string
+    NSMutableAttributedString *answer = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithUTF8String:displayText]];
+    //Set the whole thing to plain by default
+    [answer addAttribute:NSFontAttributeName value:plainFont range:NSMakeRange(0, answer.length)];
+    //Set the whole text background to clear by default so that when we override with code or quote we go back to normal
+    [answer addAttribute:NSBackgroundColorAttributeName value:[UIColor clearColor] range:NSMakeRange(0, answer.length)];
+    
+    //Only format the string if we are sure that everything will line up (if our calculated visible is not the same as attributed sees, everything will be broken and likely will cause a crash
+    if ([answer length] == numberOfHumanVisibleCharachters) {
+        for (int i = 0; i < numberOfSimplifiedTags; i++) {
+            [self addAttributeToString:answer forFormat:finalTokens[i]];
+            free(finalTokens[i].linkURL);
+        }
+    }else {
+        NSAttributedString *failureText = [[NSAttributedString alloc]initWithString:@"\n\n\n[HTMLFastParse Internal Error]: HFP detected an issue where NSAttributedString length and the calculated visible length are not equal. Please report this at https://github.com/shusain93/HTMLFastParse/issues"];
+        [answer appendAttributedString: failureText];
+    }
+    
+    //Free and get ready to return
+    free(displayText);
+    free(tokens);
+    free(finalTokens);
+    return answer;
 }
 
 
@@ -165,9 +174,12 @@ float quotePadding = 20.0;
 	//This is the range of the style
 	NSRange currentRange = NSMakeRange(format.startPosition, format.endPosition-format.startPosition);
 	
-	if (format.linkURL) {
-		[string addAttribute:NSLinkAttributeName value:[NSString stringWithUTF8String:format.linkURL] range:currentRange];
-	}
+    if (format.linkURL) {
+        NSString *nsLinkURL = [NSString stringWithUTF8String:format.linkURL];
+        if ([NSURL URLWithString:nsLinkURL] != nil) {
+            [string addAttribute:NSLinkAttributeName value: nsLinkURL range:currentRange];
+        }
+    }
 	
 	if (format.isStruck) {
 		[string addAttribute:NSStrikethroughStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:currentRange];

@@ -130,6 +130,10 @@ float quotePadding = 20.0;
  */
 -(NSAttributedString *)attributedStringForHTML:(NSString *)htmlInput {
     char* input = (char*)[htmlInput UTF8String];
+    if (input == nil) {
+        //Input can be null if htmlInput is also null or if it is not representable in UTF8. We are not going to bother parsing data which requires > 8bits per field because it can't fit in a char
+        return [[NSAttributedString alloc]initWithString:@"[HTMLFastParse Internal Error]: Either no data was sent to the parser or the data could not be decoded by the system. Please verify the API is being used correctly or report this at https://github.com/shusain93/HTMLFastParse/issues"];
+    }
     unsigned long inputLength = strlen(input);
     
     char* displayText = malloc(inputLength * sizeof(char) + 1); //+1 for a null byte
@@ -148,13 +152,16 @@ float quotePadding = 20.0;
     //Set the whole thing to plain by default
     [answer addAttribute:NSFontAttributeName value:plainFont range:NSMakeRange(0, answer.length)];
     
-    for (int i = 0; i < numberOfSimplifiedTags; i++) {
-        [self addAttributeToString:answer forFormat:finalTokens[i]];
-        free(finalTokens[i].linkURL);
+    //Only format the string if we are sure that everything will line up (if our calculated visible is not the same as attributed sees, everything will be broken and likely will cause a crash
+    if ([answer length] == numberOfHumanVisibleCharachters) {
+        for (int i = 0; i < numberOfSimplifiedTags; i++) {
+            [self addAttributeToString:answer forFormat:finalTokens[i]];
+            free(finalTokens[i].linkURL);
+        }
+    }else {
+        NSAttributedString *failureText = [[NSAttributedString alloc]initWithString:@"\n\n\n[HTMLFastParse Internal Error]: HFP detected an issue where NSAttributedString length and the calculated visible length are not equal. Please report this at https://github.com/shusain93/HTMLFastParse/issues"];
+        [answer appendAttributedString: failureText];
     }
-    
-    
-    
     
     //Free and get ready to return
     free(displayText);
@@ -175,7 +182,10 @@ float quotePadding = 20.0;
     NSRange currentRange = NSMakeRange(format.startPosition, format.endPosition-format.startPosition);
     
     if (format.linkURL) {
-        [string addAttribute:NSLinkAttributeName value:[NSString stringWithUTF8String:format.linkURL] range:currentRange];
+        NSString *nsLinkURL = [NSString stringWithUTF8String:format.linkURL];
+        if ([NSURL URLWithString:nsLinkURL] != nil) {
+            [string addAttribute:NSLinkAttributeName value: nsLinkURL range:currentRange];
+        }
     }
     
     if (format.isStruck) {

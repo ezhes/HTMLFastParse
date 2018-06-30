@@ -32,7 +32,7 @@
     BOOL areEqual = [answer isEqualToString:outputDescription];
     if (areEqual == false) {
         NSLog(@"OUTPUT: %@",outputDescription);
-        NSLog(@"ANSWER: %@",answer);
+        //NSLog(@"ANSWER: %@",answer);
     }
     return areEqual;
 }
@@ -47,12 +47,28 @@
     }
 }
 
+/**
+ Regenerate the answer data from the test cases defined in TestData (but used in the existing Answer plist)
+ This is useful if you KNOW!!! all your unit tests are already passing but you now need to change some major formatting that effects everything (system font, etc)
+ */
+-(void)generateAnswerData {
+    NSMutableDictionary *answerDataNew = [[NSMutableDictionary alloc]init];
+    for (NSString* key in _answerData.allKeys) {
+        FormatToAttributedString * formatter = [[FormatToAttributedString alloc]init];
+        NSAttributedString *output = [formatter attributedStringForHTML:_testData[key]];
+        [answerDataNew setObject:[output debugDescription] forKey:key];
+    }
+    
+    [answerDataNew writeToFile:@"/tmp/AnswerData.plist" atomically:YES];
+}
+
 - (void)setUp {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
     _testData = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]]pathForResource:@"TestData" ofType:@"plist"]];
     _answerData = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]]pathForResource:@"AnswerData" ofType:@"plist"]];
-    [self generateTestCodeFromAnswerData];
+    //[self generateTestCodeFromAnswerData];
+    //[self generateAnswerData];
 }
 
 - (void)tearDown {
@@ -63,73 +79,95 @@
 
 /*
  AUTO GENERATED QUESTION ANSWER TESTS
+ 
+ THESE TESTS REQUIRE THE SIMULATOR TO BE ON THE REGULAR ACCESSIBILITY FONT SIZE, SORRY!
  */
--(void)testBasicHeaders {
-    XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"BasicHeaders"]);
+-(void)testBadURLDefinitionAFLCrash {
+    XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"BadURLDefinitionAFLCrash"]);
 }
 
--(void)testNoTags {
-    XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"NoTags"]);
-}
-
--(void)testTwoByteEmojiFormatter {
-    XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"TwoByteEmojiFormatter"]);
-}
-
--(void)testFormattingOnHeaders {
-    XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"FormattingOnHeaders"]);
-}
-
--(void)testBlockCode {
-    XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"BlockCode"]);
-}
-
--(void)testPlainBoldItalicsCombo {
-    XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"PlainBoldItalicsCombo"]);
-}
-
--(void)testUnterminatedOpeningAndWithoutLabel {
-    XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"UnterminatedOpeningAndWithoutLabel"]);
-}
-
--(void)testBrokenManyByteEmojiFormatter {
-    XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"BrokenManyByteEmojiFormatter"]);
-}
-
--(void)testBlockquote {
-    XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"Blockquote"]);
-}
-
--(void)testThreeByteEmojiFormatter {
-    XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"ThreeByteEmojiFormatter"]);
-}
-
--(void)testClosingTagBeforeOpening {
-    XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"ClosingTagBeforeOpening"]);
-}
-
--(void)testInlineCode {
-    XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"InlineCode"]);
+-(void)testHTMLEntityInsertsNullByte {
+    XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"HTMLEntityInsertsNullByte"]);
 }
 
 -(void)testLink {
     XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"Link"]);
 }
 
--(void)testOpenedButNotClosedTag {
-    XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"OpenedButNotClosedTag"]);
+-(void)testFourByteEmojiFormatter {
+    XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"FourByteEmojiFormatter"]);
+}
+
+-(void)testFormattingOnHeaders {
+    XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"FormattingOnHeaders"]);
+}
+
+-(void)testBasicHeaders {
+    XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"BasicHeaders"]);
+}
+
+-(void)testTwoByteEmojiFormatter {
+    XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"TwoByteEmojiFormatter"]);
+}
+
+-(void)testInlineCode {
+    XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"InlineCode"]);
+}
+
+-(void)testHTMLEntityDecode {
+    XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"HTMLEntityDecode"]);
 }
 
 -(void)testTerminatingTagWithNoOpening {
     XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"TerminatingTagWithNoOpening"]);
 }
 
+-(void)testBlockquote {
+    XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"Blockquote"]);
+}
+
+-(void)testUnicodeHeapOverFlowBadNSStringLength1 {
+    XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"UnicodeHeapOverFlowBadNSStringLength1"]);
+}
+
+-(void)testUnterminatedOpeningAndWithoutLabel {
+    XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"UnterminatedOpeningAndWithoutLabel"]);
+}
+
+-(void)testClosingTagBeforeOpening {
+    XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"ClosingTagBeforeOpening"]);
+}
+
+-(void)testThreeByteEmojiFormatter {
+    XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"ThreeByteEmojiFormatter"]);
+}
+
+-(void)testSoloHTMLEntityHeapOverflow {
+    XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"SoloHTMLEntityHeapOverflow"]);
+}
+
+-(void)testBrokenManyByteEmojiFormatter {
+    XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"BrokenManyByteEmojiFormatter"]);
+}
+
 -(void)testTerminatingTagWithNoOpeningButLabel {
     XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"TerminatingTagWithNoOpeningButLabel"]);
 }
 
--(void)testFourByteEmojiFormatter {
-    XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"FourByteEmojiFormatter"]);
+-(void)testBlockCode {
+    XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"BlockCode"]);
+}
+
+-(void)testOpenedButNotClosedTag {
+    XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"OpenedButNotClosedTag"]);
+}
+
+-(void)testNoTags {
+    XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"NoTags"]);
+}
+
+-(void)testPlainBoldItalicsCombo {
+    XCTAssert([self testAttributedFormatUsingDebugDescriptionKey:@"PlainBoldItalicsCombo"]);
 }
 
 /*
@@ -145,6 +183,19 @@
 #pragma GCC diagnostic pop
     NSAttributedString *output = [formatter attributedStringForHTML:testData];
     XCTAssert([output length] > 0);
+}
+
+-(void)testNonUTF8InputCrash {
+    //AFL found a weird bug where if the input cannot be converted to UTF8 (for whatever reason)
+    FormatToAttributedString * formatter = [[FormatToAttributedString alloc]init];
+    //Disable depreacted warning. This is important because obviously we can't open random garbage with an encoding because it doesn't have one. It will be nil if we try, so we open agnositcly and get a string of garbage
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+    NSString *testData = [NSString stringWithContentsOfFile:[[NSBundle bundleForClass:[self class]]pathForResource:@"non_utf8_fuzzer_crash" ofType:@"txt"]];
+#pragma GCC diagnostic pop
+    NSAttributedString *output = [formatter attributedStringForHTML:testData];
+    //We expect that unparsable data is replaced with a failure warning
+    XCTAssert([output length] == 231);
 }
 
 -(void)testVeryLongTag {
