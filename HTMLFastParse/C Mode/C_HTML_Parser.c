@@ -206,9 +206,10 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 			}else {
 				
 				//Don't allow double new lines (thanks redddit for sending these?)
+                //Don't allow just new lines (happens between blockquotes and p tags, again reddit issue)
 				//This messes up quote formatting
 #ifdef reddit_mode
-				if (current != '\n' || previous != '\n') {
+				if ((current != '\n' || previous != '\n') && (current != '\n' || stringVisiblePosition > 1 )) {
 #endif
 					previous = current;
 					displayText[stringCopyPosition] = current;
