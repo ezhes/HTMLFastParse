@@ -34,6 +34,7 @@ NSMutableParagraphStyle *quoteParagraphStyle1;
 NSMutableParagraphStyle *quoteParagraphStyle2;
 NSMutableParagraphStyle *quoteParagraphStyle3;
 NSMutableParagraphStyle *quoteParagraphStyle4;
+NSMutableParagraphStyle *defaultParagraphStyle;
 
 //The most basic text font size
 CGFloat baseFontSize;
@@ -83,6 +84,7 @@ float quotePadding = 20.0;
 	quoteParagraphStyle2 = [self generateParagraphStyleAtLevel:2];
 	quoteParagraphStyle3 = [self generateParagraphStyleAtLevel:3];
 	quoteParagraphStyle4 = [self generateParagraphStyleAtLevel:4];
+    defaultParagraphStyle = [self defaultParagraphStyle];
 }
 
 
@@ -106,10 +108,24 @@ float quotePadding = 20.0;
 -(NSMutableParagraphStyle *)generateParagraphStyleAtLevel:(int)depth {
 	NSMutableParagraphStyle *quoteParagraphStyle = [[NSMutableParagraphStyle alloc]init];
 	CGFloat levelQuoteIndentPadding = quotePadding * depth;
+    [quoteParagraphStyle setParagraphSpacing:plainFont.lineHeight/4];
 	[quoteParagraphStyle setHeadIndent:levelQuoteIndentPadding];
 	[quoteParagraphStyle setFirstLineHeadIndent:levelQuoteIndentPadding];
 	[quoteParagraphStyle setTailIndent:-levelQuoteIndentPadding];
 	return quoteParagraphStyle;
+}
+
+
+/**
+ Generate the default paragraph style which should be applied to all text
+
+ @return Default paragraph style
+ */
+-(NSMutableParagraphStyle *)defaultParagraphStyle {
+    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc]init];
+    [style setParagraphSpacing:plainFont.lineHeight/4];
+    
+    return style;
 }
 
 
@@ -140,11 +156,13 @@ float quotePadding = 20.0;
     
     //Now apply our linear attributes to our attributed string
     NSMutableAttributedString *answer = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithUTF8String:displayText]];
-    //Set the whole thing to plain by default
-    [answer addAttribute:NSFontAttributeName value:plainFont range:NSMakeRange(0, answer.length)];
-    //Set the whole text background to clear by default so that when we override with code or quote we go back to normal
-    [answer addAttribute:NSBackgroundColorAttributeName value:[UIColor clearColor] range:NSMakeRange(0, answer.length)];
-    
+
+    //Add our default attributes
+    [answer addAttributes:@{
+                            NSFontAttributeName : plainFont,
+                            NSParagraphStyleAttributeName : defaultParagraphStyle,
+                            NSBackgroundColorAttributeName : [UIColor clearColor]
+                            } range:NSMakeRange(0, answer.length)];
     //Only format the string if we are sure that everything will line up (if our calculated visible is not the same as attributed sees, everything will be broken and likely will cause a crash
     if ([answer length] == numberOfHumanVisibleCharachters) {
         for (int i = 0; i < numberOfSimplifiedTags; i++) {
