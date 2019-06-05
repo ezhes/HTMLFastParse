@@ -58,10 +58,6 @@ float quotePadding = 20.0;
     defaultFontColor = [UIColor blackColor];
     
     //Prepare our common fonts once
-    standardFontName = @"Avenir-Light";
-    boldFontName = @"Avenir-Heavy";
-    italicFontName = @"Avenir-BookOblique";
-    italicsBoldFontName = @"Avenir-HeavyOblique";
     codeFontName = @"CourierNewPSMT";
     [self prepareFonts];
     return self;
@@ -75,10 +71,16 @@ float quotePadding = 20.0;
     //Get the user's prefered fontsize from the system and use that as the base
     baseFontSize = [UIFont preferredFontForTextStyle:UIFontTextStyleBody].pointSize;
     
-    plainFont = [UIFont fontWithName:standardFontName size:baseFontSize];
-    boldFont = [UIFont fontWithName:boldFontName size:baseFontSize];
-    italicsFont = [UIFont fontWithName:italicFontName size:baseFontSize];
-    italicsBoldFont = [UIFont fontWithName:italicsBoldFontName size:baseFontSize];
+    UIFontDescriptor *fontDescriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleBody];
+    
+    
+    plainFont = [UIFont systemFontOfSize:baseFontSize weight:UIFontWeightRegular];
+    boldFont = [UIFont systemFontOfSize:baseFontSize weight:UIFontWeightBold];
+    italicsFont = [UIFont italicSystemFontOfSize:baseFontSize];
+    
+    UIFontDescriptor *boldItalicDescriptor = [fontDescriptor fontDescriptorWithSymbolicTraits:[fontDescriptor symbolicTraits] | UIFontDescriptorTraitBold | UIFontDescriptorTraitItalic];
+    italicsBoldFont = [UIFont fontWithDescriptor:boldItalicDescriptor size:baseFontSize];
+    
     codeFont = [UIFont fontWithName:codeFontName size:baseFontSize];
     
     //Cache high frequency quote depths (1-4), after these they'll be dynamically generated
