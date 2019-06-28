@@ -190,6 +190,7 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
                     }
                 }
 			}
+            tagNameCopyPosition = 0;
 		}else if (current == '&') {
 			//We are starting an HTML entitiy;
 			isInHTMLEntity = true;
