@@ -234,6 +234,10 @@ float quotePadding = 20.0;
         if ([NSURL URLWithString:nsLinkURL] != nil) {
             [string addAttribute:NSLinkAttributeName value: nsLinkURL range:currentRange];
             [string addAttribute:NSForegroundColorAttributeName value:linkColor range:currentRange];
+        }else {
+            //We wern't able to set the URL, so feed forward that we don't actually have a URL
+            //this shouldn't have any consequences w.r.t. memory freeing since **all** URLs in a t_format are attempted to free, regardless if they are nil (i.e. .linkURL isn't checked since free(0x0) is documented to have no effect).
+            format.linkURL = 0x00;
         }
     }
     
