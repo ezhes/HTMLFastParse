@@ -224,17 +224,18 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 			
 			
 		}else {
-			if (isInTag) {
-				tagNameBuffer[tagNameCopyPosition] = current;
-				tagNameCopyPosition++;
-			}else if (isInHTMLEntity) {
-				htmlEntityBuffer[htmlEntityCopyPosition] = current;
-				htmlEntityCopyPosition++;
-			}else {
-				
-				//Don't allow double new lines (thanks redddit for sending these?)
+            //copy in to the right buffer
+            //this is a priority list (i.e. decoding an entity before going in to a tag before going in to visible)
+            if (isInHTMLEntity) {
+                htmlEntityBuffer[htmlEntityCopyPosition] = current;
+                htmlEntityCopyPosition++;
+            } else if (isInTag) {
+                tagNameBuffer[tagNameCopyPosition] = current;
+                tagNameCopyPosition++;
+            } else {
+                //Don't allow double new lines (thanks redddit for sending these?)
                 //Don't allow just new lines (happens between blockquotes and p tags, again reddit issue)
-				//This messes up quote formatting
+                //This messes up quote formatting
 #ifdef reddit_mode
 				if ((current != '\n' || previous != '\n') && (current != '\n' || stringVisiblePosition > 1 )) {
 #endif
