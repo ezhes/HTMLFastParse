@@ -8,16 +8,30 @@
 
 #import <Foundation/Foundation.h>
 #import "FormatToAttributedStringMacOS.h"
-int main(int argc, const char * argv[]) {
+#ifdef DEBUG
+#else
+#include <libhfuzz/instrument.h>
+#endif
+
+extern void HF_ITER(uint8_t** buf, size_t* len);
+void dummyLogProc() { }
+
+__attribute__ ((optnone)) int main(int argc, const char * argv[]) {
     @autoreleasepool {
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-        NSString * test = @"test&#00000000;";//[NSString stringWithContentsOfFile:[NSString stringWithCString:argv[1]]];
-#pragma GCC diagnostic pop
         FormatToAttributedStringMacOS *fm = [[FormatToAttributedStringMacOS alloc]init];
-        NSAttributedString * formattedString = [fm attributedStringForHTML:test];
-        NSLog(@"Visible str: %@",[formattedString string]);
-        NSLog(@"Produced length: %lu",[formattedString length]);
+        size_t fuzzSize;
+        uint8_t* buffer;
+        
+        for (int i = 0; i < 100000; i++) {
+            #ifdef DEBUG
+            NSString *test = [[NSString alloc] initWithContentsOfFile:@"/Users/salman/Downloads/HTMLFastParse/HTMLFastParseFuzzingCli/SIGABRT.EXC_CRASH.PC.00007fff6eb8e33a.STACK.00000003b1377cb7.ADDR.0000000000000000.fuzz" encoding:NSUTF8StringEncoding error:nil];
+            #else
+            HF_ITER(&buffer, &fuzzSize);
+            NSString *test = [[NSString alloc] initWithBytes:buffer length:fuzzSize encoding:NSUTF8StringEncoding];
+            #endif
+            [fm attributedStringForHTML:test];
+        }
+
     }
     return 0;
 }

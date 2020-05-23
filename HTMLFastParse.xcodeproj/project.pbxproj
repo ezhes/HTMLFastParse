@@ -62,7 +62,6 @@
 		22C2551420E5A1260021BF7B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		22C2551920E5A1620021BF7B /* FormatToAttributedStringMacOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormatToAttributedStringMacOS.h; sourceTree = "<group>"; };
 		22C2551A20E5A1620021BF7B /* FormatToAttributedStringMacOS.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormatToAttributedStringMacOS.m; sourceTree = "<group>"; };
-		22C2552020E5B0150021BF7B /* build_fast_parse_afl.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = build_fast_parse_afl.sh; sourceTree = "<group>"; };
 		22C2552120E7380F0021BF7B /* non_utf8_fuzzer_crash.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = non_utf8_fuzzer_crash.txt; sourceTree = "<group>"; };
 		22C763C72093CD1B005B6E23 /* HTMLFastParse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HTMLFastParse.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22C763CA2093CD1B005B6E23 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -127,7 +126,6 @@
 		22C2551320E5A1260021BF7B /* HTMLFastParseFuzzingCli */ = {
 			isa = PBXGroup;
 			children = (
-				22C2552020E5B0150021BF7B /* build_fast_parse_afl.sh */,
 				22C2551420E5A1260021BF7B /* main.m */,
 				22C2551920E5A1620021BF7B /* FormatToAttributedStringMacOS.h */,
 				22C2551A20E5A1620021BF7B /* FormatToAttributedStringMacOS.m */,
