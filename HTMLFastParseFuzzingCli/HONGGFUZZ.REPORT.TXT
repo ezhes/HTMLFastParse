@@ -1,0 +1,510 @@
+=====================================================================
+TIME: 2020-06-01.01:08:03
+=====================================================================
+FUZZER ARGS:
+ mutationsPerRun : 5
+ externalCmd     : NULL
+ fuzzStdin       : FALSE
+ timeout         : 1 (sec)
+ ASLimit         : 0 (MiB)
+ RSSLimit        : 4096 (MiB)
+ DATALimit       : 0 (MiB)
+ wordlistFile    : NULL
+ fuzzTarget      : ./fuzz_target 
+ORIG_FNAME: 4a657d21193bf7e64a079be9311d5506.00000008.honggfuzz.cov
+FUZZ_FNAME: /Users/salman/Downloads/HTMLFastParse/HTMLFastParseFuzzingCli/SIGSEGV.EXC_BAD_ACCESS.PC.0000000118ecfe15.STACK.000000169ffc6a98.ADDR.0000640020678001.fuzz
+PID: 30508
+SIGNAL: SIGSEGV (11)
+EXCEPTION: EXC_BAD_ACCESS
+FAULT ADDRESS: 640020678001
+CRASH FRAME PC: 118ecfe15
+STACK HASH: 000000169ffc6a98
+STACK: 
+0   libclang_rt.asan_osx_dynamic.dylib	0x0000000118ecfe15 __sanitizer::internal_memmove(void*, void const*, unsigned long) + 1205
+1   libclang_rt.asan_osx_dynamic.dylib	0x0000000118e9048d wrap_memcpy + 1309
+2   fuzz_target                   	0x000000010fe168e4 tokenizeHTML + 4900
+3   fuzz_target                   	0x000000010fe132ee -[FormatToAttributedStringMacOS attributedStringForHTML:] + 430
+4   fuzz_target                   	0x000000010fe14a71 main + 609
+5   libdyld.dylib                 	0x00007fff6d789cc9 start + 1
+=====================================================================
+=====================================================================
+TIME: 2020-06-01.01:08:04
+=====================================================================
+FUZZER ARGS:
+ mutationsPerRun : 5
+ externalCmd     : NULL
+ fuzzStdin       : FALSE
+ timeout         : 1 (sec)
+ ASLimit         : 0 (MiB)
+ RSSLimit        : 4096 (MiB)
+ DATALimit       : 0 (MiB)
+ wordlistFile    : NULL
+ fuzzTarget      : ./fuzz_target 
+ORIG_FNAME: 4a657d21193bf7e64a079be9311d5506.00000008.honggfuzz.cov
+FUZZ_FNAME: /Users/salman/Downloads/HTMLFastParse/HTMLFastParseFuzzingCli/SIGSEGV.EXC_BAD_ACCESS.PC.000000010e08ce15.STACK.000000169ffc6a98.ADDR.00006400228a6000.fuzz
+PID: 30510
+SIGNAL: SIGSEGV (11)
+EXCEPTION: EXC_BAD_ACCESS
+FAULT ADDRESS: 6400228a6000
+CRASH FRAME PC: 10e08ce15
+STACK HASH: 000000169ffc6a98
+STACK: 
+0   libclang_rt.asan_osx_dynamic.dylib	0x000000010e08ce15 __sanitizer::internal_memmove(void*, void const*, unsigned long) + 1205
+1   libclang_rt.asan_osx_dynamic.dylib	0x000000010e04d48d wrap_memcpy + 1309
+2   fuzz_target                   	0x0000000104fd28e4 tokenizeHTML + 4900
+3   fuzz_target                   	0x0000000104fcf2ee -[FormatToAttributedStringMacOS attributedStringForHTML:] + 430
+4   fuzz_target                   	0x0000000104fd0a71 main + 609
+5   libdyld.dylib                 	0x00007fff6d789cc9 start + 1
+=====================================================================
+=====================================================================
+TIME: 2020-06-01.01:08:04
+=====================================================================
+FUZZER ARGS:
+ mutationsPerRun : 5
+ externalCmd     : NULL
+ fuzzStdin       : FALSE
+ timeout         : 1 (sec)
+ ASLimit         : 0 (MiB)
+ RSSLimit        : 4096 (MiB)
+ DATALimit       : 0 (MiB)
+ wordlistFile    : NULL
+ fuzzTarget      : ./fuzz_target 
+ORIG_FNAME: 4a657d21193bf7e64a079be9311d5506.00000008.honggfuzz.cov
+FUZZ_FNAME: /Users/salman/Downloads/HTMLFastParse/HTMLFastParseFuzzingCli/SIGSEGV.EXC_BAD_ACCESS.PC.000000010999fe15.STACK.000000169ffc6a98.ADDR.0000640025d2e001.fuzz
+PID: 30509
+SIGNAL: SIGSEGV (11)
+EXCEPTION: EXC_BAD_ACCESS
+FAULT ADDRESS: 640025d2e001
+CRASH FRAME PC: 10999fe15
+STACK HASH: 000000169ffc6a98
+STACK: 
+0   libclang_rt.asan_osx_dynamic.dylib	0x000000010999fe15 __sanitizer::internal_memmove(void*, void const*, unsigned long) + 1205
+1   libclang_rt.asan_osx_dynamic.dylib	0x000000010996048d wrap_memcpy + 1309
+2   fuzz_target                   	0x00000001008ea8e4 tokenizeHTML + 4900
+3   fuzz_target                   	0x00000001008e72ee -[FormatToAttributedStringMacOS attributedStringForHTML:] + 430
+4   fuzz_target                   	0x00000001008e8a71 main + 609
+5   libdyld.dylib                 	0x00007fff6d789cc9 start + 1
+=====================================================================
+=====================================================================
+TIME: 2020-06-01.01:08:05
+=====================================================================
+FUZZER ARGS:
+ mutationsPerRun : 5
+ externalCmd     : NULL
+ fuzzStdin       : FALSE
+ timeout         : 1 (sec)
+ ASLimit         : 0 (MiB)
+ RSSLimit        : 4096 (MiB)
+ DATALimit       : 0 (MiB)
+ wordlistFile    : NULL
+ fuzzTarget      : ./fuzz_target 
+ORIG_FNAME: 4a657d21193bf7e64a079be9311d5506.00000008.honggfuzz.cov
+FUZZ_FNAME: /Users/salman/Downloads/HTMLFastParse/HTMLFastParseFuzzingCli/SIGSEGV.EXC_BAD_ACCESS.PC.00000001073adb1b.STACK.00000014c20e7f2e.ADDR.0000640026890000.fuzz
+PID: 30507
+SIGNAL: SIGSEGV (11)
+EXCEPTION: EXC_BAD_ACCESS
+FAULT ADDRESS: 640026890000
+CRASH FRAME PC: 1073adb1b
+STACK HASH: 00000014c20e7f2e
+STACK: 
+0   fuzz_target                   	0x00000001073adb1b tokenizeHTML + 5467
+1   fuzz_target                   	0x00000001073aa2ee -[FormatToAttributedStringMacOS attributedStringForHTML:] + 430
+2   fuzz_target                   	0x00000001073aba71 main + 609
+3   libdyld.dylib                 	0x00007fff6d789cc9 start + 1
+=====================================================================
+=====================================================================
+TIME: 2020-06-01.01:08:06
+=====================================================================
+FUZZER ARGS:
+ mutationsPerRun : 5
+ externalCmd     : NULL
+ fuzzStdin       : FALSE
+ timeout         : 1 (sec)
+ ASLimit         : 0 (MiB)
+ RSSLimit        : 4096 (MiB)
+ DATALimit       : 0 (MiB)
+ wordlistFile    : NULL
+ fuzzTarget      : ./fuzz_target 
+ORIG_FNAME: 4a657d21193bf7e64a079be9311d5506.00000008.honggfuzz.cov
+FUZZ_FNAME: /Users/salman/Downloads/HTMLFastParse/HTMLFastParseFuzzingCli/SIGSEGV.EXC_BAD_ACCESS.PC.00000001057e2b1b.STACK.00000014c20e7f2e.ADDR.000064002d7ca000.fuzz
+PID: 30506
+SIGNAL: SIGSEGV (11)
+EXCEPTION: EXC_BAD_ACCESS
+FAULT ADDRESS: 64002d7ca000
+CRASH FRAME PC: 1057e2b1b
+STACK HASH: 00000014c20e7f2e
+STACK: 
+0   fuzz_target                   	0x00000001057e2b1b tokenizeHTML + 5467
+1   fuzz_target                   	0x00000001057df2ee -[FormatToAttributedStringMacOS attributedStringForHTML:] + 430
+2   fuzz_target                   	0x00000001057e0a71 main + 609
+3   libdyld.dylib                 	0x00007fff6d789cc9 start + 1
+=====================================================================
+=====================================================================
+TIME: 2020-06-01.01:08:06
+=====================================================================
+FUZZER ARGS:
+ mutationsPerRun : 5
+ externalCmd     : NULL
+ fuzzStdin       : FALSE
+ timeout         : 1 (sec)
+ ASLimit         : 0 (MiB)
+ RSSLimit        : 4096 (MiB)
+ DATALimit       : 0 (MiB)
+ wordlistFile    : NULL
+ fuzzTarget      : ./fuzz_target 
+ORIG_FNAME: 4a657d21193bf7e64a079be9311d5506.00000008.honggfuzz.cov
+FUZZ_FNAME: /Users/salman/Downloads/HTMLFastParse/HTMLFastParseFuzzingCli/SIGSEGV.EXC_BAD_ACCESS.PC.00000001076f9b1b.STACK.00000014c20e7f2e.ADDR.000064002b9fb000.fuzz
+PID: 30532
+SIGNAL: SIGSEGV (11)
+EXCEPTION: EXC_BAD_ACCESS
+FAULT ADDRESS: 64002b9fb000
+CRASH FRAME PC: 1076f9b1b
+STACK HASH: 00000014c20e7f2e
+STACK: 
+0   fuzz_target                   	0x00000001076f9b1b tokenizeHTML + 5467
+1   fuzz_target                   	0x00000001076f62ee -[FormatToAttributedStringMacOS attributedStringForHTML:] + 430
+2   fuzz_target                   	0x00000001076f7a71 main + 609
+3   libdyld.dylib                 	0x00007fff6d789cc9 start + 1
+=====================================================================
+=====================================================================
+TIME: 2020-06-01.01:08:07
+=====================================================================
+FUZZER ARGS:
+ mutationsPerRun : 5
+ externalCmd     : NULL
+ fuzzStdin       : FALSE
+ timeout         : 1 (sec)
+ ASLimit         : 0 (MiB)
+ RSSLimit        : 4096 (MiB)
+ DATALimit       : 0 (MiB)
+ wordlistFile    : NULL
+ fuzzTarget      : ./fuzz_target 
+ORIG_FNAME: 4a657d21193bf7e64a079be9311d5506.00000008.honggfuzz.cov
+FUZZ_FNAME: /Users/salman/Downloads/HTMLFastParse/HTMLFastParseFuzzingCli/SIGSEGV.EXC_BAD_ACCESS.PC.0000000114abbe15.STACK.000000169ffc6a98.ADDR.0000640022c2f003.fuzz
+PID: 30536
+SIGNAL: SIGSEGV (11)
+EXCEPTION: EXC_BAD_ACCESS
+FAULT ADDRESS: 640022c2f003
+CRASH FRAME PC: 114abbe15
+STACK HASH: 000000169ffc6a98
+STACK: 
+0   libclang_rt.asan_osx_dynamic.dylib	0x0000000114abbe15 __sanitizer::internal_memmove(void*, void const*, unsigned long) + 1205
+1   libclang_rt.asan_osx_dynamic.dylib	0x0000000114a7c48d wrap_memcpy + 1309
+2   fuzz_target                   	0x000000010ba028e4 tokenizeHTML + 4900
+3   fuzz_target                   	0x000000010b9ff2ee -[FormatToAttributedStringMacOS attributedStringForHTML:] + 430
+4   fuzz_target                   	0x000000010ba00a71 main + 609
+5   libdyld.dylib                 	0x00007fff6d789cc9 start + 1
+=====================================================================
+=====================================================================
+TIME: 2020-06-01.01:08:08
+=====================================================================
+FUZZER ARGS:
+ mutationsPerRun : 5
+ externalCmd     : NULL
+ fuzzStdin       : FALSE
+ timeout         : 1 (sec)
+ ASLimit         : 0 (MiB)
+ RSSLimit        : 4096 (MiB)
+ DATALimit       : 0 (MiB)
+ wordlistFile    : NULL
+ fuzzTarget      : ./fuzz_target 
+ORIG_FNAME: 4a657d21193bf7e64a079be9311d5506.00000008.honggfuzz.cov
+FUZZ_FNAME: /Users/salman/Downloads/HTMLFastParse/HTMLFastParseFuzzingCli/SIGSEGV.EXC_BAD_ACCESS.PC.0000000105ebab1b.STACK.00000014c20e7f2e.ADDR.000064004b641000.fuzz
+PID: 30511
+SIGNAL: SIGSEGV (11)
+EXCEPTION: EXC_BAD_ACCESS
+FAULT ADDRESS: 64004b641000
+CRASH FRAME PC: 105ebab1b
+STACK HASH: 00000014c20e7f2e
+STACK: 
+0   fuzz_target                   	0x0000000105ebab1b tokenizeHTML + 5467
+1   fuzz_target                   	0x0000000105eb72ee -[FormatToAttributedStringMacOS attributedStringForHTML:] + 430
+2   fuzz_target                   	0x0000000105eb8a71 main + 609
+3   libdyld.dylib                 	0x00007fff6d789cc9 start + 1
+=====================================================================
+=====================================================================
+TIME: 2020-06-01.01:08:08
+=====================================================================
+FUZZER ARGS:
+ mutationsPerRun : 5
+ externalCmd     : NULL
+ fuzzStdin       : FALSE
+ timeout         : 1 (sec)
+ ASLimit         : 0 (MiB)
+ RSSLimit        : 4096 (MiB)
+ DATALimit       : 0 (MiB)
+ wordlistFile    : NULL
+ fuzzTarget      : ./fuzz_target 
+ORIG_FNAME: 4a657d21193bf7e64a079be9311d5506.00000008.honggfuzz.cov
+FUZZ_FNAME: /Users/salman/Downloads/HTMLFastParse/HTMLFastParseFuzzingCli/SIGSEGV.EXC_BAD_ACCESS.PC.000000010ff52b1b.STACK.00000014c20e7f2e.ADDR.0000640028941000.fuzz
+PID: 30535
+SIGNAL: SIGSEGV (11)
+EXCEPTION: EXC_BAD_ACCESS
+FAULT ADDRESS: 640028941000
+CRASH FRAME PC: 10ff52b1b
+STACK HASH: 00000014c20e7f2e
+STACK: 
+0   fuzz_target                   	0x000000010ff52b1b tokenizeHTML + 5467
+1   fuzz_target                   	0x000000010ff4f2ee -[FormatToAttributedStringMacOS attributedStringForHTML:] + 430
+2   fuzz_target                   	0x000000010ff50a71 main + 609
+3   libdyld.dylib                 	0x00007fff6d789cc9 start + 1
+=====================================================================
+=====================================================================
+TIME: 2020-06-01.01:08:09
+=====================================================================
+FUZZER ARGS:
+ mutationsPerRun : 5
+ externalCmd     : NULL
+ fuzzStdin       : FALSE
+ timeout         : 1 (sec)
+ ASLimit         : 0 (MiB)
+ RSSLimit        : 4096 (MiB)
+ DATALimit       : 0 (MiB)
+ wordlistFile    : NULL
+ fuzzTarget      : ./fuzz_target 
+ORIG_FNAME: 4a657d21193bf7e64a079be9311d5506.00000008.honggfuzz.cov
+FUZZ_FNAME: /Users/salman/Downloads/HTMLFastParse/HTMLFastParseFuzzingCli/SIGSEGV.EXC_BAD_ACCESS.PC.00000001032a7b1b.STACK.00000014c20e7f2e.ADDR.0000640028cb1000.fuzz
+PID: 30537
+SIGNAL: SIGSEGV (11)
+EXCEPTION: EXC_BAD_ACCESS
+FAULT ADDRESS: 640028cb1000
+CRASH FRAME PC: 1032a7b1b
+STACK HASH: 00000014c20e7f2e
+STACK: 
+0   fuzz_target                   	0x00000001032a7b1b tokenizeHTML + 5467
+1   fuzz_target                   	0x00000001032a42ee -[FormatToAttributedStringMacOS attributedStringForHTML:] + 430
+2   fuzz_target                   	0x00000001032a5a71 main + 609
+3   libdyld.dylib                 	0x00007fff6d789cc9 start + 1
+=====================================================================
+=====================================================================
+TIME: 2020-06-01.01:08:10
+=====================================================================
+FUZZER ARGS:
+ mutationsPerRun : 5
+ externalCmd     : NULL
+ fuzzStdin       : FALSE
+ timeout         : 1 (sec)
+ ASLimit         : 0 (MiB)
+ RSSLimit        : 4096 (MiB)
+ DATALimit       : 0 (MiB)
+ wordlistFile    : NULL
+ fuzzTarget      : ./fuzz_target 
+ORIG_FNAME: 4a657d21193bf7e64a079be9311d5506.00000008.honggfuzz.cov
+FUZZ_FNAME: /Users/salman/Downloads/HTMLFastParse/HTMLFastParseFuzzingCli/SIGSEGV.EXC_BAD_ACCESS.PC.0000000110508e15.STACK.000000169ffc6a98.ADDR.0000640021c60003.fuzz
+PID: 30548
+SIGNAL: SIGSEGV (11)
+EXCEPTION: EXC_BAD_ACCESS
+FAULT ADDRESS: 640021c60003
+CRASH FRAME PC: 110508e15
+STACK HASH: 000000169ffc6a98
+STACK: 
+0   libclang_rt.asan_osx_dynamic.dylib	0x0000000110508e15 __sanitizer::internal_memmove(void*, void const*, unsigned long) + 1205
+1   libclang_rt.asan_osx_dynamic.dylib	0x00000001104c948d wrap_memcpy + 1309
+2   fuzz_target                   	0x000000010744b8e4 tokenizeHTML + 4900
+3   fuzz_target                   	0x00000001074482ee -[FormatToAttributedStringMacOS attributedStringForHTML:] + 430
+4   fuzz_target                   	0x0000000107449a71 main + 609
+5   libdyld.dylib                 	0x00007fff6d789cc9 start + 1
+=====================================================================
+=====================================================================
+TIME: 2020-06-01.01:08:10
+=====================================================================
+FUZZER ARGS:
+ mutationsPerRun : 5
+ externalCmd     : NULL
+ fuzzStdin       : FALSE
+ timeout         : 1 (sec)
+ ASLimit         : 0 (MiB)
+ RSSLimit        : 4096 (MiB)
+ DATALimit       : 0 (MiB)
+ wordlistFile    : NULL
+ fuzzTarget      : ./fuzz_target 
+ORIG_FNAME: 4a657d21193bf7e64a079be9311d5506.00000008.honggfuzz.cov
+FUZZ_FNAME: /Users/salman/Downloads/HTMLFastParse/HTMLFastParseFuzzingCli/SIGSEGV.EXC_BAD_ACCESS.PC.0000000116200e15.STACK.000000169ffc6a98.ADDR.0000640023824002.fuzz
+PID: 30550
+SIGNAL: SIGSEGV (11)
+EXCEPTION: EXC_BAD_ACCESS
+FAULT ADDRESS: 640023824002
+CRASH FRAME PC: 116200e15
+STACK HASH: 000000169ffc6a98
+STACK: 
+0   libclang_rt.asan_osx_dynamic.dylib	0x0000000116200e15 __sanitizer::internal_memmove(void*, void const*, unsigned long) + 1205
+1   libclang_rt.asan_osx_dynamic.dylib	0x00000001161c148d wrap_memcpy + 1309
+2   fuzz_target                   	0x000000010d1468e4 tokenizeHTML + 4900
+3   fuzz_target                   	0x000000010d1432ee -[FormatToAttributedStringMacOS attributedStringForHTML:] + 430
+4   fuzz_target                   	0x000000010d144a71 main + 609
+5   libdyld.dylib                 	0x00007fff6d789cc9 start + 1
+=====================================================================
+=====================================================================
+TIME: 2020-06-01.01:08:11
+=====================================================================
+FUZZER ARGS:
+ mutationsPerRun : 5
+ externalCmd     : NULL
+ fuzzStdin       : FALSE
+ timeout         : 1 (sec)
+ ASLimit         : 0 (MiB)
+ RSSLimit        : 4096 (MiB)
+ DATALimit       : 0 (MiB)
+ wordlistFile    : NULL
+ fuzzTarget      : ./fuzz_target 
+ORIG_FNAME: 4a657d21193bf7e64a079be9311d5506.00000008.honggfuzz.cov
+FUZZ_FNAME: /Users/salman/Downloads/HTMLFastParse/HTMLFastParseFuzzingCli/SIGSEGV.EXC_BAD_ACCESS.PC.00000001121c5e15.STACK.000000169ffc6a98.ADDR.00006400319fd000.fuzz
+PID: 30549
+SIGNAL: SIGSEGV (11)
+EXCEPTION: EXC_BAD_ACCESS
+FAULT ADDRESS: 6400319fd000
+CRASH FRAME PC: 1121c5e15
+STACK HASH: 000000169ffc6a98
+STACK: 
+0   libclang_rt.asan_osx_dynamic.dylib	0x00000001121c5e15 __sanitizer::internal_memmove(void*, void const*, unsigned long) + 1205
+1   libclang_rt.asan_osx_dynamic.dylib	0x000000011218648d wrap_memcpy + 1309
+2   fuzz_target                   	0x00000001091068e4 tokenizeHTML + 4900
+3   fuzz_target                   	0x00000001091032ee -[FormatToAttributedStringMacOS attributedStringForHTML:] + 430
+4   fuzz_target                   	0x0000000109104a71 main + 609
+5   libdyld.dylib                 	0x00007fff6d789cc9 start + 1
+=====================================================================
+=====================================================================
+TIME: 2020-06-01.01:08:12
+=====================================================================
+FUZZER ARGS:
+ mutationsPerRun : 5
+ externalCmd     : NULL
+ fuzzStdin       : FALSE
+ timeout         : 1 (sec)
+ ASLimit         : 0 (MiB)
+ RSSLimit        : 4096 (MiB)
+ DATALimit       : 0 (MiB)
+ wordlistFile    : NULL
+ fuzzTarget      : ./fuzz_target 
+ORIG_FNAME: 4a657d21193bf7e64a079be9311d5506.00000008.honggfuzz.cov
+FUZZ_FNAME: /Users/salman/Downloads/HTMLFastParse/HTMLFastParseFuzzingCli/SIGSEGV.EXC_BAD_ACCESS.PC.0000000118ea2e15.STACK.000000169ffc6a98.ADDR.00006400459dc000.fuzz
+PID: 30534
+SIGNAL: SIGSEGV (11)
+EXCEPTION: EXC_BAD_ACCESS
+FAULT ADDRESS: 6400459dc000
+CRASH FRAME PC: 118ea2e15
+STACK HASH: 000000169ffc6a98
+STACK: 
+0   libclang_rt.asan_osx_dynamic.dylib	0x0000000118ea2e15 __sanitizer::internal_memmove(void*, void const*, unsigned long) + 1205
+1   libclang_rt.asan_osx_dynamic.dylib	0x0000000118e6348d wrap_memcpy + 1309
+2   fuzz_target                   	0x000000010fdee8e4 tokenizeHTML + 4900
+3   fuzz_target                   	0x000000010fdeb2ee -[FormatToAttributedStringMacOS attributedStringForHTML:] + 430
+4   fuzz_target                   	0x000000010fdeca71 main + 609
+5   libdyld.dylib                 	0x00007fff6d789cc9 start + 1
+=====================================================================
+=====================================================================
+TIME: 2020-06-01.01:08:13
+=====================================================================
+FUZZER ARGS:
+ mutationsPerRun : 5
+ externalCmd     : NULL
+ fuzzStdin       : FALSE
+ timeout         : 1 (sec)
+ ASLimit         : 0 (MiB)
+ RSSLimit        : 4096 (MiB)
+ DATALimit       : 0 (MiB)
+ wordlistFile    : NULL
+ fuzzTarget      : ./fuzz_target 
+ORIG_FNAME: 4a657d21193bf7e64a079be9311d5506.00000008.honggfuzz.cov
+FUZZ_FNAME: /Users/salman/Downloads/HTMLFastParse/HTMLFastParseFuzzingCli/SIGSEGV.EXC_BAD_ACCESS.PC.000000010aefce15.STACK.000000169ffc6a98.ADDR.000064003d349003.fuzz
+PID: 30547
+SIGNAL: SIGSEGV (11)
+EXCEPTION: EXC_BAD_ACCESS
+FAULT ADDRESS: 64003d349003
+CRASH FRAME PC: 10aefce15
+STACK HASH: 000000169ffc6a98
+STACK: 
+0   libclang_rt.asan_osx_dynamic.dylib	0x000000010aefce15 __sanitizer::internal_memmove(void*, void const*, unsigned long) + 1205
+1   libclang_rt.asan_osx_dynamic.dylib	0x000000010aebd48d wrap_memcpy + 1309
+2   fuzz_target                   	0x0000000101e418e4 tokenizeHTML + 4900
+3   fuzz_target                   	0x0000000101e3e2ee -[FormatToAttributedStringMacOS attributedStringForHTML:] + 430
+4   fuzz_target                   	0x0000000101e3fa71 main + 609
+5   libdyld.dylib                 	0x00007fff6d789cc9 start + 1
+=====================================================================
+=====================================================================
+TIME: 2020-06-01.01:08:14
+=====================================================================
+FUZZER ARGS:
+ mutationsPerRun : 5
+ externalCmd     : NULL
+ fuzzStdin       : FALSE
+ timeout         : 1 (sec)
+ ASLimit         : 0 (MiB)
+ RSSLimit        : 4096 (MiB)
+ DATALimit       : 0 (MiB)
+ wordlistFile    : NULL
+ fuzzTarget      : ./fuzz_target 
+ORIG_FNAME: 4a657d21193bf7e64a079be9311d5506.00000008.honggfuzz.cov
+FUZZ_FNAME: /Users/salman/Downloads/HTMLFastParse/HTMLFastParseFuzzingCli/SIGSEGV.EXC_BAD_ACCESS.PC.0000000111859e15.STACK.000000169ffc6a98.ADDR.00006400c7f43001.fuzz
+PID: 30533
+SIGNAL: SIGSEGV (11)
+EXCEPTION: EXC_BAD_ACCESS
+FAULT ADDRESS: 6400c7f43001
+CRASH FRAME PC: 111859e15
+STACK HASH: 000000169ffc6a98
+STACK: 
+0   libclang_rt.asan_osx_dynamic.dylib	0x0000000111859e15 __sanitizer::internal_memmove(void*, void const*, unsigned long) + 1205
+1   libclang_rt.asan_osx_dynamic.dylib	0x000000011181a48d wrap_memcpy + 1309
+2   fuzz_target                   	0x00000001087a18e4 tokenizeHTML + 4900
+3   fuzz_target                   	0x000000010879e2ee -[FormatToAttributedStringMacOS attributedStringForHTML:] + 430
+4   fuzz_target                   	0x000000010879fa71 main + 609
+5   libdyld.dylib                 	0x00007fff6d789cc9 start + 1
+=====================================================================
+=====================================================================
+TIME: 2020-06-01.01:08:14
+=====================================================================
+FUZZER ARGS:
+ mutationsPerRun : 5
+ externalCmd     : NULL
+ fuzzStdin       : FALSE
+ timeout         : 1 (sec)
+ ASLimit         : 0 (MiB)
+ RSSLimit        : 4096 (MiB)
+ DATALimit       : 0 (MiB)
+ wordlistFile    : NULL
+ fuzzTarget      : ./fuzz_target 
+ORIG_FNAME: 4a657d21193bf7e64a079be9311d5506.00000008.honggfuzz.cov
+FUZZ_FNAME: /Users/salman/Downloads/HTMLFastParse/HTMLFastParseFuzzingCli/SIGSEGV.EXC_BAD_ACCESS.PC.00000001161b0e15.STACK.000000169ffc6a98.ADDR.000064003bcea003.fuzz
+PID: 30551
+SIGNAL: SIGSEGV (11)
+EXCEPTION: EXC_BAD_ACCESS
+FAULT ADDRESS: 64003bcea003
+CRASH FRAME PC: 1161b0e15
+STACK HASH: 000000169ffc6a98
+STACK: 
+0   libclang_rt.asan_osx_dynamic.dylib	0x00000001161b0e15 __sanitizer::internal_memmove(void*, void const*, unsigned long) + 1205
+1   libclang_rt.asan_osx_dynamic.dylib	0x000000011617148d wrap_memcpy + 1309
+2   fuzz_target                   	0x000000010d0f58e4 tokenizeHTML + 4900
+3   fuzz_target                   	0x000000010d0f22ee -[FormatToAttributedStringMacOS attributedStringForHTML:] + 430
+4   fuzz_target                   	0x000000010d0f3a71 main + 609
+5   libdyld.dylib                 	0x00007fff6d789cc9 start + 1
+=====================================================================
+=====================================================================
+TIME: 2020-06-01.01:39:10
+=====================================================================
+FUZZER ARGS:
+ mutationsPerRun : 5
+ externalCmd     : NULL
+ fuzzStdin       : FALSE
+ timeout         : 1 (sec)
+ ASLimit         : 0 (MiB)
+ RSSLimit        : 4096 (MiB)
+ DATALimit       : 0 (MiB)
+ wordlistFile    : NULL
+ fuzzTarget      : ./fuzz_target 
+ORIG_FNAME: e7db91be8023d3ecff44c78c751913ff.00000188.honggfuzz.cov
+FUZZ_FNAME: /Users/salman/Downloads/HTMLFastParse/HTMLFastParseFuzzingCli/SIGSEGV.EXC_BAD_ACCESS.PC.00007fff6d97f9a9.STACK.000000144a27e502.ADDR.0000000000000010.fuzz
+PID: 31232
+SIGNAL: SIGSEGV (11)
+EXCEPTION: EXC_BAD_ACCESS
+FAULT ADDRESS: 10
+CRASH FRAME PC: 7fff6d97f9a9
+STACK HASH: 000000144a27e502
+STACK: 
+0   libsystem_platform.dylib      	0x00007fff6d97f9a9 _platform_memmove$VARIANT$Haswell + 169
+1   libclang_rt.asan_osx_dynamic.dylib	0x000000010fd32c8d __asan_memcpy + 669
+2   fuzz_target                   	0x0000000106c8fbee tokenizeHTML + 1726
+3   fuzz_target                   	0x0000000106c8d23d -[FormatToAttributedStringMacOS attributedStringForHTML:] + 413
+4   fuzz_target                   	0x0000000106c8e9e1 main + 609
+5   libdyld.dylib                 	0x00007fff6d789cc9 start + 1
+=====================================================================

@@ -19,10 +19,19 @@
 #include "base64.h"
 
 //Disable printf
+#define ENABLE_HTML_FASTPARSE_DEBUG 0
+
+#if !ENABLE_HTML_FASTPARSE_DEBUG
 #define printf(fmt, ...) (0)
+#endif
 
 //Enable reddit tune. Comment this out to remove them
 #define reddit_mode 1;
+
+#define EXPAND_IF_TOO_SMALL(addr, buffer_size, filled_size, new_bytes) do { \
+if (filled_size + new_bytes >= buffer_size) \
+    addr = realloc(addr, buffer_size * 2); \
+} while(0);
 
 //Used for encoding the table out of band links
 static const char DATA_URI_PREFIX[] = "data:text/html;base64,";
@@ -64,11 +73,13 @@ int getVisibleByteEffectForCharacter(unsigned char character) {
  
  @param input Input text as a char array
  @param inputLength The number of characters (as bytes) to read, excluding the null byte!
- @param displayText The char array to write the clean, display text to
  @param completedTags (returned) The array to write the t_format structs to (provides position and tag info). Tags positions are character relative, not byte relative! Usable in NSAttributedString etc
  @param numberOfTags (returned) The number of tags discovered
+ @return The displayed text buffer
  */
-void tokenizeHTML(char input[], size_t inputLength,char displayText[], struct t_tag completedTags[], int* numberOfTags, int* numberOfHumanVisibleCharacters) {
+char * tokenizeHTML(char *input, size_t inputLength, struct t_tag *completedTags, int *numberOfTags, int *numberOfHumanVisibleCharacters) {
+    size_t displayTextBufferSize = (strlen(input) + 1) * sizeof(char);
+    char *displayText = malloc(displayTextBufferSize);
     //A stack used for processing tags. The stack size allocates space for x number of POINTERS. Ie this is not creating an overflow vulnerability AFAIK
     struct Stack* htmlTags = createStack((int)inputLength);
     //Completed / filled tags
@@ -113,7 +124,8 @@ void tokenizeHTML(char input[], size_t inputLength,char displayText[], struct t_
                 format.tableDataLength = 0;
                 format.tableData = NULL;
                 format.startPosition = stringVisiblePosition;
-                push(htmlTags,format);
+                format.endPosition = stringVisiblePosition;
+                push(htmlTags, format);
             }
             
         } else if (current == '>') {
@@ -127,7 +139,7 @@ void tokenizeHTML(char input[], size_t inputLength,char displayText[], struct t_
                 //We are a closing tag, commit
                 struct t_tag* formatP = pop(htmlTags);
                 //Make sure we didn't get a NULL from popping an empty stack
-                if (formatP != 0) {
+                if (formatP) {
                     struct t_tag format = *formatP;
                     
                     //Table commit
@@ -150,34 +162,33 @@ void tokenizeHTML(char input[], size_t inputLength,char displayText[], struct t_
             //Are we a self closing tag like <br/> or <hr/>?
             else if ((tagNameCopyPosition > 0 && tagNameBuffer[tagNameCopyPosition-1] == '/')) {
                 //These tags are special because they're an action in it of themselves so they both start themselves and commit all in one.
-                struct t_tag format = *pop(htmlTags);
-                
-                /* special cases, take a shortcut and remove the tags */
-                if (strncmp(tagNameBuffer, "br/", 3) == 0) {
-                    //We're a <br/> tag, drop a new line into the actual text and remove the tag
-                    //IGNORE THESE WHEN USING THE REDDIT MODE because Reddit already sends a new line after <br/> tags so it's duplicated in effect
+                struct t_tag* formatP = pop(htmlTags);
+                if (formatP) {
+                    /* special cases, take a shortcut and remove the tags */
+                    if (strncmp(tagNameBuffer, "br/", 3) == 0) {
+                        //We're a <br/> tag, drop a new line into the actual text and remove the tag
+                        //IGNORE THESE WHEN USING THE REDDIT MODE because Reddit already sends a new line after <br/> tags so it's duplicated in effect
 #ifndef reddit_mode
-                    if (!isInTable) {
-                        displayText[stringCopyPosition] = '\n';
-                        stringCopyPosition++;
-                        stringVisiblePosition++;
-                    }
+                        if (!isInTable) {
+                            displayText[stringCopyPosition] = '\n';
+                            stringCopyPosition++;
+                            stringVisiblePosition++;
+                        }
 #endif
-                } else {
-                    //We're not a known case, add the tag into the extracted tag array
-                    long tagNameLength = (tagNameCopyPosition + 1) * sizeof(char);
-                    char *newTagBuffer = malloc(tagNameLength);
-                    strncpy(newTagBuffer, tagNameBuffer, tagNameLength);
-                    
-                    format.tag = newTagBuffer;
-                    format.startPosition = stringVisiblePosition;
-                    format.endPosition = stringVisiblePosition;
-                    
-                    completedTags[completedTagsPosition] = format;
-                    completedTagsPosition++;
+                    } else {
+                        //We're not a known case, add the tag into the extracted tag array
+                        long tagNameLength = (tagNameCopyPosition + 1) * sizeof(char);
+                        char *newTagBuffer = malloc(tagNameLength);
+                        strncpy(newTagBuffer, tagNameBuffer, tagNameLength);
+                        
+                        formatP->tag = newTagBuffer;
+                        formatP->startPosition = stringVisiblePosition;
+                        formatP->endPosition = stringVisiblePosition;
+                        
+                        completedTags[completedTagsPosition] = *formatP;
+                        completedTagsPosition++;
+                    }
                 }
-                
-                
             } else {
                 //No -- so let's push the operation onto our stack
                 //We've ended the tag definition, so pull the tag from the buffer and push that on to the stack
@@ -188,42 +199,47 @@ void tokenizeHTML(char input[], size_t inputLength,char displayText[], struct t_
                 struct t_tag* formatP = pop(htmlTags);
                 //Make sure we didn't get a NULL from popping an empty stack
                 //If we end up failing here the text will be horribly mangled however "broken formatting" IMHO is better than a full crash or a sec issue
-                if (formatP != 0) {
+                if (formatP) {
                     formatP->tag = newTagBuffer;
                     push(htmlTags, *formatP);
-                }
-                
-                //Add textual descriptors for order/unordered lists
-                if (strncmp(newTagBuffer, "ol", 2) == 0) {
-                    //Ordered list
-                    currentListValue = 1;
-                } else if (strncmp(newTagBuffer, "ul", 2) == 0) {
-                    //Unordered list
-                    currentListValue = USHRT_MAX;
-                } else if (strncmp(newTagBuffer, "li", 2) == 0) {
-                    //Apply current list index
-                    if (currentListValue == USHRT_MAX) {
-                        stringVisiblePosition += 2;
-                        displayText[stringCopyPosition++] = 0xE2;
-                        displayText[stringCopyPosition++] = 0x80;
-                        displayText[stringCopyPosition++] = 0xA2;
-                        displayText[stringCopyPosition++] = ' ';
-                    }else {
-                        int written = sprintf(&displayText[stringCopyPosition], "%i. ", currentListValue);
-                        stringCopyPosition += written;
-                        stringVisiblePosition += written;
-                        currentListValue++;
-                    }
-                //We check that we aren't already in a table as nested tables are not supported directly (handled out of band)
-                } else if (!isInTable && strncmp(tagNameBuffer, "table", 5) == 0) {
-                    isInTable = true;
-                    tableStartI = i - tagNameCopyPosition - 1;
                     
-                    size_t tablePromptTextWithoutNull = sizeof(VIEW_TABLE_TEXT) - 1;
-                    memcpy(displayText + stringCopyPosition, VIEW_TABLE_TEXT, tablePromptTextWithoutNull);
-                    stringCopyPosition += tablePromptTextWithoutNull;
-                    stringVisiblePosition += tablePromptTextWithoutNull;
-                    previous = '\n';
+                    //Add textual descriptors for order/unordered lists
+                    if (strncmp(newTagBuffer, "ol", 2) == 0) {
+                        //Ordered list
+                        currentListValue = 1;
+                    } else if (strncmp(newTagBuffer, "ul", 2) == 0) {
+                        //Unordered list
+                        currentListValue = USHRT_MAX;
+                    } else if (strncmp(newTagBuffer, "li", 2) == 0) {
+                        //Apply current list index
+                        if (currentListValue == USHRT_MAX) {
+                            stringVisiblePosition += 2;
+                            displayText[stringCopyPosition++] = 0xE2;
+                            displayText[stringCopyPosition++] = 0x80;
+                            displayText[stringCopyPosition++] = 0xA2;
+                            displayText[stringCopyPosition++] = ' ';
+                        }else {
+                            int written = sprintf(&displayText[stringCopyPosition], "%i. ", currentListValue);
+                            stringCopyPosition += written;
+                            stringVisiblePosition += written;
+                            currentListValue++;
+                        }
+                    //We check that we aren't already in a table as nested tables are not supported directly (handled out of band)
+                    } else if (!isInTable && strncmp(tagNameBuffer, "table", 5) == 0) {
+                        isInTable = true;
+                        tableStartI = i - tagNameCopyPosition - 1;
+                        
+                        size_t tablePromptTextWithoutNull = sizeof(VIEW_TABLE_TEXT) - 1;
+                        //Since VIEW_TABLE_TEXT is LONGER than the text we're replacing, we can't guarantee it fits.
+                        EXPAND_IF_TOO_SMALL(displayText, displayTextBufferSize, stringCopyPosition, tablePromptTextWithoutNull);
+                        memcpy(displayText + stringCopyPosition, VIEW_TABLE_TEXT, tablePromptTextWithoutNull);
+                        stringCopyPosition += tablePromptTextWithoutNull;
+                        stringVisiblePosition += tablePromptTextWithoutNull;
+                        previous = '\n';
+                    }
+
+                } else {
+                    free(newTagBuffer);
                 }
             }
             tagNameCopyPosition = 0;
@@ -309,13 +325,13 @@ void tokenizeHTML(char input[], size_t inputLength,char displayText[], struct t_
     
     //Now print out all tags
     
+#if ENABLE_HTML_FASTPARSE_DEBUG
     for (int i = 0; i < completedTagsPosition; i++) {
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-variable"
         struct t_tag inTag = completedTags[i];
         printf("TAG: %s starts at %i ends at %i\n", inTag.tag, inTag.startPosition,inTag.endPosition);
-#pragma GCC diagnostic pop
     }
+#endif
+    
     *numberOfTags = completedTagsPosition;
     *numberOfHumanVisibleCharacters = stringVisiblePosition;
     
@@ -324,6 +340,8 @@ void tokenizeHTML(char input[], size_t inputLength,char displayText[], struct t_
     free(htmlTags);
     free(tagNameCharArray);
     free(htmlEntityCharArray);
+    
+    return displayText;
 }
 
 void print_t_format(struct t_format format) {

@@ -147,19 +147,18 @@ float quotePadding = 20.0;
     }
     unsigned long inputLength = strlen(input);
     
-    char* displayText = malloc(inputLength * sizeof(char) + 1); //+1 for a null byte
     struct t_tag* tokens = malloc(inputLength * sizeof(struct t_tag));
     
     int numberOfTags = -1;
     int numberOfHumanVisibleCharacters = -1;
-    tokenizeHTML(input, inputLength, displayText, tokens, &numberOfTags,&numberOfHumanVisibleCharacters);
+    char* displayText = tokenizeHTML(input, inputLength, tokens, &numberOfTags, &numberOfHumanVisibleCharacters);
     
     struct t_format* finalTokens =  malloc(inputLength * sizeof(struct t_format));//&finalTokenBuffer[0];
     int numberOfSimplifiedTags = -1;
     makeAttributesLinear(tokens, (int)numberOfTags, finalTokens,&numberOfSimplifiedTags, numberOfHumanVisibleCharacters);
     
     //Now apply our linear attributes to our attributed string
-    NSString *stringBuffer = [NSString stringWithUTF8String:displayText];
+    NSString *stringBuffer = [NSString stringWithUTF8String: displayText];
     NSMutableAttributedString *answer;
     if (stringBuffer) {
         answer = [[NSMutableAttributedString alloc] initWithString:stringBuffer];

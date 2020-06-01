@@ -6,7 +6,11 @@ CC	= ./hfuzz-cc
 all: $(ALL)
 
 fuzz_target: ../HTMLFastParseFuzzingCli/*.m
-	$(CC) -o $@ $^ "../HTMLFastParse/C Mode/entities.c" "../HTMLFastParse/C Mode/C_HTML_Parser.c" "../HTMLFastParse/C Mode/Stack.c" $(FLAGS)
+	$(CC) -o $@ $^ "../HTMLFastParse/entities.c" "../HTMLFastParse/C_HTML_Parser.c" "../HTMLFastParse/Stack.c" "../HTMLFastParse/base64.c" $(FLAGS)
 
 clean:
 	rm -f $(ALL)
+	rm -rf output
+	mkdir output
+	rm *.fuzz
+	rm HONGGFUZZ.REPORT.TXT

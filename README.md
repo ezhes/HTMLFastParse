@@ -5,6 +5,7 @@ When you need to transform complex HTML into rich NSAttributedStrings *right now
 This library, written mostly in C with `NSAttributedString` functions in Obj-C, is specially tuned for Reddit's HTML outputs and blows all other parsers out of the water. As a warning, the parser itself takes no shortcuts however I didn't implement any HTML tags which are not used by Reddit and so this isn't a complete formatter. If you are using it with Reddit, you are in luck because you'll have access to the following at actually lightning fast speed:
 
 * Bold, italics, superscript, strikethrough, code blocks, quotes, links, etc
+* Tables (via the data URI)
 * Inline HTML entity decoding
 * An extensible architecture which allows you to add and remove tags as necessary for your application
 

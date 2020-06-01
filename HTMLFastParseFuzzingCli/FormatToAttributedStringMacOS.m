@@ -16,7 +16,7 @@
  ******/
 
 #import "FormatToAttributedStringMacOS.h"
-#import "../HTMLFastParse/C Mode/C_HTML_Parser.h"
+#import "../HTMLFastParse/C_HTML_Parser.h"
 
 @implementation FormatToAttributedStringMacOS
 
@@ -136,13 +136,12 @@ float quotePadding = 20.0;
     }
     unsigned long inputLength = strlen(input);
     
-    char* displayText = malloc(inputLength * sizeof(char) + 1); //+1 for a null byte
     struct t_tag* tokens = malloc(inputLength * sizeof(struct t_tag));
     
     int numberOfTags = -1;
     int numberOfHumanVisibleCharachters = -1;
-    tokenizeHTML(input, inputLength, displayText, tokens, &numberOfTags, &numberOfHumanVisibleCharachters);
-    
+    char* displayText = tokenizeHTML(input, inputLength, tokens, &numberOfTags, &numberOfHumanVisibleCharachters);
+
     struct t_format* finalTokens =  malloc(inputLength * sizeof(struct t_format));//&finalTokenBuffer[0];
     int numberOfSimplifiedTags = -1;
     makeAttributesLinear(tokens, (int)numberOfTags, finalTokens, &numberOfSimplifiedTags, numberOfHumanVisibleCharachters);
@@ -189,22 +188,20 @@ float quotePadding = 20.0;
 -(void)addAttributeToString:(NSMutableAttributedString *)string forFormat:(struct t_format)format {
     //This is the range of the style
     NSRange currentRange = NSMakeRange(format.startPosition, format.endPosition-format.startPosition);
-    
-    if (format.linkURL) {
-        NSString *nsLinkURL = [NSString stringWithUTF8String:format.linkURL];
-        if ([NSURL URLWithString:nsLinkURL] != nil) {
-            [string addAttribute:NSLinkAttributeName value: nsLinkURL range:currentRange];
-        }
-    }
-    
-    if (format.isStruck) {
+    //unpack commonly used format values
+    char isBold = FORMAT_TAG_GET_BIT_FIELD(format.formatTag, FORMAT_TAG_IS_BOLD);
+    char isItalics = FORMAT_TAG_GET_BIT_FIELD(format.formatTag, FORMAT_TAG_IS_ITALICS);
+    char hLevel = FORMAT_TAG_GET_H_LEVEL(format.formatTag);
+
+    if (isBold) {
         [string addAttribute:NSStrikethroughStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:currentRange];
     }
     
-    if (format.quoteLevel > 0) {
+    if (format.quoteLevel > 0 || format.listNestLevel - 1 > 0) {
         NSMutableParagraphStyle *quoteParagraphStyle;
         //We have the first four cached and after that we'll dynamically generate
-        switch (format.quoteLevel) {
+        unsigned char level = format.quoteLevel + format.listNestLevel - 1 > 0 ? format.listNestLevel - 1 : 0;
+        switch (level) {
             case 1:
                 quoteParagraphStyle = quoteParagraphStyle1;
                 break;
@@ -223,30 +220,45 @@ float quotePadding = 20.0;
                 break;
         }
         [string addAttribute:NSParagraphStyleAttributeName value:quoteParagraphStyle range:currentRange];
+    }
+    
+    if (format.quoteLevel > 0) {
         [string addAttribute:NSForegroundColorAttributeName value:quoteFontColor range:currentRange];
+    }
+    
+    if (format.linkURL) {
+        NSString *nsLinkURL = [NSString stringWithUTF8String:format.linkURL];
+        if ([NSURL URLWithString:nsLinkURL] != nil) {
+            [string addAttribute:NSLinkAttributeName value: nsLinkURL range:currentRange];
+//            [string addAttribute:NSForegroundColorAttributeName value:linkColor range:currentRange];
+        }else {
+            //We were not able to set the URL, so feed forward that we don't actually have a URL
+            //this shouldn't have any consequences w.r.t. memory freeing since **all** URLs in a t_format are attempted to free, regardless if they are nil (i.e. .linkURL isn't checked since free(0x0) is documented to have no effect).
+            format.linkURL = 0x00;
+        }
     }
     
     
     
     /* Styling that uses fonts. This includes exponents, h#, bold, italics, and any combination thereof. Code formatting skips all of these */
     
-    if (format.isCode == 1) {
+    if (FORMAT_TAG_GET_BIT_FIELD(format.formatTag, FORMAT_TAG_IS_CODE)) {
         [string addAttribute:NSFontAttributeName value:codeFont range:currentRange];
         [string addAttribute:NSBackgroundColorAttributeName value:containerBackgroundColor range:currentRange];
         [string addAttribute:NSForegroundColorAttributeName value:codeFontColor range:currentRange];
     }
     //Check if we can take a shortcut. We don't need dynamic font in this case
-    else if (format.hLevel == 0 && format.exponentLevel == 0) {
-        if (format.isBold == 0 && format.isItalics == 0) {
+    else if (hLevel == 0 && format.exponentLevel == 0) {
+        if (!isBold && !isItalics) {
             //Plain text
             //Do nothing since it's the default as set above
-        }else if (format.isBold == 1 && format.isItalics == 1) {
+        }else if (isBold && isItalics) {
             //Bold italics
             [string addAttribute:NSFontAttributeName value:italicsBoldFont range:currentRange];
-        }else if (format.isBold == 1) {
+        }else if (isBold) {
             //Bold
             [string addAttribute:NSFontAttributeName value:boldFont range:currentRange];
-        }else if (format.isItalics == 1) {
+        }else if (isItalics) {
             //Italics
             [string addAttribute:NSFontAttributeName value:italicsFont range:currentRange];
         }
@@ -254,9 +266,9 @@ float quotePadding = 20.0;
         //We need to generate a dynamic font since at least one of the attributes changes the font size.
         CGFloat fontSize = baseFontSize;
         //Handle H#
-        if (format.hLevel > 0) {
-            //Reddit only supports 1-6, so that's all that's been implmented
-            switch (format.hLevel) {
+        if (hLevel > 0) {
+            //Reddit only supports 1-6, so that's all that's been implemented
+            switch (hLevel) {
                 case 0:
                     break;
                 case 1:
@@ -278,7 +290,7 @@ float quotePadding = 20.0;
                     fontSize *= 0.75;
                     break;
                 default:
-                    //Unexpcted position, so we're not going to apply this style
+                    //Unexpected position, so we're not going to apply this style
                     NSLog(@"Unknown HLevel");
                     break;
             }
@@ -299,17 +311,19 @@ float quotePadding = 20.0;
         
         NSFont *customFont;
         /* NOTE: USE fontWithSize: and NOT font descriptors because https://stackoverflow.com/q/34954956/1166266 */
-        if (format.isBold == 0 && format.isItalics == 0) {
+        if (!isBold && !isItalics) {
             //Plain text
             customFont = plainFont;
-        }else if (format.isBold == 1 && format.isItalics == 1) {
+        }else if (isBold && isItalics) {
             //Bold italics
             customFont = plainFont;
-        }else if (format.isBold == 1) {
+        }else if (isBold) {
             //Bold
             customFont = plainFont;
-        }else if (format.isItalics == 1) {
+        }else if (isItalics) {
             //Italics
+            customFont = plainFont;
+        } else {
             customFont = plainFont;
         }
         
@@ -317,7 +331,7 @@ float quotePadding = 20.0;
         [string addAttribute:NSFontAttributeName value:customFont range:currentRange];
     }
     
-    if (format.isCode == 0 && format.quoteLevel == 0) {
+    if (FORMAT_TAG_GET_BIT_FIELD(format.formatTag, FORMAT_TAG_IS_CODE) && format.quoteLevel == 0 && format.linkURL == nil) {
         [string addAttribute:NSForegroundColorAttributeName value:defaultFontColor range:currentRange];
     }
 }
