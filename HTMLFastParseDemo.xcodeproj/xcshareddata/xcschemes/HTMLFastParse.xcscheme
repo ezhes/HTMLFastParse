@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "22C763C62093CD1B005B6E23"
-               BuildableName = "HTMLFastParse.app"
-               BlueprintName = "HTMLFastParse"
-               ReferencedContainer = "container:HTMLFastParse.xcodeproj">
+               BuildableName = "HTMLFastParseDemo.app"
+               BlueprintName = "HTMLFastParseDemo"
+               ReferencedContainer = "container:HTMLFastParseDemo.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -31,9 +31,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "22C763C62093CD1B005B6E23"
-            BuildableName = "HTMLFastParse.app"
-            BlueprintName = "HTMLFastParse"
-            ReferencedContainer = "container:HTMLFastParse.xcodeproj">
+            BuildableName = "HTMLFastParseDemo.app"
+            BlueprintName = "HTMLFastParseDemo"
+            ReferencedContainer = "container:HTMLFastParseDemo.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <Testables>
@@ -42,9 +42,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "227D5BF520E5643500635BA2"
-               BuildableName = "HTMLFastParseTests.xctest"
-               BlueprintName = "HTMLFastParseTests"
-               ReferencedContainer = "container:HTMLFastParse.xcodeproj">
+               BuildableName = "HTMLFastParseDemoTests.xctest"
+               BlueprintName = "HTMLFastParseDemoTests"
+               ReferencedContainer = "container:HTMLFastParseDemo.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -70,9 +70,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "22C763C62093CD1B005B6E23"
-            BuildableName = "HTMLFastParse.app"
-            BlueprintName = "HTMLFastParse"
-            ReferencedContainer = "container:HTMLFastParse.xcodeproj">
+            BuildableName = "HTMLFastParseDemo.app"
+            BlueprintName = "HTMLFastParseDemo"
+            ReferencedContainer = "container:HTMLFastParseDemo.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -87,9 +87,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "22C763C62093CD1B005B6E23"
-            BuildableName = "HTMLFastParse.app"
-            BlueprintName = "HTMLFastParse"
-            ReferencedContainer = "container:HTMLFastParse.xcodeproj">
+            BuildableName = "HTMLFastParseDemo.app"
+            BlueprintName = "HTMLFastParseDemo"
+            ReferencedContainer = "container:HTMLFastParseDemo.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

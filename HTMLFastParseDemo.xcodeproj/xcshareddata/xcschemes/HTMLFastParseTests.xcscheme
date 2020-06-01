@@ -18,14 +18,12 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "227D5BF520E5643500635BA2"
-               BuildableName = "HTMLFastParseTests.xctest"
-               BlueprintName = "HTMLFastParseTests"
-               ReferencedContainer = "container:HTMLFastParse.xcodeproj">
+               BuildableName = "HTMLFastParseDemoTests.xctest"
+               BlueprintName = "HTMLFastParseDemoTests"
+               ReferencedContainer = "container:HTMLFastParseDemo.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
-      <AdditionalOptions>
-      </AdditionalOptions>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
@@ -37,8 +35,6 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <AdditionalOptions>
-      </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"

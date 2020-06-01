@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		227D5BF920E5643500635BA2 /* HTMLFastParseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 227D5BF820E5643500635BA2 /* HTMLFastParseTests.m */; };
 		227D5C0120E5648200635BA2 /* TestData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 227D5C0020E5648200635BA2 /* TestData.plist */; };
+		22B9C5EB24848A3C007CAD42 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 22B9C5EA24848A3C007CAD42 /* README.md */; };
 		22C2550720E56BAD0021BF7B /* AnswerData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 22C2550620E56BAD0021BF7B /* AnswerData.plist */; };
 		22C2550D20E59EFB0021BF7B /* 2MB_dev_random.txt in Resources */ = {isa = PBXBuildFile; fileRef = 22C2550C20E59EFB0021BF7B /* 2MB_dev_random.txt */; };
 		22C2551520E5A1260021BF7B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C2551420E5A1260021BF7B /* main.m */; };
@@ -52,18 +53,19 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		227D5BF620E5643500635BA2 /* HTMLFastParseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HTMLFastParseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		227D5BF620E5643500635BA2 /* HTMLFastParseDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HTMLFastParseDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		227D5BF820E5643500635BA2 /* HTMLFastParseTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTMLFastParseTests.m; sourceTree = "<group>"; };
 		227D5BFA20E5643500635BA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		227D5C0020E5648200635BA2 /* TestData.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = TestData.plist; sourceTree = "<group>"; };
+		22B9C5EA24848A3C007CAD42 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		22C2550620E56BAD0021BF7B /* AnswerData.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = AnswerData.plist; sourceTree = "<group>"; };
 		22C2550C20E59EFB0021BF7B /* 2MB_dev_random.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 2MB_dev_random.txt; sourceTree = "<group>"; };
-		22C2551220E5A1260021BF7B /* HTMLFastParseFuzzingCli */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = HTMLFastParseFuzzingCli; sourceTree = BUILT_PRODUCTS_DIR; };
+		22C2551220E5A1260021BF7B /* HTMLFastParseDemoFuzzingCli */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = HTMLFastParseDemoFuzzingCli; sourceTree = BUILT_PRODUCTS_DIR; };
 		22C2551420E5A1260021BF7B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		22C2551920E5A1620021BF7B /* FormatToAttributedStringMacOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormatToAttributedStringMacOS.h; sourceTree = "<group>"; };
 		22C2551A20E5A1620021BF7B /* FormatToAttributedStringMacOS.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormatToAttributedStringMacOS.m; sourceTree = "<group>"; };
 		22C2552120E7380F0021BF7B /* non_utf8_fuzzer_crash.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = non_utf8_fuzzer_crash.txt; sourceTree = "<group>"; };
-		22C763C72093CD1B005B6E23 /* HTMLFastParse.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HTMLFastParse.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		22C763C72093CD1B005B6E23 /* HTMLFastParseDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HTMLFastParseDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22C763CA2093CD1B005B6E23 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		22C763CB2093CD1B005B6E23 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		22C763CD2093CD1B005B6E23 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
@@ -136,7 +138,9 @@
 		22C763BE2093CD1B005B6E23 = {
 			isa = PBXGroup;
 			children = (
-				22C763C92093CD1B005B6E23 /* HTMLFastParse */,
+				22B9C5EA24848A3C007CAD42 /* README.md */,
+				22C763F42093E614005B6E23 /* HTMLFastParse */,
+				22C763C92093CD1B005B6E23 /* HTMLFastParseDemo */,
 				227D5BF720E5643500635BA2 /* HTMLFastParseTests */,
 				22C2551320E5A1260021BF7B /* HTMLFastParseFuzzingCli */,
 				22C763C82093CD1B005B6E23 /* Products */,
@@ -146,31 +150,30 @@
 		22C763C82093CD1B005B6E23 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				22C763C72093CD1B005B6E23 /* HTMLFastParse.app */,
-				227D5BF620E5643500635BA2 /* HTMLFastParseTests.xctest */,
-				22C2551220E5A1260021BF7B /* HTMLFastParseFuzzingCli */,
+				22C763C72093CD1B005B6E23 /* HTMLFastParseDemo.app */,
+				227D5BF620E5643500635BA2 /* HTMLFastParseDemoTests.xctest */,
+				22C2551220E5A1260021BF7B /* HTMLFastParseDemoFuzzingCli */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		22C763C92093CD1B005B6E23 /* HTMLFastParse */ = {
+		22C763C92093CD1B005B6E23 /* HTMLFastParseDemo */ = {
 			isa = PBXGroup;
 			children = (
 				22C763CA2093CD1B005B6E23 /* AppDelegate.h */,
 				22C763CB2093CD1B005B6E23 /* AppDelegate.m */,
 				22C763CD2093CD1B005B6E23 /* ViewController.h */,
 				22C763CE2093CD1B005B6E23 /* ViewController.m */,
-				22C763F42093E614005B6E23 /* C Mode */,
 				22C763D02093CD1B005B6E23 /* Main.storyboard */,
 				22C763D32093CD1B005B6E23 /* Assets.xcassets */,
 				22C763D52093CD1B005B6E23 /* LaunchScreen.storyboard */,
 				22C763D82093CD1B005B6E23 /* Info.plist */,
 				22C763D92093CD1B005B6E23 /* main.m */,
 			);
-			path = HTMLFastParse;
+			path = HTMLFastParseDemo;
 			sourceTree = "<group>";
 		};
-		22C763F42093E614005B6E23 /* C Mode */ = {
+		22C763F42093E614005B6E23 /* HTMLFastParse */ = {
 			isa = PBXGroup;
 			children = (
 				22FC446D20952D6E0044980B /* entities.c */,
@@ -184,15 +187,15 @@
 				22FC446A2094E2E20044980B /* FormatToAttributedString.h */,
 				22FC446B2094E2E20044980B /* FormatToAttributedString.m */,
 			);
-			path = "C Mode";
+			path = HTMLFastParse;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		227D5BF520E5643500635BA2 /* HTMLFastParseTests */ = {
+		227D5BF520E5643500635BA2 /* HTMLFastParseDemoTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 227D5BFF20E5643500635BA2 /* Build configuration list for PBXNativeTarget "HTMLFastParseTests" */;
+			buildConfigurationList = 227D5BFF20E5643500635BA2 /* Build configuration list for PBXNativeTarget "HTMLFastParseDemoTests" */;
 			buildPhases = (
 				227D5BF220E5643500635BA2 /* Sources */,
 				227D5BF320E5643500635BA2 /* Frameworks */,
@@ -203,14 +206,14 @@
 			dependencies = (
 				227D5BFC20E5643500635BA2 /* PBXTargetDependency */,
 			);
-			name = HTMLFastParseTests;
+			name = HTMLFastParseDemoTests;
 			productName = HTMLFastParseTests;
-			productReference = 227D5BF620E5643500635BA2 /* HTMLFastParseTests.xctest */;
+			productReference = 227D5BF620E5643500635BA2 /* HTMLFastParseDemoTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		22C2551120E5A1260021BF7B /* HTMLFastParseFuzzingCli */ = {
+		22C2551120E5A1260021BF7B /* HTMLFastParseDemoFuzzingCli */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 22C2551620E5A1260021BF7B /* Build configuration list for PBXNativeTarget "HTMLFastParseFuzzingCli" */;
+			buildConfigurationList = 22C2551620E5A1260021BF7B /* Build configuration list for PBXNativeTarget "HTMLFastParseDemoFuzzingCli" */;
 			buildPhases = (
 				22C2550E20E5A1260021BF7B /* Sources */,
 				22C2550F20E5A1260021BF7B /* Frameworks */,
@@ -220,14 +223,14 @@
 			);
 			dependencies = (
 			);
-			name = HTMLFastParseFuzzingCli;
+			name = HTMLFastParseDemoFuzzingCli;
 			productName = HTMLFastParseFuzzingCli;
-			productReference = 22C2551220E5A1260021BF7B /* HTMLFastParseFuzzingCli */;
+			productReference = 22C2551220E5A1260021BF7B /* HTMLFastParseDemoFuzzingCli */;
 			productType = "com.apple.product-type.tool";
 		};
-		22C763C62093CD1B005B6E23 /* HTMLFastParse */ = {
+		22C763C62093CD1B005B6E23 /* HTMLFastParseDemo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 22C763DD2093CD1B005B6E23 /* Build configuration list for PBXNativeTarget "HTMLFastParse" */;
+			buildConfigurationList = 22C763DD2093CD1B005B6E23 /* Build configuration list for PBXNativeTarget "HTMLFastParseDemo" */;
 			buildPhases = (
 				22C763C32093CD1B005B6E23 /* Sources */,
 				22C763C42093CD1B005B6E23 /* Frameworks */,
@@ -237,9 +240,9 @@
 			);
 			dependencies = (
 			);
-			name = HTMLFastParse;
+			name = HTMLFastParseDemo;
 			productName = HTMLFastParse;
-			productReference = 22C763C72093CD1B005B6E23 /* HTMLFastParse.app */;
+			productReference = 22C763C72093CD1B005B6E23 /* HTMLFastParseDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -263,7 +266,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 22C763C22093CD1B005B6E23 /* Build configuration list for PBXProject "HTMLFastParse" */;
+			buildConfigurationList = 22C763C22093CD1B005B6E23 /* Build configuration list for PBXProject "HTMLFastParseDemo" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -276,9 +279,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				22C763C62093CD1B005B6E23 /* HTMLFastParse */,
-				227D5BF520E5643500635BA2 /* HTMLFastParseTests */,
-				22C2551120E5A1260021BF7B /* HTMLFastParseFuzzingCli */,
+				22C763C62093CD1B005B6E23 /* HTMLFastParseDemo */,
+				227D5BF520E5643500635BA2 /* HTMLFastParseDemoTests */,
+				22C2551120E5A1260021BF7B /* HTMLFastParseDemoFuzzingCli */,
 			);
 		};
 /* End PBXProject section */
@@ -301,6 +304,7 @@
 			files = (
 				22C763D72093CD1B005B6E23 /* LaunchScreen.storyboard in Resources */,
 				22C763D42093CD1B005B6E23 /* Assets.xcassets in Resources */,
+				22B9C5EB24848A3C007CAD42 /* README.md in Resources */,
 				22C763D22093CD1B005B6E23 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -347,7 +351,7 @@
 /* Begin PBXTargetDependency section */
 		227D5BFC20E5643500635BA2 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 22C763C62093CD1B005B6E23 /* HTMLFastParse */;
+			target = 22C763C62093CD1B005B6E23 /* HTMLFastParseDemo */;
 			targetProxy = 227D5BFB20E5643500635BA2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -389,7 +393,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.CarbonDev.HTMLFastParseTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HTMLFastParse.app/HTMLFastParse";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HTMLFastParseDemo.app/HTMLFastParseDemo";
 			};
 			name = Debug;
 		};
@@ -409,7 +413,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.CarbonDev.HTMLFastParseTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HTMLFastParse.app/HTMLFastParse";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/HTMLFastParseDemo.app/HTMLFastParseDemo";
 			};
 			name = Release;
 		};
@@ -591,7 +595,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		227D5BFF20E5643500635BA2 /* Build configuration list for PBXNativeTarget "HTMLFastParseTests" */ = {
+		227D5BFF20E5643500635BA2 /* Build configuration list for PBXNativeTarget "HTMLFastParseDemoTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				227D5BFD20E5643500635BA2 /* Debug */,
@@ -600,7 +604,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		22C2551620E5A1260021BF7B /* Build configuration list for PBXNativeTarget "HTMLFastParseFuzzingCli" */ = {
+		22C2551620E5A1260021BF7B /* Build configuration list for PBXNativeTarget "HTMLFastParseDemoFuzzingCli" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				22C2551720E5A1260021BF7B /* Debug */,
@@ -609,7 +613,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		22C763C22093CD1B005B6E23 /* Build configuration list for PBXProject "HTMLFastParse" */ = {
+		22C763C22093CD1B005B6E23 /* Build configuration list for PBXProject "HTMLFastParseDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				22C763DB2093CD1B005B6E23 /* Debug */,
@@ -618,7 +622,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		22C763DD2093CD1B005B6E23 /* Build configuration list for PBXNativeTarget "HTMLFastParse" */ = {
+		22C763DD2093CD1B005B6E23 /* Build configuration list for PBXNativeTarget "HTMLFastParseDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				22C763DE2093CD1B005B6E23 /* Debug */,

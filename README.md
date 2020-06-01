@@ -9,7 +9,7 @@ This library, written mostly in C with `NSAttributedString` functions in Obj-C, 
 * An extensible architecture which allows you to add and remove tags as necessary for your application
 
 ### Using it
-Copy everything from HTMLFastParse/C Mode into your project. 
+Copy everything the folder `HTMLFastParse` into your project. 
 
 If you're using Objective-C simply import `FormatToAttributedString.h`. If you're using Swift you'll need to import `FormatToAttributedString.h` in your `???-Bridge-Header.h` instead.
 
