@@ -223,6 +223,7 @@ void tokenizeHTML(char input[], size_t inputLength,char displayText[], struct t_
                     memcpy(displayText + stringCopyPosition, VIEW_TABLE_TEXT, tablePromptTextWithoutNull);
                     stringCopyPosition += tablePromptTextWithoutNull;
                     stringVisiblePosition += tablePromptTextWithoutNull;
+                    previous = '\n';
                 }
             }
             tagNameCopyPosition = 0;
