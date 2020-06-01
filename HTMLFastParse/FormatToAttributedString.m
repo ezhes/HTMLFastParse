@@ -201,8 +201,12 @@ float quotePadding = 20.0;
 -(void)addAttributeToString:(NSMutableAttributedString *)string forFormat:(struct t_format)format {
     //This is the range of the style
     NSRange currentRange = NSMakeRange(format.startPosition, format.endPosition-format.startPosition);
-    
-    if (format.isStruck) {
+    //unpack commonly used format values
+    char isBold = FORMAT_TAG_GET_BIT_FIELD(format.formatTag, FORMAT_TAG_IS_BOLD);
+    char isItalics = FORMAT_TAG_GET_BIT_FIELD(format.formatTag, FORMAT_TAG_IS_ITALICS);
+    char hLevel = FORMAT_TAG_GET_H_LEVEL(format.formatTag);
+
+    if (isBold) {
         [string addAttribute:NSStrikethroughStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:currentRange];
     }
     
@@ -251,23 +255,23 @@ float quotePadding = 20.0;
     
     /* Styling that uses fonts. This includes exponents, h#, bold, italics, and any combination thereof. Code formatting skips all of these */
     
-    if (format.isCode == 1) {
+    if (FORMAT_TAG_GET_BIT_FIELD(format.formatTag, FORMAT_TAG_IS_CODE)) {
         [string addAttribute:NSFontAttributeName value:codeFont range:currentRange];
         [string addAttribute:NSBackgroundColorAttributeName value:containerBackgroundColor range:currentRange];
         [string addAttribute:NSForegroundColorAttributeName value:codeFontColor range:currentRange];
     }
     //Check if we can take a shortcut. We don't need dynamic font in this case
-    else if (format.hLevel == 0 && format.exponentLevel == 0) {
-        if (format.isBold == 0 && format.isItalics == 0) {
+    else if (hLevel == 0 && format.exponentLevel == 0) {
+        if (!isBold && !isItalics) {
             //Plain text
             //Do nothing since it's the default as set above
-        }else if (format.isBold == 1 && format.isItalics == 1) {
+        }else if (isBold && isItalics) {
             //Bold italics
             [string addAttribute:NSFontAttributeName value:italicsBoldFont range:currentRange];
-        }else if (format.isBold == 1) {
+        }else if (isBold) {
             //Bold
             [string addAttribute:NSFontAttributeName value:boldFont range:currentRange];
-        }else if (format.isItalics == 1) {
+        }else if (isItalics) {
             //Italics
             [string addAttribute:NSFontAttributeName value:italicsFont range:currentRange];
         }
@@ -275,9 +279,9 @@ float quotePadding = 20.0;
         //We need to generate a dynamic font since at least one of the attributes changes the font size.
         CGFloat fontSize = baseFontSize;
         //Handle H#
-        if (format.hLevel > 0) {
+        if (hLevel > 0) {
             //Reddit only supports 1-6, so that's all that's been implemented
-            switch (format.hLevel) {
+            switch (hLevel) {
                 case 0:
                     break;
                 case 1:
@@ -320,16 +324,16 @@ float quotePadding = 20.0;
         
         UIFont *customFont;
         /* NOTE: USE fontWithSize: and NOT font descriptors because https://stackoverflow.com/q/34954956/1166266 */
-        if (format.isBold == 0 && format.isItalics == 0) {
+        if (!isBold && !isItalics) {
             //Plain text
             customFont = [plainFont fontWithSize:fontSize];
-        }else if (format.isBold == 1 && format.isItalics == 1) {
+        }else if (isBold && isItalics) {
             //Bold italics
             customFont = [italicsBoldFont fontWithSize:fontSize];
-        }else if (format.isBold == 1) {
+        }else if (isBold) {
             //Bold
             customFont = [boldFont fontWithSize:fontSize];
-        }else if (format.isItalics == 1) {
+        }else if (isItalics) {
             //Italics
             customFont = [italicsFont fontWithSize:fontSize];
         }
@@ -338,7 +342,7 @@ float quotePadding = 20.0;
         [string addAttribute:NSFontAttributeName value:customFont range:currentRange];
     }
     
-    if (format.isCode == 0 && format.quoteLevel == 0 && format.linkURL == nil) {
+    if (FORMAT_TAG_GET_BIT_FIELD(format.formatTag, FORMAT_TAG_IS_CODE) && format.quoteLevel == 0 && format.linkURL == nil) {
         [string addAttribute:NSForegroundColorAttributeName value:defaultFontColor range:currentRange];
     }
 }

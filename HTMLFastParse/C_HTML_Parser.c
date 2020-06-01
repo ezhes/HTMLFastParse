@@ -104,7 +104,7 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
                 push(htmlTags,format);
             }
             
-        }else if (current == '>') {
+        } else if (current == '>') {
             //We've hit an unencoded less than which terminates an HTML tag
             isInTag = false;
             //Terminate the buffer
@@ -136,7 +136,7 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
                     stringCopyPosition++;
                     stringVisiblePosition++;
 #endif
-                }else {
+                } else {
                     //We're not a known case, add the tag into the extracted tag array
                     long tagNameLength = (tagNameCopyPosition + 1) * sizeof(char);
                     char *newTagBuffer = malloc(tagNameLength);
@@ -151,7 +151,7 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
                 }
                 
                 
-            }else {
+            } else {
                 //No -- so let's push the operation onto our stack
                 //We've ended the tag definition, so pull the tag from the buffer and push that on to the stack
                 long tagNameLength = (tagNameCopyPosition + 1) * sizeof(char);
@@ -191,13 +191,13 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
                 }
             }
             tagNameCopyPosition = 0;
-        }else if (current == '&') {
+        } else if (current == '&') {
             //We are starting an HTML entitiy;
             isInHTMLEntity = true;
             htmlEntityCopyPosition = 0;
             htmlEntityBuffer[htmlEntityCopyPosition] = '&';
             htmlEntityCopyPosition++;
-        }else if (isInHTMLEntity == true && current == ';') {
+        } else if (isInHTMLEntity == true && current == ';') {
             //We are finishing an HTML entity
             isInHTMLEntity = false;
             htmlEntityBuffer[htmlEntityCopyPosition] = ';';
@@ -221,9 +221,7 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
                 
                 stringCopyPosition += numberDecodedBytes;
             }
-            
-            
-        }else {
+        } else {
             //copy in to the right buffer
             //this is a priority list (i.e. decoding an entity before going in to a tag before going in to visible)
             if (isInHTMLEntity) {
@@ -291,7 +289,7 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 }
 
 void print_t_format(struct t_format format) {
-    printf("Format [%i,%i): Bold %i, Italic %i, Struck %i, Code %i, Exponent %i, Quote %i, H%i, ListNest %i LinkURL %s\n",format.startPosition, format.endPosition, format.isBold, format.isItalics, format.isStruck, format.isCode, format.exponentLevel, format.quoteLevel, format.hLevel, format.listNestLevel, format.linkURL);
+    printf("Format [%i,%i): Bold %i, Italic %i, Struck %i, Code %i, Exponent %i, Quote %i, H%i, ListNest %i LinkURL %s\n",format.startPosition, format.endPosition, FORMAT_TAG_GET_BIT_FIELD(format.formatTag, FORMAT_TAG_IS_BOLD), FORMAT_TAG_GET_BIT_FIELD(format.formatTag, FORMAT_TAG_IS_ITALICS), FORMAT_TAG_GET_BIT_FIELD(format.formatTag, FORMAT_TAG_IS_STRUCK), FORMAT_TAG_GET_BIT_FIELD(format.formatTag, FORMAT_TAG_IS_CODE), format.exponentLevel, format.quoteLevel, FORMAT_TAG_GET_H_LEVEL(format.formatTag), format.listNestLevel, format.linkURL);
 }
 
 
@@ -303,18 +301,17 @@ void print_t_format(struct t_format format) {
  @return 0 or 1
  */
 int t_format_cmp(struct t_format format1,struct t_format format2) {
-    //Doubles are 8 bytes, which covers all the boolean properties and a tiny bit of the link pointer
+    //ints are 4 bytes, which covers all the packed properties and the other sizes
+    //this is packing safe (in theory) because chars never cause padding
     //Tip from one of the LLVM people at WWDC`18
-    double format1Sum = *(((double*)&format1.isBold));
-    double format2Sum = *(((double*)&format2.isBold));
-    //Get the next 8 bytes
-    //double format3Sum = *((1 + (double*)&format1.isBold));
-    //double format4Sum = *((1 + (double*)&format2.isBold));
-    if (format1Sum != format2Sum /*|| format3Sum != format4Sum*/) {
+    int format1Sum = *(((int*)&format1.formatTag));
+    int format2Sum = *(((int*)&format2.formatTag));
+
+    if (format1Sum != format2Sum) {
         return 1;
-    }if (format1.linkURL != format2.linkURL || ((format1.linkURL != NULL && format2.linkURL == NULL) || (format2.linkURL != NULL && format1.linkURL == NULL)) || (format1.linkURL != NULL && format2.linkURL != NULL && strcmp(format1.linkURL, format2.linkURL) != 0)) {
+    } else if (format1.linkURL != format2.linkURL || (format1.linkURL != NULL && format2.linkURL != NULL && strcmp(format1.linkURL, format2.linkURL) != 0)) {
         return 1;
-    }else {
+    } else {
         return 0;
     }
 }
@@ -340,80 +337,114 @@ void makeAttributesLinear(struct t_tag inputTags[], int numberOfInputTags, struc
     for (int i = 0; i < numberOfInputTags; i++) {
         struct t_tag tag = inputTags[i];
         char* tagText = tag.tag;
-        
-        if (tagText == NULL) {
-            printf("NULL TAG TEXT?? SKIPPING!");
-        }else if (strncmp(tagText, "strong", 6) == 0) {
-            //Apply bold to all
-            for (int j = tag.startPosition; j < tag.endPosition; j++) {
-                displayTextFormat[j].isBold = 1;
-            }
-        }else if (strncmp(tagText, "em", 2) == 0) {
-            //Apply italics to all
-            for (int j = tag.startPosition; j < tag.endPosition; j++) {
-                displayTextFormat[j].isItalics = 1;
-            }
-        }else if (strncmp(tagText, "del", 3) == 0) {
-            //Apply strike to all
-            for (int j = tag.startPosition; j < tag.endPosition; j++) {
-                displayTextFormat[j].isStruck = 1;
-            }
-        }else if (strncmp(tagText, "code", 4) == 0) {
-            //Apply CODE! to all
-            for (int j = tag.startPosition; j < tag.endPosition; j++) {
-                displayTextFormat[j].isCode = 1;
-            }
-        }else if (strncmp(tagText, "blockquote", 10) == 0) {
-            //Increase quote level
-            for (int j = tag.startPosition; j < tag.endPosition; j++) {
-                displayTextFormat[j].quoteLevel++;
-            }
-        }else if (strncmp(tagText, "sup", 3) == 0) {
-            //Increase superscript level
-            for (int j = tag.startPosition; j < tag.endPosition; j++) {
-                displayTextFormat[j].exponentLevel++;
-            }
-        }else if (tagText[0] == 'h' && tagText[1] >= '1' && tagText[1] <= '6') {
-            //Set our header level
-            for (int j = tag.startPosition; j < tag.endPosition; j++) {
-                displayTextFormat[j].hLevel = tagText[1] - '0';
-            }
-        }else if (strncmp(tagText, "a href=", 7) == 0) {
-            //We first need to extract the link
-            long tagTextLength = strlen(tagText);
-            char *url = malloc(tagTextLength-7);
-            //Extract the URL
-            int z = 8;
-            for (; z < tagTextLength; z++) {
-                if (tagText[z] == '"') {
+        if (tagText) {
+            //switch on the first character to minimize string comparisons
+            switch (tagText[0]) {
+                case 'a':
+                    if (strncmp(tagText, "a href=", 7) == 0) {
+                        //We first need to extract the link
+                        long tagTextLength = strlen(tagText);
+                        char *url = malloc(tagTextLength-7);
+                        //Extract the URL
+                        int z = 8;
+                        for (; z < tagTextLength; z++) {
+                            if (tagText[z] == '"') {
+                                break;
+                            }else {
+                                url[z-8] = tagText[z];
+                            }
+                        }
+                        url[z-8] = 0x00;
+                        
+                        //Set our link
+                        for (int j = tag.startPosition; j < tag.endPosition; j++) {
+                            displayTextFormat[j].linkURL = url;
+                        }
+                        
+                        //If we never got into the loop above (and so url is never stored else where), free it now.
+                        if (tag.endPosition - tag.startPosition <= 0) {
+                            free(url);
+                        }
+                        
+                    }
                     break;
-                }else {
-                    url[z-8] = tagText[z];
-                }
+                case 'b':
+                    if (strncmp(tagText, "blockquote", 10) == 0) {
+                        //Increase quote level
+                        for (int j = tag.startPosition; j < tag.endPosition; j++) {
+                            displayTextFormat[j].quoteLevel++;
+                        }
+                    }
+                    break;
+                case 'c':
+                    if (strncmp(tagText, "code", 4) == 0) {
+                        //Apply CODE! to all
+                        for (int j = tag.startPosition; j < tag.endPosition; j++) {
+                            //Since we only ever set these bit fields to true, we can skip erasing
+                            displayTextFormat[j].formatTag |= 1 * FORMAT_TAG_IS_CODE;
+                        }
+                    }
+                    break;
+                case 'd':
+                    if (strncmp(tagText, "del", 3) == 0) {
+                        //Apply strike to all
+                        for (int j = tag.startPosition; j < tag.endPosition; j++) {
+                            displayTextFormat[j].formatTag |= 1 * FORMAT_TAG_IS_STRUCK;
+                        }
+                    }
+                    break;
+                case 'e':
+                    if (strncmp(tagText, "em", 2) == 0) {
+                        //Apply italics to all
+                        for (int j = tag.startPosition; j < tag.endPosition; j++) {
+                            displayTextFormat[j].formatTag |= 1 * FORMAT_TAG_IS_ITALICS;
+                        }
+                    }
+                    break;
+                case 'h':
+                    if (tagText[0] == 'h' && tagText[1] >= '1' && tagText[1] <= '6') {
+                        //Set our header level
+                        unsigned char headerLevel = tagText[1] - '0';
+                        //since we're stuffing this into a 4 bit field and the above only really expects up to 9 we cap this value
+                        if (headerLevel >= 10) {
+                            headerLevel = 9;
+                        }
+                        for (int j = tag.startPosition; j < tag.endPosition; j++) {
+                            displayTextFormat[j].formatTag |= headerLevel * FORMAT_TAG_H_LEVEL;
+                        }
+                    }
+                    break;
+                case 's':
+                    if (strncmp(tagText, "strong", 6) == 0) {
+                        //Apply bold to all
+                        for (int j = tag.startPosition; j < tag.endPosition; j++) {
+                            displayTextFormat[j].formatTag |= 1 * FORMAT_TAG_IS_BOLD;
+                        }
+                    } else if (strncmp(tagText, "sup", 3) == 0) {
+                        //Increase superscript level
+                        for (int j = tag.startPosition; j < tag.endPosition; j++) {
+                            displayTextFormat[j].exponentLevel++;
+                        }
+                    }
+                    break;
+                case 'o':
+                case 'u':
+                    if (strncmp(tagText, "ol", 2) == 0 || (strncmp(tagText, "ul", 2) == 0)) {
+                        //Apply list indentation
+                        for (int j = tag.startPosition; j < tag.endPosition; j++) {
+                            displayTextFormat[j].listNestLevel++;
+                        }
+                    }
+                    
+                    break;
+                default:
+                    //nil tag
+                    break;
             }
-            url[z-8] = 0x00;
-            
-            //Set our link
-            for (int j = tag.startPosition; j < tag.endPosition; j++) {
-                displayTextFormat[j].linkURL = url;
-            }
-            
-            //If we never got into the loop above (and so url is never stored else where), free it now.
-            if (tag.endPosition - tag.startPosition <= 0) {
-                free(url);
-            }
-            
-        }else if (strncmp(tagText, "ol", 2) == 0 || (strncmp(tagText, "ul", 2) == 0)) {
-            //Apply list indentation
-            for (int j = tag.startPosition; j < tag.endPosition; j++) {
-                displayTextFormat[j].listNestLevel++;
-            }
+        } else {
+            printf("NULL TAG TEXT?? SKIPPING!");
         }
-        else {
-            printf("Unknown tag: %s\n",tagText);
-        }
-        
-        
+
         //Destroy inputTags data as warned
         free(tag.tag);
         tag.tag = NULL;
