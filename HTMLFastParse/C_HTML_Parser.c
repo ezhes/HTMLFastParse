@@ -25,26 +25,26 @@
 
 
 /**
- Get the number of bytes that a given charachter will use when displayed (multi-byte unicode charachters need to be handled like this because NSString counts multi-byte chars as single charachters while C does not obviously)
+ Get the number of bytes that a given character will use when displayed (multi-byte unicode characters need to be handled like this because NSString counts multi-byte chars as single characters while C does not obviously)
  
- @param charachter The charachter
- @return A value between 0-1 if that charachter is valid
+ @param character The character
+ @return A value between 0-1 if that character is valid
  */
-int getVisibleByteEffectForCharachter(unsigned char charachter) {
-	int firstHighBit = (charachter & 0x80);
+int getVisibleByteEffectForCharacter(unsigned char character) {
+	int firstHighBit = (character & 0x80);
 	if (firstHighBit == 0x0) {
 		//Regular ASCII
 		return 1;
 	}else {
-		unsigned char secondHighBit = ((charachter << 1) & 0x80);
+		unsigned char secondHighBit = ((character << 1) & 0x80);
 		if (secondHighBit == 0x0) {
-			//Additional byte charachter (10xxxxxx charachter). Not visible
+			//Additional byte character (10xxxxxx character). Not visible
 			return 0;
 		}else {
-			//This is the start of a multibyte charachter, count it (1+)
-			unsigned char fourByteTest = charachter & 0b11110000;
+			//This is the start of a multibyte character, count it (1+)
+			unsigned char fourByteTest = character & 0b11110000;
 			if (fourByteTest == 0b11110000) {
-				//Patch for apple's weirdness with four byte charachters (they're counted as two visible? WHY?!?!?)
+				//Patch for apple's weirdness with four byte characters (they're counted as two visible? WHY?!?!?)
 				return 2;
 			}else {
 				//We're multibyte but not a four byte which requires the patch, count normally
@@ -55,15 +55,15 @@ int getVisibleByteEffectForCharachter(unsigned char charachter) {
 }
 
 /**
- Tockenize and extract tag info from the input and then output the cleaned string alongisde a tag array with relevant position info
+ Tokenize and extract tag info from the input and then output the cleaned string alongside a tag array with relevant position info
  
  @param input Input text as a char array
- @param inputLength The number of charachters (as bytes) to read, excluding the null byte!
+ @param inputLength The number of characters (as bytes) to read, excluding the null byte!
  @param displayText The char array to write the clean, display text to
- @param completedTags (returned) The array to write the t_format structs to (provides position and tag info). Tags positions are CHARACHTER relative, not byte relative! Usable in NSAttributedString etc
+ @param completedTags (returned) The array to write the t_format structs to (provides position and tag info). Tags positions are character relative, not byte relative! Usable in NSAttributedString etc
  @param numberOfTags (returned) The number of tags discovered
  */
-void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_tag completedTags[], int* numberOfTags, int* numberOfHumanVisibleCharachters) {
+void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_tag completedTags[], int* numberOfTags, int* numberOfHumanVisibleCharacters) {
 	//A stack used for processing tags. The stack size allocates space for x number of POINTERS. Ie this is not creating an overflow vulnerability AFAIK
 	struct Stack* htmlTags = createStack((int)inputLength);
 	//Completed / filled tags
@@ -83,7 +83,7 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 	int htmlEntityCopyPosition = 0;
 	
 	int stringCopyPosition = 0;
-	//Used for applying tokens, DO NOT USE FOR MEMORY WORK. This is used because NSString handles multibyte charachters as single charachters and not as multiple like we have to
+	//Used for applying tokens, DO NOT USE FOR MEMORY WORK. This is used because NSString handles multibyte characters as single characters and not as multiple like we have to
 	int stringVisiblePosition = 0;
 	
 	char previous = 0x00;
@@ -96,7 +96,7 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 			isInTag = true;
 			tagNameCopyPosition = 0;
 			
-			//If there's a next charachter (data validation) and it's NOT '/' (i.e. we're an open tag) we want to create a new formatter on the stack
+			//If there's a next character (data validation) and it's NOT '/' (i.e. we're an open tag) we want to create a new formatter on the stack
 			if (i+1 < inputLength && input[i+1] != '/') {
 				struct t_tag format;
                 format.tag = NULL;
@@ -140,7 +140,7 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 					//We're not a known case, add the tag into the extracted tag array
 					long tagNameLength = (tagNameCopyPosition + 1) * sizeof(char);
 					char *newTagBuffer = malloc(tagNameLength);
-					strncpy(newTagBuffer,tagNameBuffer,tagNameLength);
+					strncpy(newTagBuffer, tagNameBuffer, tagNameLength);
 					
 					format.tag = newTagBuffer;
 					format.startPosition = stringVisiblePosition;
@@ -157,7 +157,7 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 				long tagNameLength = (tagNameCopyPosition + 1) * sizeof(char);
 				char *newTagBuffer = malloc(tagNameLength);
 				memset(newTagBuffer, 0x0, tagNameLength);
-				strncpy(newTagBuffer,tagNameBuffer,tagNameLength);
+				strncpy(newTagBuffer, tagNameBuffer, tagNameLength);
                 struct t_tag* formatP = pop(htmlTags);
                 //Make sure we didn't get a NULL from popping an empty stack
                 //If we end up failing here the text will be horribly mangled however "broken formatting" IMHO is better than a full crash or worse a sec issue
@@ -214,9 +214,9 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 				//Expand into regular text
 				size_t numberDecodedBytes = decode_html_entities_utf8(&displayText[stringCopyPosition], htmlEntityBuffer);
                 for (unsigned long decodedI = 0; decodedI < numberDecodedBytes; decodedI++) {
-                    //Add the visual effect for each characher. This lets us also handle when decode sends back a tag it can't decode.
-                    //Also helpful incase we have codes which decode to multiple charachters, which could happen
-                    stringVisiblePosition += getVisibleByteEffectForCharachter(displayText[stringCopyPosition + decodedI]);
+                    //Add the visual effect for each character. This lets us also handle when decode sends back a tag it can't decode.
+                    //Also helpful incase we have codes which decode to multiple characters, which could happen
+                    stringVisiblePosition += getVisibleByteEffectForCharacter(displayText[stringCopyPosition + decodedI]);
                 }
 				
 				stringCopyPosition += numberDecodedBytes;
@@ -233,7 +233,7 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
                 tagNameBuffer[tagNameCopyPosition] = current;
                 tagNameCopyPosition++;
             } else {
-                //Don't allow double new lines (thanks redddit for sending these?)
+                //Don't allow double new lines (thanks Reddit for sending these?)
                 //Don't allow just new lines (happens between blockquotes and p tags, again reddit issue)
                 //This messes up quote formatting
 #ifdef reddit_mode
@@ -241,7 +241,7 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 #endif
 					previous = current;
 					displayText[stringCopyPosition] = current;
-					stringVisiblePosition+=getVisibleByteEffectForCharachter(current);
+					stringVisiblePosition += getVisibleByteEffectForCharacter(current);
 					stringCopyPosition++;
 #ifdef reddit_mode
 				}
@@ -266,7 +266,7 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
         //Make sure we didn't get a NULL from popping an empty stack
         if (formatP != NULL) {
             struct t_tag in = *formatP;
-            printf("!!! UNCLOSED TAG: %s starts at %i ends at %i\n",in.tag,in.startPosition,in.endPosition);
+            printf("!!! UNCLOSED TAG: %s starts at %i ends at %i\n", in.tag, in.startPosition,in.endPosition);
             free(in.tag);
         }
 	}
@@ -277,11 +277,11 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-variable"
 		struct t_tag inTag = completedTags[i];
-		printf("TAG: %s starts at %i ends at %i\n",inTag.tag,inTag.startPosition,inTag.endPosition);
+		printf("TAG: %s starts at %i ends at %i\n", inTag.tag, inTag.startPosition,inTag.endPosition);
 #pragma GCC diagnostic pop
 	}
 	*numberOfTags = completedTagsPosition;
-	*numberOfHumanVisibleCharachters = stringVisiblePosition;
+	*numberOfHumanVisibleCharacters = stringVisiblePosition;
 	
 	//Release everything that's not necessary
 	prepareForFree(htmlTags);
@@ -291,7 +291,7 @@ void tokenizeHTML(char input[],size_t inputLength,char displayText[], struct t_t
 }
 
 void print_t_format(struct t_format format) {
-	printf("Format [%i,%i): Bold %i, Italic %i, Struck %i, Code %i, Exponent %i, Quote %i, H%i, ListNest %i LinkURL %s\n",format.startPosition,format.endPosition,format.isBold,format.isItalics,format.isStruck,format.isCode,format.exponentLevel,format.quoteLevel,format.hLevel,format.listNestLevel,format.linkURL);
+	printf("Format [%i,%i): Bold %i, Italic %i, Struck %i, Code %i, Exponent %i, Quote %i, H%i, ListNest %i LinkURL %s\n",format.startPosition, format.endPosition, format.isBold, format.isItalics, format.isStruck, format.isCode, format.exponentLevel, format.quoteLevel, format.hLevel, format.listNestLevel, format.linkURL);
 }
 
 
@@ -404,7 +404,7 @@ void makeAttributesLinear(struct t_tag inputTags[], int numberOfInputTags, struc
 			}
 			
         }else if (strncmp(tagText, "ol", 2) == 0 || (strncmp(tagText, "ul", 2) == 0)) {
-            //Apply list intendation
+            //Apply list indentation
             for (int j = tag.startPosition; j < tag.endPosition; j++) {
                 displayTextFormat[j].listNestLevel++;
             }
@@ -424,7 +424,7 @@ void makeAttributesLinear(struct t_tag inputTags[], int numberOfInputTags, struc
 	}
 	printf("--------\n");
 	
-	//Now that each charachter has it's style, let's simplify to a 1D
+	//Now that each character has it's style, let's simplify to a 1D
 	*numberOfSimplifiedTags = 0;
 	unsigned int activeStyleStart = 0;
 	for (int i = 1; i < displayTextLength; i++) {
@@ -462,7 +462,7 @@ void makeAttributesLinear(struct t_tag inputTags[], int numberOfInputTags, struc
 	//now free
 	for (int i = 0; i < displayTextLength; i++) {
 		//do we have a linkURL and is it either different from the next one or are we the last one
-		//this is neccesary so we don't double free the URL
+		//this is necessary so we don't double free the URL
 		if (displayTextFormat[i].linkURL && ((i + 1 < displayTextLength && displayTextFormat[i+1].linkURL != displayTextFormat[i].linkURL) || (i+1 >= displayTextLength))) {
 			free(displayTextFormat[i].linkURL);
 			displayTextFormat[i].linkURL = NULL;
