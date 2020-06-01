@@ -9,14 +9,14 @@
 
 #include <stddef.h>
 
-extern size_t decode_html_entities_utf8(char *dest, const char *src);
-/*	Takes input from <src> and decodes into <dest>, which should be a buffer
-	large enough to hold <strlen(src) + 1> characters.
+/*    Takes input from <src> and decodes into <dest>, which should be a buffer
+    large enough to hold <strlen(src) + 1> characters.
 
-	If <src> is <NULL>, input will be taken from <dest>, decoding
-	the entities in-place.
+    If <src> is <NULL>, input will be taken from <dest>, decoding
+    the entities in-place.
 
-	The function returns the length of the decoded string.
+    The function returns the length of the decoded string.
 */
+extern size_t decode_html_entities_utf8(char *dest, const char *src);
 
 #endif

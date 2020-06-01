@@ -7,6 +7,9 @@
 struct t_tag {
     unsigned int startPosition;
     unsigned int endPosition;
-    char* tag;
+    char *tag;
+    
+    size_t tableDataLength;
+    char *tableData;
 };
 #endif //HTMLTOATTR_FORMAT_H

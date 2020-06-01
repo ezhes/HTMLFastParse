@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		227D5BF920E5643500635BA2 /* HTMLFastParseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 227D5BF820E5643500635BA2 /* HTMLFastParseTests.m */; };
 		227D5C0120E5648200635BA2 /* TestData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 227D5C0020E5648200635BA2 /* TestData.plist */; };
+		229318732484BC2200D53188 /* base64.c in Sources */ = {isa = PBXBuildFile; fileRef = 229318722484BC2200D53188 /* base64.c */; };
 		22B9C5EB24848A3C007CAD42 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 22B9C5EA24848A3C007CAD42 /* README.md */; };
 		22C2550720E56BAD0021BF7B /* AnswerData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 22C2550620E56BAD0021BF7B /* AnswerData.plist */; };
 		22C2550D20E59EFB0021BF7B /* 2MB_dev_random.txt in Resources */ = {isa = PBXBuildFile; fileRef = 22C2550C20E59EFB0021BF7B /* 2MB_dev_random.txt */; };
@@ -57,6 +58,8 @@
 		227D5BF820E5643500635BA2 /* HTMLFastParseTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HTMLFastParseTests.m; sourceTree = "<group>"; };
 		227D5BFA20E5643500635BA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		227D5C0020E5648200635BA2 /* TestData.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = TestData.plist; sourceTree = "<group>"; };
+		229318712484BC2200D53188 /* base64.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = base64.h; sourceTree = "<group>"; };
+		229318722484BC2200D53188 /* base64.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = base64.c; sourceTree = "<group>"; };
 		22B9C5EA24848A3C007CAD42 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		22C2550620E56BAD0021BF7B /* AnswerData.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = AnswerData.plist; sourceTree = "<group>"; };
 		22C2550C20E59EFB0021BF7B /* 2MB_dev_random.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 2MB_dev_random.txt; sourceTree = "<group>"; };
@@ -186,6 +189,8 @@
 				22C763E42093D488005B6E23 /* Stack.h */,
 				22FC446A2094E2E20044980B /* FormatToAttributedString.h */,
 				22FC446B2094E2E20044980B /* FormatToAttributedString.m */,
+				229318712484BC2200D53188 /* base64.h */,
+				229318722484BC2200D53188 /* base64.c */,
 			);
 			path = HTMLFastParse;
 			sourceTree = "<group>";
@@ -342,6 +347,7 @@
 				22C763DA2093CD1B005B6E23 /* main.m in Sources */,
 				22C763F22093E5FF005B6E23 /* C_HTML_Parser.c in Sources */,
 				22C763E52093D488005B6E23 /* Stack.c in Sources */,
+				229318732484BC2200D53188 /* base64.c in Sources */,
 				22C763CC2093CD1B005B6E23 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

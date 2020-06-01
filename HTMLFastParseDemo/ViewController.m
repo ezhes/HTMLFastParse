@@ -23,7 +23,7 @@
 	// Do any additional setup after loading the view, typically from a nib.
 	
 //	NSString * other = @"\n\n\n<div class=\"md\"><p>Inline <code>Test code</code> outside</p>\n\n<pre><code>Code Block\nwhew still code\n</code></pre>\n\n<p>Plain</p>\n\n<a href=\"https://reddit.com/r/homelab\">Wikitest</a>\nblah</div>";
-    NSString *tableTest = @"<p>welcome</p>\n<br/>\n<table>\n    <thead>\n        <tr>\n            <th align=\"left\">Questions</th>\n            <th align=\"left\">Answers</th></tr></thead>\n    <tbody>\n        <tr>\n            <td align=\"left\">What is your favorite color?</td>\n            <td align=\"left\">Orange.</td></tr>\n        <tr>\n            <td align=\"left\">Cats or dogs?</td>\n            <td align=\"left\">Foxes.</td></tr></tbody>\n</table>\n<br/>\n<p>hey</p>";
+    NSString *tableTest = @"<p>Hello there</p>\n<br/>\n<table>\n    <thead>\n        <tr>\n            <th align=\"left\">Questions</th>\n            <th align=\"left\">Answers</th></tr></thead>\n    <tbody>\n        <tr>\n            <td align=\"left\">What is your favorite color?</td>\n            <td align=\"left\">Orange.</td></tr>\n        <tr>\n            <td align=\"left\">Cats or dogs?</td>\n            <td align=\"left\">Foxes.</td></tr></tbody>\n</table>\n<br/>\n<p>hey</p>";
 	[self showNormal: tableTest];
 		
 }
