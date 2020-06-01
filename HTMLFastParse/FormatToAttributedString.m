@@ -30,7 +30,7 @@ UIColor *containerBackgroundColor;
 UIColor *quoteFontColor;
 UIColor *linkColor;
 
-//We pregenerate nested quotes up to four for speed, after that they're dynamically allocated
+//We pre-generate nested quotes up to four for speed, after that they're dynamically allocated
 NSMutableParagraphStyle *quoteParagraphStyle1;
 NSMutableParagraphStyle *quoteParagraphStyle2;
 NSMutableParagraphStyle *quoteParagraphStyle3;
@@ -65,10 +65,10 @@ float quotePadding = 20.0;
 
 
 /**
- Initilize and cache high frquency fonts, colors, and other styles
+ Initialize and cache high frequency fonts, colors, and other styles
  */
 -(void)prepareFonts {
-    //Get the user's prefered fontsize from the system and use that as the base
+    //Get the user's preferred font size from the system and use that as the base
     baseFontSize = [UIFont preferredFontForTextStyle:UIFontTextStyleBody].pointSize;
     
     UIFontDescriptor *fontDescriptor = [UIFontDescriptor preferredFontDescriptorWithTextStyle:UIFontTextStyleBody];
@@ -107,7 +107,7 @@ float quotePadding = 20.0;
  This is used for quote formatting
  
  @param depth The depth * `quotePadding` is the amount of indent that will be used. Zero means no indent
- @return A paragraph style object usuable in attribution
+ @return A paragraph style object useable in attribution
  */
 -(NSMutableParagraphStyle *)generateParagraphStyleAtLevel:(int)depth {
     NSMutableParagraphStyle *quoteParagraphStyle = [[NSMutableParagraphStyle alloc]init];
@@ -165,10 +165,10 @@ float quotePadding = 20.0;
         answer = [[NSMutableAttributedString alloc] initWithString:stringBuffer];
         //Add our default attributes
         [answer addAttributes:@{
-                                NSFontAttributeName : plainFont,
-                                NSParagraphStyleAttributeName : defaultParagraphStyle,
-                                NSBackgroundColorAttributeName : [UIColor clearColor]
-                                } range:NSMakeRange(0, answer.length)];
+            NSFontAttributeName : plainFont,
+            NSParagraphStyleAttributeName : defaultParagraphStyle,
+            NSBackgroundColorAttributeName : [UIColor clearColor]
+        } range:NSMakeRange(0, answer.length)];
         //Only format the string if we are sure that everything will line up (if our calculated visible is not the same as attributed sees, everything will be broken and likely will cause a crash
         if ([answer length] == numberOfHumanVisibleCharacters) {
             for (int i = 0; i < numberOfSimplifiedTags; i++) {
@@ -241,7 +241,7 @@ float quotePadding = 20.0;
             [string addAttribute:NSLinkAttributeName value: nsLinkURL range:currentRange];
             [string addAttribute:NSForegroundColorAttributeName value:linkColor range:currentRange];
         }else {
-            //We wern't able to set the URL, so feed forward that we don't actually have a URL
+            //We were not able to set the URL, so feed forward that we don't actually have a URL
             //this shouldn't have any consequences w.r.t. memory freeing since **all** URLs in a t_format are attempted to free, regardless if they are nil (i.e. .linkURL isn't checked since free(0x0) is documented to have no effect).
             format.linkURL = 0x00;
         }
@@ -276,7 +276,7 @@ float quotePadding = 20.0;
         CGFloat fontSize = baseFontSize;
         //Handle H#
         if (format.hLevel > 0) {
-            //Reddit only supports 1-6, so that's all that's been implmented
+            //Reddit only supports 1-6, so that's all that's been implemented
             switch (format.hLevel) {
                 case 0:
                     break;
@@ -299,7 +299,7 @@ float quotePadding = 20.0;
                     fontSize *= 0.75;
                     break;
                 default:
-                    //Unexpcted position, so we're not going to apply this style
+                    //Unexpected position, so we're not going to apply this style
                     NSLog(@"Unknown HLevel");
                     break;
             }
