@@ -341,7 +341,7 @@ float quotePadding = 20.0;
         [string addAttribute:NSFontAttributeName value:customFont range:currentRange];
     }
     
-    if (FORMAT_TAG_GET_BIT_FIELD(format.formatTag, FORMAT_TAG_IS_CODE_OFFSET) && format.quoteLevel == 0 && format.linkURL == nil) {
+    if (FORMAT_TAG_GET_BIT_FIELD(format.formatTag, FORMAT_TAG_IS_CODE_OFFSET) == 0 && format.quoteLevel == 0 && format.linkURL == nil) {
         [string addAttribute:NSForegroundColorAttributeName value:defaultFontColor range:currentRange];
     }
 }
