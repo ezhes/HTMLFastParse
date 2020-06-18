@@ -437,7 +437,7 @@ void makeAttributesLinear(struct t_tag inputTags[], int numberOfInputTags, struc
                         //Apply CODE! to all
                         for (int j = tag.startPosition; j < tag.endPosition; j++) {
                             //Since we only ever set these bit fields to true, we can skip erasing
-                            displayTextFormat[j].formatTag |= 1 * FORMAT_TAG_IS_CODE;
+                            displayTextFormat[j].formatTag |= 1 << FORMAT_TAG_IS_CODE_OFFSET;
                         }
                     }
                     break;
@@ -445,7 +445,7 @@ void makeAttributesLinear(struct t_tag inputTags[], int numberOfInputTags, struc
                     if (strncmp(tagText, "del", 3) == 0) {
                         //Apply strike to all
                         for (int j = tag.startPosition; j < tag.endPosition; j++) {
-                            displayTextFormat[j].formatTag |= 1 * FORMAT_TAG_IS_STRUCK;
+                            displayTextFormat[j].formatTag |= 1 << FORMAT_TAG_IS_STRUCK_OFFSET;
                         }
                     }
                     break;
@@ -453,7 +453,7 @@ void makeAttributesLinear(struct t_tag inputTags[], int numberOfInputTags, struc
                     if (strncmp(tagText, "em", 2) == 0) {
                         //Apply italics to all
                         for (int j = tag.startPosition; j < tag.endPosition; j++) {
-                            displayTextFormat[j].formatTag |= 1 * FORMAT_TAG_IS_ITALICS;
+                            displayTextFormat[j].formatTag |= 1 << FORMAT_TAG_IS_ITALICS_OFFSET;
                         }
                     }
                     break;
@@ -466,7 +466,7 @@ void makeAttributesLinear(struct t_tag inputTags[], int numberOfInputTags, struc
                             headerLevel = 9;
                         }
                         for (int j = tag.startPosition; j < tag.endPosition; j++) {
-                            displayTextFormat[j].formatTag |= headerLevel * FORMAT_TAG_H_LEVEL;
+                            displayTextFormat[j].formatTag |= headerLevel < FORMAT_TAG_H_LEVEL_OFFSET;
                         }
                     }
                     break;
@@ -474,7 +474,7 @@ void makeAttributesLinear(struct t_tag inputTags[], int numberOfInputTags, struc
                     if (strncmp(tagText, "strong", 6) == 0) {
                         //Apply bold to all
                         for (int j = tag.startPosition; j < tag.endPosition; j++) {
-                            displayTextFormat[j].formatTag |= 1 * FORMAT_TAG_IS_BOLD;
+                            displayTextFormat[j].formatTag |= 1 << FORMAT_TAG_IS_BOLD_OFFSET;
                         }
                     } else if (strncmp(tagText, "sup", 3) == 0) {
                         //Increase superscript level

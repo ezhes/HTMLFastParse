@@ -9,15 +9,15 @@
 #ifndef t_format_h
 #define t_format_h
 
-#define FORMAT_TAG_IS_BOLD 1<<0
-#define FORMAT_TAG_IS_ITALICS 1<<1
-#define FORMAT_TAG_IS_STRUCK 1<<2
-#define FORMAT_TAG_IS_CODE 1<<3
-#define FORMAT_TAG_H_LEVEL 1<<4
-#define FORMAT_TAG_H_MASK 0b1111<<4
+#define FORMAT_TAG_IS_BOLD_OFFSET    0
+#define FORMAT_TAG_IS_ITALICS_OFFSET 1
+#define FORMAT_TAG_IS_STRUCK_OFFSET  2
+#define FORMAT_TAG_IS_CODE_OFFSET    3
+#define FORMAT_TAG_H_LEVEL_OFFSET    4
+#define FORMAT_TAG_H_MASK ((1<<FORMAT_TAG_H_LEVEL_OFFSET) - 1)
 
-#define FORMAT_TAG_GET_BIT_FIELD(v, field) (v & field) >> field
-#define FORMAT_TAG_GET_H_LEVEL(v) (v & FORMAT_TAG_H_MASK)/FORMAT_TAG_H_LEVEL
+#define FORMAT_TAG_GET_BIT_FIELD(v, offset) (((v) & (1 << (offset))) >> (offset))
+#define FORMAT_TAG_GET_H_LEVEL(v) (((v) & (FORMAT_TAG_H_MASK)) >> (FORMAT_TAG_H_LEVEL_OFFSET))
 //#define FORMAT_TAG_SET_FIELD(v, field, value) 
 /**
  A structure representing a character/range's text formatting

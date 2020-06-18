@@ -201,11 +201,11 @@ float quotePadding = 20.0;
     //This is the range of the style
     NSRange currentRange = NSMakeRange(format.startPosition, format.endPosition-format.startPosition);
     //unpack commonly used format values
-    char isBold = FORMAT_TAG_GET_BIT_FIELD(format.formatTag, FORMAT_TAG_IS_BOLD);
-    char isItalics = FORMAT_TAG_GET_BIT_FIELD(format.formatTag, FORMAT_TAG_IS_ITALICS);
+    char isBold = FORMAT_TAG_GET_BIT_FIELD(format.formatTag, FORMAT_TAG_IS_BOLD_OFFSET);
+    char isItalics = FORMAT_TAG_GET_BIT_FIELD(format.formatTag, FORMAT_TAG_IS_ITALICS_OFFSET);
     char hLevel = FORMAT_TAG_GET_H_LEVEL(format.formatTag);
 
-    if (isBold) {
+    if (FORMAT_TAG_GET_BIT_FIELD(format.formatTag, FORMAT_TAG_IS_STRUCK_OFFSET)) {
         [string addAttribute:NSStrikethroughStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:currentRange];
     }
     
@@ -254,7 +254,7 @@ float quotePadding = 20.0;
     
     /* Styling that uses fonts. This includes exponents, h#, bold, italics, and any combination thereof. Code formatting skips all of these */
     
-    if (FORMAT_TAG_GET_BIT_FIELD(format.formatTag, FORMAT_TAG_IS_CODE)) {
+    if (FORMAT_TAG_GET_BIT_FIELD(format.formatTag, FORMAT_TAG_IS_CODE_OFFSET)) {
         [string addAttribute:NSFontAttributeName value:codeFont range:currentRange];
         [string addAttribute:NSBackgroundColorAttributeName value:containerBackgroundColor range:currentRange];
         [string addAttribute:NSForegroundColorAttributeName value:codeFontColor range:currentRange];
@@ -341,7 +341,7 @@ float quotePadding = 20.0;
         [string addAttribute:NSFontAttributeName value:customFont range:currentRange];
     }
     
-    if (FORMAT_TAG_GET_BIT_FIELD(format.formatTag, FORMAT_TAG_IS_CODE) && format.quoteLevel == 0 && format.linkURL == nil) {
+    if (FORMAT_TAG_GET_BIT_FIELD(format.formatTag, FORMAT_TAG_IS_CODE_OFFSET) && format.quoteLevel == 0 && format.linkURL == nil) {
         [string addAttribute:NSForegroundColorAttributeName value:defaultFontColor range:currentRange];
     }
 }
