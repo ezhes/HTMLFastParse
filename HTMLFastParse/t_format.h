@@ -17,7 +17,7 @@
 #define FORMAT_TAG_H_MASK ((1<<FORMAT_TAG_H_LEVEL_OFFSET) - 1)
 
 #define FORMAT_TAG_GET_BIT_FIELD(v, offset) (((v) & (1 << (offset))) >> (offset))
-#define FORMAT_TAG_GET_H_LEVEL(v) (((v) & (FORMAT_TAG_H_MASK)) >> (FORMAT_TAG_H_LEVEL_OFFSET))
+#define FORMAT_TAG_GET_H_LEVEL(v) (((v) >> (FORMAT_TAG_H_LEVEL_OFFSET)) & (FORMAT_TAG_H_MASK))
 //#define FORMAT_TAG_SET_FIELD(v, field, value) 
 /**
  A structure representing a character/range's text formatting

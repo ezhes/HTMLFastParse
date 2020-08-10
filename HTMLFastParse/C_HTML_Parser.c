@@ -466,7 +466,7 @@ void makeAttributesLinear(struct t_tag inputTags[], int numberOfInputTags, struc
                             headerLevel = 9;
                         }
                         for (int j = tag.startPosition; j < tag.endPosition; j++) {
-                            displayTextFormat[j].formatTag |= headerLevel < FORMAT_TAG_H_LEVEL_OFFSET;
+                            displayTextFormat[j].formatTag |= headerLevel << FORMAT_TAG_H_LEVEL_OFFSET;
                         }
                     }
                     break;
