@@ -34,7 +34,7 @@ if (filled_size + new_bytes >= buffer_size) \
 } while(0);
 
 //Used for encoding the table out of band links
-static const char DATA_URI_PREFIX[] = "data:text/html;base64,";
+static const char DATA_URI_PREFIX[] = "data:text/html;charset=utf-8;base64,";
 static const char VIEW_TABLE_TEXT[] = "[View table]\n";
 
 
