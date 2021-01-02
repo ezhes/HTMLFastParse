@@ -1,11 +1,11 @@
 ALL   = fuzz_target
-FLAGS = -Wall -O3 -fblocks -framework CoreFoundation -framework AppKit -fsanitize=address
+FLAGS = -Wall -Ofast -fsanitize=address
 CC	= ./hfuzz-cc
 .PHONY: all clean
 
 all: $(ALL)
 
-fuzz_target: ../HTMLFastParseFuzzingCli/*.m
+fuzz_target: ../HTMLFastParseFuzzingCli/main.c
 	$(CC) -o $@ $^ "../HTMLFastParse/entities.c" "../HTMLFastParse/C_HTML_Parser.c" "../HTMLFastParse/Stack.c" "../HTMLFastParse/base64.c" $(FLAGS)
 
 clean:

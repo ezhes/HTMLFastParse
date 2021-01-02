@@ -1,7 +1,7 @@
 <!-- SC_OFF --><div class="md"><ol>
-<li>One</li>
-<li>Two</li>
-<li>Three</li>
-<li>Four</li>
+<li>1</li>
+<li>2</li>
+<li>4</li>
+<li>3</li>
 </ol>
 </div><!-- SC_ON -->

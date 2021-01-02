@@ -78,7 +78,7 @@ int getVisibleByteEffectForCharacter(unsigned char character) {
  @return The displayed text buffer
  */
 char * tokenizeHTML(char *input, size_t inputLength, struct t_tag *completedTags, int *numberOfTags, int *numberOfHumanVisibleCharacters) {
-    size_t displayTextBufferSize = (strlen(input) + 1) * sizeof(char);
+    size_t displayTextBufferSize = (strnlen(input, inputLength) + 1) * sizeof(char);
     char *displayText = malloc(displayTextBufferSize);
     //A stack used for processing tags. The stack size allocates space for x number of POINTERS. Ie this is not creating an overflow vulnerability AFAIK
     struct Stack* htmlTags = createStack((int)inputLength);

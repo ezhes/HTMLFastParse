@@ -10,11 +10,11 @@
 		227D5BF920E5643500635BA2 /* HTMLFastParseTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 227D5BF820E5643500635BA2 /* HTMLFastParseTests.m */; };
 		227D5C0120E5648200635BA2 /* TestData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 227D5C0020E5648200635BA2 /* TestData.plist */; };
 		229318732484BC2200D53188 /* base64.c in Sources */ = {isa = PBXBuildFile; fileRef = 229318722484BC2200D53188 /* base64.c */; };
+		22AD048D259FE00E0084DBDD /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 22AD048C259FE00E0084DBDD /* main.c */; };
+		22AD0497259FE2AB0084DBDD /* base64.c in Sources */ = {isa = PBXBuildFile; fileRef = 229318722484BC2200D53188 /* base64.c */; };
 		22B9C5EB24848A3C007CAD42 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 22B9C5EA24848A3C007CAD42 /* README.md */; };
 		22C2550720E56BAD0021BF7B /* AnswerData.plist in Resources */ = {isa = PBXBuildFile; fileRef = 22C2550620E56BAD0021BF7B /* AnswerData.plist */; };
 		22C2550D20E59EFB0021BF7B /* 2MB_dev_random.txt in Resources */ = {isa = PBXBuildFile; fileRef = 22C2550C20E59EFB0021BF7B /* 2MB_dev_random.txt */; };
-		22C2551520E5A1260021BF7B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C2551420E5A1260021BF7B /* main.m */; };
-		22C2551B20E5A1620021BF7B /* FormatToAttributedStringMacOS.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C2551A20E5A1620021BF7B /* FormatToAttributedStringMacOS.m */; };
 		22C2551C20E5A2610021BF7B /* entities.c in Sources */ = {isa = PBXBuildFile; fileRef = 22FC446D20952D6E0044980B /* entities.c */; };
 		22C2551D20E5A2610021BF7B /* C_HTML_Parser.c in Sources */ = {isa = PBXBuildFile; fileRef = 22C763F12093E5FF005B6E23 /* C_HTML_Parser.c */; };
 		22C2551E20E5A2610021BF7B /* Stack.c in Sources */ = {isa = PBXBuildFile; fileRef = 22C763E32093D488005B6E23 /* Stack.c */; };
@@ -60,13 +60,11 @@
 		227D5C0020E5648200635BA2 /* TestData.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = TestData.plist; sourceTree = "<group>"; };
 		229318712484BC2200D53188 /* base64.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = base64.h; sourceTree = "<group>"; };
 		229318722484BC2200D53188 /* base64.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = base64.c; sourceTree = "<group>"; };
+		22AD048C259FE00E0084DBDD /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		22B9C5EA24848A3C007CAD42 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		22C2550620E56BAD0021BF7B /* AnswerData.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = AnswerData.plist; sourceTree = "<group>"; };
 		22C2550C20E59EFB0021BF7B /* 2MB_dev_random.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 2MB_dev_random.txt; sourceTree = "<group>"; };
 		22C2551220E5A1260021BF7B /* HTMLFastParseDemoFuzzingCli */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = HTMLFastParseDemoFuzzingCli; sourceTree = BUILT_PRODUCTS_DIR; };
-		22C2551420E5A1260021BF7B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		22C2551920E5A1620021BF7B /* FormatToAttributedStringMacOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormatToAttributedStringMacOS.h; sourceTree = "<group>"; };
-		22C2551A20E5A1620021BF7B /* FormatToAttributedStringMacOS.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormatToAttributedStringMacOS.m; sourceTree = "<group>"; };
 		22C2552120E7380F0021BF7B /* non_utf8_fuzzer_crash.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = non_utf8_fuzzer_crash.txt; sourceTree = "<group>"; };
 		22C763C72093CD1B005B6E23 /* HTMLFastParseDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HTMLFastParseDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		22C763CA2093CD1B005B6E23 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -131,9 +129,7 @@
 		22C2551320E5A1260021BF7B /* HTMLFastParseFuzzingCli */ = {
 			isa = PBXGroup;
 			children = (
-				22C2551420E5A1260021BF7B /* main.m */,
-				22C2551920E5A1620021BF7B /* FormatToAttributedStringMacOS.h */,
-				22C2551A20E5A1620021BF7B /* FormatToAttributedStringMacOS.m */,
+				22AD048C259FE00E0084DBDD /* main.c */,
 			);
 			path = HTMLFastParseFuzzingCli;
 			sourceTree = "<group>";
@@ -329,8 +325,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				22C2551B20E5A1620021BF7B /* FormatToAttributedStringMacOS.m in Sources */,
-				22C2551520E5A1260021BF7B /* main.m in Sources */,
+				22AD0497259FE2AB0084DBDD /* base64.c in Sources */,
+				22AD048D259FE00E0084DBDD /* main.c in Sources */,
 				22C2551C20E5A2610021BF7B /* entities.c in Sources */,
 				22C2551D20E5A2610021BF7B /* C_HTML_Parser.c in Sources */,
 				22C2551E20E5A2610021BF7B /* Stack.c in Sources */,
@@ -429,7 +425,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = XBKLZPN8YT;
-				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_OPTIMIZATION_LEVEL = fast;
 				GCC_VERSION = "";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
