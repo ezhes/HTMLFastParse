@@ -6,11 +6,11 @@
 //  Copyright © 2018 CarbonDev. All rights reserved.
 //
 
-#import "FormatToAttributedString.h"
+#import "HFPFormatToAttributedString.h"
 #import "C_HTML_Parser.h"
 #import <UIKit/UIKit.h>
 
-@implementation FormatToAttributedString
+@implementation HFPFormatToAttributedString
 NSString *standardFontName;
 NSString *boldFontName;
 NSString *italicFontName;

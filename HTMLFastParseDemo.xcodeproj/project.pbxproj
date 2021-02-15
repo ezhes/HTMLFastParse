@@ -27,7 +27,7 @@
 		22C763DA2093CD1B005B6E23 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 22C763D92093CD1B005B6E23 /* main.m */; };
 		22C763E52093D488005B6E23 /* Stack.c in Sources */ = {isa = PBXBuildFile; fileRef = 22C763E32093D488005B6E23 /* Stack.c */; };
 		22C763F22093E5FF005B6E23 /* C_HTML_Parser.c in Sources */ = {isa = PBXBuildFile; fileRef = 22C763F12093E5FF005B6E23 /* C_HTML_Parser.c */; };
-		22FC446C2094E2E20044980B /* FormatToAttributedString.m in Sources */ = {isa = PBXBuildFile; fileRef = 22FC446B2094E2E20044980B /* FormatToAttributedString.m */; };
+		22FC446C2094E2E20044980B /* HFPFormatToAttributedString.m in Sources */ = {isa = PBXBuildFile; fileRef = 22FC446B2094E2E20044980B /* HFPFormatToAttributedString.m */; };
 		22FC446F20952D6E0044980B /* entities.c in Sources */ = {isa = PBXBuildFile; fileRef = 22FC446D20952D6E0044980B /* entities.c */; };
 /* End PBXBuildFile section */
 
@@ -82,8 +82,8 @@
 		22C763F02093E5FF005B6E23 /* C_HTML_Parser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = C_HTML_Parser.h; sourceTree = "<group>"; };
 		22C763F12093E5FF005B6E23 /* C_HTML_Parser.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = C_HTML_Parser.c; sourceTree = "<group>"; };
 		22DD387520942E70009ECE24 /* t_format.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = t_format.h; sourceTree = "<group>"; };
-		22FC446A2094E2E20044980B /* FormatToAttributedString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormatToAttributedString.h; sourceTree = "<group>"; };
-		22FC446B2094E2E20044980B /* FormatToAttributedString.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormatToAttributedString.m; sourceTree = "<group>"; };
+		22FC446A2094E2E20044980B /* HFPFormatToAttributedString.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HFPFormatToAttributedString.h; sourceTree = "<group>"; };
+		22FC446B2094E2E20044980B /* HFPFormatToAttributedString.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HFPFormatToAttributedString.m; sourceTree = "<group>"; };
 		22FC446D20952D6E0044980B /* entities.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = entities.c; sourceTree = "<group>"; };
 		22FC446E20952D6E0044980B /* entities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = entities.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -183,8 +183,8 @@
 				22DD387520942E70009ECE24 /* t_format.h */,
 				22C763E32093D488005B6E23 /* Stack.c */,
 				22C763E42093D488005B6E23 /* Stack.h */,
-				22FC446A2094E2E20044980B /* FormatToAttributedString.h */,
-				22FC446B2094E2E20044980B /* FormatToAttributedString.m */,
+				22FC446A2094E2E20044980B /* HFPFormatToAttributedString.h */,
+				22FC446B2094E2E20044980B /* HFPFormatToAttributedString.m */,
 				229318712484BC2200D53188 /* base64.h */,
 				229318722484BC2200D53188 /* base64.c */,
 			);
@@ -339,7 +339,7 @@
 			files = (
 				22FC446F20952D6E0044980B /* entities.c in Sources */,
 				22C763CF2093CD1B005B6E23 /* ViewController.m in Sources */,
-				22FC446C2094E2E20044980B /* FormatToAttributedString.m in Sources */,
+				22FC446C2094E2E20044980B /* HFPFormatToAttributedString.m in Sources */,
 				22C763DA2093CD1B005B6E23 /* main.m in Sources */,
 				22C763F22093E5FF005B6E23 /* C_HTML_Parser.c in Sources */,
 				22C763E52093D488005B6E23 /* Stack.c in Sources */,

@@ -10,11 +10,10 @@ This library, written mostly in C with `NSAttributedString` functions in Obj-C, 
 * An extensible architecture which allows you to add and remove tags as necessary for your application
 
 ### Using it
-Copy everything the folder `HTMLFastParse` into your project. 
 
-If you're using Objective-C simply import `FormatToAttributedString.h`. If you're using Swift you'll need to import `FormatToAttributedString.h` in your `???-Bridge-Header.h` instead.
+HTMLFastParse is available as a Swift Package. Simply add this repo and import the library with `#import <HTMLFastParse/HTMLFastParse.h>`, and you're good to go! If you do not wish to use SPM, you may instead copy everything the folder `HTMLFastParse` into your project and then import `HTMLFastParse.h`. 
 
-Once you've imported everything initialize the engine with `FormatToAttributedString * formatter = [[FormatToAttributedString alloc]init];`
+Once you've imported everything initialize the engine with `HFPFormatToAttributedString * formatter = [[HFPFormatToAttributedString alloc]init];`
 
 ***Note that you'll want to store this somewhere. Do not recreate the formatter every time!*** The formatter generates a ton of fonts and colors when it is initialized and then caches them and so your performance will be dismal if you recreate the formatter every time you use it. 
 

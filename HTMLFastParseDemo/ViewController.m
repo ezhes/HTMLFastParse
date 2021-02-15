@@ -7,10 +7,7 @@
 //
 
 #import "ViewController.h"
-#include "C_HTML_Parser.h"
-#include "t_tag.h"
-#include "t_format.h"
-#import "FormatToAttributedString.h"
+#include "HFPFormatToAttributedString.h"
 
 @interface ViewController ()
 
@@ -21,15 +18,12 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-	
-//	NSString * other = @"\n\n\n<div class=\"md\"><p>Inline <code>Test code</code> outside</p>\n\n<pre><code>Code Block\nwhew still code\n</code></pre>\n\n<p>Plain</p>\n\n<a href=\"https://reddit.com/r/homelab\">Wikitest</a>\nblah</div>";
     NSString *tableTest = @"<h1>Hello there</h1>\n<br/>\n<table>\n    <thead>\n        <tr>\n            <th align=\"left\">Questions</th>\n            <th align=\"left\">Answers</th></tr></thead>\n    <tbody>\n        <tr>\n            <td align=\"left\">What is your favorite color?</td>\n            <td align=\"left\">Orange.</td></tr>\n        <tr>\n            <td align=\"left\">Cats or dogs?</td>\n            <td align=\"left\">Foxes.</td></tr></tbody>\n</table>\n<br/>\n<p>hey</p>";
 	[self showNormal: tableTest];
 		
 }
 
--(void)totalRuntimeForMethod:(NSString*)method block:(void(^)(void))block;
-{
+-(void)totalRuntimeForMethod:(NSString*)method block:(void(^)(void))block {
 	extern uint64_t dispatch_benchmark(size_t count, void (^block)(void));
 	
 	int iterations = 10000;
@@ -48,27 +42,14 @@
 }
 
 - (IBAction)runBenchmark:(id)sender {
-	/*HTML_Parser *parser = [[HTML_Parser alloc]init];
-	 [self totalRuntimeForMethod:@"Obj-C Parser" block:^{
-	 [parser parseHTML:testHTML];
-	 }];*/
-	
-	FormatToAttributedString * formatter = [[FormatToAttributedString alloc]init];
+    HFPFormatToAttributedString * formatter = [[HFPFormatToAttributedString alloc]init];
 	[self totalRuntimeForMethod:@"C Parser" block:^{
 		[formatter attributedStringForHTML:testHTML];
-		
-		/*UITextView *textView = [[UITextView alloc]initWithFrame:self.view.frame textContainer:nil];
-		[self.view addSubview:textView];
-		textView.attributedText = [formatter attributedStringForHTML:testHTML];
-		[textView layoutSubviews];
-		
-		[textView removeFromSuperview];*/
-		
 	}];
 }
 
 -(void)showNormal:(NSString *)toShow {
-	NSAttributedString * test = [[[FormatToAttributedString alloc]init]attributedStringForHTML:toShow];
+	NSAttributedString * test = [[[HFPFormatToAttributedString alloc]init]attributedStringForHTML:toShow];
 	
     NSLog(@"Evaluating: %@",toShow);
     NSLog(@"Description: %@",[test debugDescription]);
