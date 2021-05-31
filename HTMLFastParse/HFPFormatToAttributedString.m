@@ -11,11 +11,6 @@
 #import <UIKit/UIKit.h>
 
 @implementation HFPFormatToAttributedString
-NSString *standardFontName;
-NSString *boldFontName;
-NSString *italicFontName;
-NSString *italicsBoldFontName;
-NSString *codeFontName;
 
 UIFont *plainFont;
 UIFont *boldFont;
@@ -58,7 +53,6 @@ float quotePadding = 20.0;
     defaultFontColor = [UIColor blackColor];
     
     //Prepare our common fonts once
-    codeFontName = @"CourierNewPSMT";
     [self prepareFonts];
     return self;
 }
