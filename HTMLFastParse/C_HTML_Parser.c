@@ -36,7 +36,7 @@ if (filled_size + new_bytes >= buffer_size) \
 //Used for encoding the table out of band links
 static const char DATA_URI_PREFIX[] = "data:text/html;charset=utf-8;base64,";
 static const char VIEW_TABLE_TEXT[] = "[View table]\n";
-
+static const char IMAGE_TEXT[] = "[Image]";
 
 /**
  Get the number of bytes that a given character will use when displayed (multi-byte unicode characters need to be handled like this because NSString counts multi-byte chars as single characters while C does not obviously)
@@ -49,18 +49,18 @@ int getVisibleByteEffectForCharacter(unsigned char character) {
     if (firstHighBit == 0x0) {
         //Regular ASCII
         return 1;
-    }else {
+    } else {
         unsigned char secondHighBit = ((character << 1) & 0x80);
         if (secondHighBit == 0x0) {
             //Additional byte character (10xxxxxx character). Not visible
             return 0;
-        }else {
+        } else {
             //This is the start of a multibyte character, count it (1+)
             unsigned char fourByteTest = character & 0b11110000;
             if (fourByteTest == 0b11110000) {
                 //Patch for apple's weirdness with four byte characters (they're counted as two visible? WHY?!?!?)
                 return 2;
-            }else {
+            } else {
                 //We're multibyte but not a four byte which requires the patch, count normally
                 return 1;
             }
@@ -131,6 +131,15 @@ char * tokenizeHTML(char *input, size_t inputLength, struct t_tag *completedTags
         } else if (current == '>') {
             //We've hit an unencoded less than which terminates an HTML tag
             isInTag = false;
+            
+            // Do we have an unterminated entity (i.e. we misinterpreted an & as a start to an entity when it's not?)
+            // such as in  <a href='http://test/forks?t=yes&f=no'/>
+            if (isInHTMLEntity && htmlEntityCopyPosition > 0) {
+                isInHTMLEntity = false;
+                memcpy(tagNameBuffer + tagNameCopyPosition, htmlEntityBuffer, htmlEntityCopyPosition - 1);
+                tagNameCopyPosition += htmlEntityCopyPosition;
+            }
+            
             //Terminate the buffer
             tagNameBuffer[tagNameCopyPosition] = 0x00;
             
@@ -160,7 +169,8 @@ char * tokenizeHTML(char *input, size_t inputLength, struct t_tag *completedTags
                 }
             }
             //Are we a self closing tag like <br/> or <hr/>?
-            else if ((tagNameCopyPosition > 0 && tagNameBuffer[tagNameCopyPosition-1] == '/')) {
+            else if ((tagNameCopyPosition > 0 && tagNameBuffer[tagNameCopyPosition-1] == '/')
+                     || strncmp("img", tagNameBuffer, 3) == 0) {
                 //These tags are special because they're an action in it of themselves so they both start themselves and commit all in one.
                 struct t_tag* formatP = pop(htmlTags);
                 if (formatP) {
@@ -183,10 +193,19 @@ char * tokenizeHTML(char *input, size_t inputLength, struct t_tag *completedTags
                         
                         formatP->tag = newTagBuffer;
                         formatP->startPosition = stringVisiblePosition;
-                        formatP->endPosition = stringVisiblePosition;
                         
+                        /* Since we don't render images, provide a link target */
+                        if (strncmp("img src", tagNameBuffer, 7) == 0) {
+                            size_t imageTextLen = strlen(IMAGE_TEXT);
+                            memcpy(displayText + stringCopyPosition, IMAGE_TEXT, imageTextLen);
+                            stringCopyPosition += imageTextLen;
+                            stringVisiblePosition += imageTextLen;
+                        }
+
+                        formatP->endPosition = stringVisiblePosition;
                         completedTags[completedTagsPosition] = *formatP;
                         completedTagsPosition++;
+                        
                     }
                 }
             } else {
@@ -218,7 +237,7 @@ char * tokenizeHTML(char *input, size_t inputLength, struct t_tag *completedTags
                             displayText[stringCopyPosition++] = 0x80;
                             displayText[stringCopyPosition++] = 0xA2;
                             displayText[stringCopyPosition++] = ' ';
-                        }else {
+                        } else {
                             int written = sprintf(&displayText[stringCopyPosition], "%i. ", currentListValue);
                             stringCopyPosition += written;
                             stringVisiblePosition += written;
@@ -243,7 +262,7 @@ char * tokenizeHTML(char *input, size_t inputLength, struct t_tag *completedTags
                 }
             }
             tagNameCopyPosition = 0;
-        } else if (current == '&' && !isInTable) {
+        } else if (current == '&' && !isInTable && !isInHTMLEntity) {
             //We are starting an HTML entity;
             isInHTMLEntity = true;
             htmlEntityCopyPosition = 0;
@@ -257,12 +276,10 @@ char * tokenizeHTML(char *input, size_t inputLength, struct t_tag *completedTags
             htmlEntityBuffer[htmlEntityCopyPosition] = 0x00;
             htmlEntityCopyPosition++;
             
-            //Are we decoding into a tag (i.e. into the url portion of <a href='http://test/forks?t=yes&f=no'/>
             if (isInTag) {
-                //Yes!
                 size_t numberDecodedBytes = decode_html_entities_utf8(&tagNameBuffer[tagNameCopyPosition], htmlEntityBuffer);
                 tagNameCopyPosition += numberDecodedBytes;
-            }else {
+            } else {
                 //Expand into regular text
                 size_t numberDecodedBytes = decode_html_entities_utf8(&displayText[stringCopyPosition], htmlEntityBuffer);
                 for (unsigned long decodedI = 0; decodedI < numberDecodedBytes; decodedI++) {
@@ -298,7 +315,6 @@ char * tokenizeHTML(char *input, size_t inputLength, struct t_tag *completedTags
 #ifdef reddit_mode
                 }
 #endif
-                
             }
         }
     }
@@ -345,7 +361,7 @@ char * tokenizeHTML(char *input, size_t inputLength, struct t_tag *completedTags
 }
 
 void print_t_format(struct t_format format) {
-    printf("Format [%i,%i): Bold %i, Italic %i, Struck %i, Code %i, Exponent %i, Quote %i, H%i, ListNest %i LinkURL %s\n",format.startPosition, format.endPosition, FORMAT_TAG_GET_BIT_FIELD(format.formatTag, FORMAT_TAG_IS_BOLD), FORMAT_TAG_GET_BIT_FIELD(format.formatTag, FORMAT_TAG_IS_ITALICS), FORMAT_TAG_GET_BIT_FIELD(format.formatTag, FORMAT_TAG_IS_STRUCK), FORMAT_TAG_GET_BIT_FIELD(format.formatTag, FORMAT_TAG_IS_CODE), format.exponentLevel, format.quoteLevel, FORMAT_TAG_GET_H_LEVEL(format.formatTag), format.listNestLevel, format.linkURL);
+    printf("Format [%i,%i): Bold %i, Italic %i, Struck %i, Code %i, Exponent %i, Quote %i, H%i, ListNest %i LinkURL %s\n",format.startPosition, format.endPosition, FORMAT_TAG_GET_BIT_FIELD(format.formatTag, FORMAT_TAG_IS_BOLD_OFFSET), FORMAT_TAG_GET_BIT_FIELD(format.formatTag, FORMAT_TAG_IS_ITALICS_OFFSET), FORMAT_TAG_GET_BIT_FIELD(format.formatTag, FORMAT_TAG_IS_STRUCK_OFFSET), FORMAT_TAG_GET_BIT_FIELD(format.formatTag, FORMAT_TAG_IS_CODE_OFFSET), format.exponentLevel, format.quoteLevel, FORMAT_TAG_GET_H_LEVEL(format.formatTag), format.listNestLevel, format.linkURL);
 }
 
 
@@ -397,24 +413,30 @@ void makeAttributesLinear(struct t_tag inputTags[], int numberOfInputTags, struc
             //switch on the first character to minimize string comparisons
             switch (tagText[0]) {
                 case 'a':
-                    if (strncmp(tagText, "a href=", 7) == 0) {
+                case 'i': {
+                    bool isAHref = strncmp(tagText, "a href=", 7) == 0;
+                    bool isImgSrc = strncmp(tagText, "img src=", 8) == 0;
+                    if (isAHref || isImgSrc) {
+                        int offset = isAHref ? 7 : 8;
                         //We first need to extract the link
                         long tagTextLength = strlen(tagText);
-                        char *url = malloc(tagTextLength-7);
+                        char *url = malloc(tagTextLength - offset);
                         //Extract the URL
-                        int z = 8;
+                        int z = offset + 1;
                         for (; z < tagTextLength; z++) {
                             if (tagText[z] == '"') {
                                 break;
-                            }else {
-                                url[z-8] = tagText[z];
+                            } else {
+                                url[z - (offset + 1)] = tagText[z];
                             }
                         }
-                        url[z-8] = 0x00;
+                        url[z - (offset + 1)] = 0x00;
                         
                         //Set our link
                         for (int j = tag.startPosition; j < tag.endPosition; j++) {
-                            displayTextFormat[j].linkURL = url;
+                            if (!displayTextFormat[j].linkURL) {
+                                displayTextFormat[j].linkURL = url;
+                            }
                         }
                         
                         //If we never got into the loop above (and so url is never stored else where), free it now.
@@ -424,6 +446,8 @@ void makeAttributesLinear(struct t_tag inputTags[], int numberOfInputTags, struc
                         
                     }
                     break;
+
+                }
                 case 'b':
                     if (strncmp(tagText, "blockquote", 10) == 0) {
                         //Increase quote level

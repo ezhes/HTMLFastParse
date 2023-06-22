@@ -18,7 +18,7 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    NSString *tableTest = @"<h1>Hello there</h1>\n<br/>\n<table>\n    <thead>\n        <tr>\n            <th align=\"left\">Questions</th>\n            <th align=\"left\">Answers</th></tr></thead>\n    <tbody>\n        <tr>\n            <td align=\"left\">What is your favorite color?</td>\n            <td align=\"left\">Orange.</td></tr>\n        <tr>\n            <td align=\"left\">Cats or dogs?</td>\n            <td align=\"left\">Foxes.</td></tr></tbody>\n</table>\n<br/>\n<p>hey</p>";
+    NSString *tableTest = @"<div class=\"md\"><p>Exactly! This guy gets it</p>\n\n<p><a href=\"https://giphy.com/gifs/3o6ozs9rto72EGFvOg\" target=\"_blank\"><img src=\"https://external-preview.redd.it/dKtLiVklaCeS0YdsC07o2gKQ3SwWxFjAOMvTuvwmXhs.gif?width=397&height=200&v=enabled&s=13ffb5acb75da4b1394367ae0f06747410743bc6\" width=\"397\" height=\"200\"></a></p>\n</div>";
 	[self showNormal: tableTest];
 		
 }
