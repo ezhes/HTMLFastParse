@@ -55,13 +55,13 @@ internal class HTMLParser {
         while currentIndex < htmlString.endIndex {
             let char = htmlString[currentIndex]
 
-            if char == '<' {
+            if char == "<" {
                 isInTag = true
                 tagNameBuffer = "" // Reset for the new tag
                 
                 // Peek next character to see if it's a closing tag
                 let nextIndex = htmlString.index(after: currentIndex)
-                if nextIndex < htmlString.endIndex && htmlString[nextIndex] != '/' {
+                if nextIndex < htmlString.endIndex && htmlString[nextIndex] != "/" {
                     // Potential opening tag, push a placeholder onto the stack.
                     // displayText.count is the current visible character count.
                     let newTag = HTMLTag(startPosition: UInt32(displayText.count), 
@@ -70,7 +70,7 @@ internal class HTMLParser {
                                           tableData: nil)
                     htmlTags.push(newTag)
                 }
-            } else if char == '>' {
+            } else if char == ">" {
                 isInTag = false
                 let normalizedTagName = tagNameBuffer.lowercased()
 
@@ -90,7 +90,7 @@ internal class HTMLParser {
                                 // The C code's `i` for closing table is the index of '<' in "</table>"
                                 // So, htmlString.index(before: currentIndex, offsetBy: (cleanTagName.count + 2))
                                 // if currentIndex is the '>' of "</table>"
-                                let tableHTMLContent = String(htmlString[tableStart..<htmlString.index(before: currentIndex, offsetBy: cleanTagName.count + 2)])
+                                let tableHTMLContent = String(htmlString[tableStart..<htmlString.index(currentIndex, offsetBy: cleanTagName.count + 2)])
                                 format.tableData = Base64Converter.encode(string: tableHTMLContent)
                             }
                             tableContentStartIndexInHTML = nil
@@ -106,7 +106,7 @@ internal class HTMLParser {
                         // Reddit mode: '\n' for <br/> if not in table
                         if !isInTable { // Assuming Reddit mode
                             // Filter consecutive newlines
-                            if previousChar != '\n' {
+                            if previousChar != "\n" {
                                 displayText.append("\n")
                                 previousChar = "\n"
                             }
@@ -121,7 +121,7 @@ internal class HTMLParser {
                     }
                 } else { // Opening tag e.g. <p>
                     if var format = htmlTags.peek() { // Modify the tag on top of the stack
-                        htmlTags.pop() // Pop to modify
+                        let _ = htmlTags.pop() // Pop to modify
                         format.tag = normalizedTagName
                         
                         if normalizedTagName == "table" {
@@ -137,7 +137,7 @@ internal class HTMLParser {
                                 previousChar = char_vt 
                             }
                             // Add a newline after "[View table]" if not already on one
-                            if previousChar != '\n' { // Check if "[View table]" itself ended with \n (it doesn't)
+                            if previousChar != "\n" { // Check if "[View table]" itself ended with \n (it doesn't)
                                 displayText.append("\n")
                                 previousChar = "\n"
                             }
@@ -157,7 +157,7 @@ internal class HTMLParser {
                                     prefix = "• " // Bullet point
                                 }
                                 // Filter newlines before adding list prefix
-                                if !displayText.isEmpty && previousChar != '\n' {
+                                if !displayText.isEmpty && previousChar != "\n" {
                                     displayText.append("\n")
                                 }
                                 displayText.append(prefix)
@@ -168,10 +168,10 @@ internal class HTMLParser {
                     }
                 }
                 tagNameBuffer = "" // Reset after processing
-            } else if char == '&' && !isInTable { // Start of an HTML entity, only if not in a table
+            } else if char == "&" && !isInTable { // Start of an HTML entity, only if not in a table
                 isInHTMLEntity = true
                 htmlEntityBuffer = "&"
-            } else if isInHTMLEntity && char == ';' && !isInTable { // End of an HTML entity
+            } else if isInHTMLEntity && char == ";" && !isInTable { // End of an HTML entity
                 isInHTMLEntity = false
                 htmlEntityBuffer.append(";")
                 
@@ -183,8 +183,8 @@ internal class HTMLParser {
                     // Append decoded entity to displayText
                     // Reddit mode newline handling for decoded entity
                     for decodedChar in decodedEntity {
-                        if decodedChar == '\n' {
-                            if previousChar != '\n' {
+                        if decodedChar == "\n" {
+                            if previousChar != "\n" {
                                 displayText.append("\n")
                             }
                         } else {
@@ -204,8 +204,8 @@ internal class HTMLParser {
                 } else {
                     // Regular character for displayText
                     // Reddit mode newline handling
-                    if char == '\n' {
-                        if previousChar != '\n' { // Avoid double newlines
+                    if char == "\n" {
+                        if previousChar != "\n" { // Avoid double newlines
                             displayText.append("\n")
                         }
                     } else {

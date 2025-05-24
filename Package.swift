@@ -2,24 +2,23 @@
 import PackageDescription
 
 let package = Package(
-    name: "HTMLFastParse", // Package name itself is fine
+    name: "HTMLFastParse",
     platforms: [
-        .macOS(.v10_11), .iOS(.v9),
+        .macOS(.v10_11), .iOS(.v13),
     ],
     products: [
         .library(
             name: "HTMLFastParse",
-            targets: ["HTMLFastParse"]), // Changed
+            targets: ["HTMLFastParse"]),
     ],
     dependencies: [
     ],
     targets: [
         .target(
-            name: "HTMLFastParse", // This name is correct (module name)
+            name: "HTMLFastParse",
             dependencies: [],
-            path: "Sources/HTMLSwiftParser" // Change path back to this
+            path: "./Sources/HTMLSwiftParser"
         ),
-        // Other targets like tests and demo app might exist here
         .testTarget(
             name: "HTMLFastParseTests",
             dependencies: ["HTMLFastParse"],

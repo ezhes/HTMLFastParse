@@ -1,0 +1,15 @@
+{
+  "originHash" : "41119f3a148d113b9c28e158d4f5724aa23a99092821b9971ba24b1e2ab15e7b",
+  "pins" : [
+    {
+      "identity" : "dylabel",
+      "kind" : "remoteSourceControl",
+      "location" : "git@github.com:ezhes/DYLabel.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "e11bc5eda0e251fd8cf3f4c7a7dc43d2da93da6a"
+      }
+    }
+  ],
+  "version" : 3
+}
